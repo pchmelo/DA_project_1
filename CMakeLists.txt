@@ -9,4 +9,6 @@ add_executable(project_2 src/main.cpp
         src/structs/aux/Graph.h
         src/structs/aux/MutablePriorityQueue.h
         src/structs/data_type/reservatorio.h
-        src/structs/data_type/reservatorio.cpp)
+        src/structs/data_type/reservatorio.cpp
+        src/structs/data_type/cidade.h
+        src/structs/data_type/cidade.cpp)

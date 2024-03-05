@@ -6,6 +6,7 @@
 #include "sstream"
 #include "fstream"
 #include "vector"
+#include "iostream"
 
 using namespace std;
 
@@ -13,6 +14,14 @@ Reservatorio::Reservatorio() {
     this->reservoir = "";
     this->municipality = "";
     this->id = -1;
+    this->code = "";
+    this->maxDelivery = -1;
+}
+
+Reservatorio::Reservatorio(int id) {
+    this->reservoir = "";
+    this->municipality = "";
+    this->id = id;
     this->code = "";
     this->maxDelivery = -1;
 }
@@ -63,6 +72,10 @@ void Reservatorio::set_code(std::string code) {
 
 void Reservatorio::set_maxDelivery(int maxDelivery) {
     this->maxDelivery = maxDelivery;
+}
+
+void Reservatorio::print() const{
+    cout << this->reservoir << " " << this->municipality << " " << this->id << " " << this->code << " " << this->maxDelivery << "\n";
 }
 
 void HashReservatorio::readLines() {

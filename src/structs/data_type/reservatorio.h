@@ -18,6 +18,7 @@ class Reservatorio {
 
     public:
         Reservatorio();
+        Reservatorio(int id);
         Reservatorio(std::string reservoir, std::string municipality, int id, std::string code, int maxDelivery);
 
         std::string get_reservoir() const;
@@ -31,6 +32,8 @@ class Reservatorio {
         void set_id(int id);
         void set_code(std::string code);
         void set_maxDelivery(int maxDelivery);
+
+        void print() const;
 };
 
 struct reservatorioHash{
