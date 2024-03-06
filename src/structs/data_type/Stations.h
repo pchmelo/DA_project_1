@@ -7,6 +7,7 @@
 
 #include "string"
 #include "unordered_set"
+#include "vector"
 
 class Stations {
     protected:
@@ -17,6 +18,7 @@ class Stations {
     public:
         Stations();
         Stations(int id);
+        Stations(std::string code);
         Stations(int id, std::string code, char type);
 
         int get_id() const;
@@ -28,7 +30,14 @@ class Stations {
         void set_type(char type);
 
         void print() const;
+
+    bool operator==(Stations b){
+        return this->get_code() == b.get_code();
+    }
+
 };
+
+
 
 struct stationHash{
     int operator() (const Stations& b) const {
@@ -44,7 +53,7 @@ typedef std::unordered_set<Stations, stationHash, stationHash> StationTable;
 class HashStation{
 public:
     StationTable stationTable;
-    void readLines();
+    void readLines(std::vector<Stations> &stations);
 };
 
 #endif //PROJETO_1_STATIONS_H

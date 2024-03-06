@@ -8,6 +8,8 @@
 #include "string"
 #include "unordered_set"
 #include "Stations.h"
+#include "vector"
+
 
 class Reservoir : public Stations{
     private:
@@ -33,7 +35,7 @@ class Reservoir : public Stations{
 
 struct reservatorioHash{
     int operator() (const Reservoir& b) const {
-        return b.get_id() % 10;
+        return b.get_id() % 37;
     }
     bool operator()(const Reservoir &b1, const Reservoir &b2) const {
         return b1.get_id() == b2.get_id();
@@ -45,7 +47,7 @@ typedef std::unordered_set<Reservoir, reservatorioHash, reservatorioHash> Reserv
 class HashReservatorio{
     public:
         ReservatorioTable reservatorioTable;
-        void readLines();
+        void readLines(std::vector<Stations> &stations);
 };
 
 #endif //PROJETO_1_RESERVOIR_H

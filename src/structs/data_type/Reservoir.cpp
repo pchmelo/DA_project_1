@@ -58,7 +58,7 @@ void Reservoir::print() const{
     cout << this->reservoir << " " << this->municipality << " " << this->id << " " << this->code << " " << this->maxDelivery << "\n";
 }
 
-void HashReservatorio::readLines() {
+void HashReservatorio::readLines(vector<Stations> &stations) {
     string input = "../src/Project1DataSetSmall/Project1DataSetSmall/Reservoirs_Madeira.csv";
     ifstream MyReadFile(input);
 
@@ -79,7 +79,7 @@ void HashReservatorio::readLines() {
 
         reservatorio = Reservoir(values[0], values[1], stoi(values[2]), values[3], stoi(values[4]));
         this->reservatorioTable.insert(reservatorio);
-
+        stations.push_back(Stations(stoi(values[2]), values[3], 'R'));
     }
 }
 

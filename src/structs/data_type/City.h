@@ -8,6 +8,7 @@
 #include "string"
 #include "unordered_set"
 #include "Stations.h"
+#include "vector"
 
 class City : public Stations{
     private:
@@ -33,7 +34,7 @@ class City : public Stations{
 
 struct cidadeHash{
     int operator() (const City& b) const {
-        return b.get_id() % 11;
+        return b.get_id() % 37;
     }
     bool operator()(const City &b1, const City &b2) const {
         return b1.get_id() == b2.get_id();
@@ -45,7 +46,7 @@ typedef std::unordered_set<City, cidadeHash, cidadeHash> CidadeTable;
 class HashCidade{
     public:
         CidadeTable cidadeTable;
-        void readLines();
+        void readLines(std::vector<Stations> &stations);
 };
 
 

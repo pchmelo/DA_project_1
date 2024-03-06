@@ -23,6 +23,12 @@ Stations::Stations(int id) {
 
 }
 
+Stations::Stations(std::string code) {
+    this->id = -1;
+    this->code = code;
+    this->type = 'x';
+}
+
 Stations::Stations(int id, std::string code, char type) {
     this->id = id;
     this->code = code;
@@ -53,13 +59,13 @@ void Stations::print() const{
     cout << this->id << " " << this->code << "\n";
 }
 
-void HashStation::readLines() {
+void HashStation::readLines(vector<Stations> &stations) {
     string input = "../src/Project1DataSetSmall/Project1DataSetSmall/Stations_Madeira.csv";
     ifstream MyReadFile(input);
     int i = 0;
 
     string line;
-    Stations stations;
+    Stations station;
 
     getline(MyReadFile, line);
 
@@ -82,8 +88,9 @@ void HashStation::readLines() {
         if(values[0] == ""){
             break;
         }
-        stations = Stations(stoi(values[0]), values[1], 'S');
-        this->stationTable.insert(stations);
+        station = Stations(stoi(values[0]), values[1], 'S');
+        this->stationTable.insert(station);
+        stations.push_back(station);
 
     }
 }

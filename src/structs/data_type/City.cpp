@@ -58,7 +58,7 @@ void City::print() const{
     cout << this->city << " " << this->id << " " << this->code << " " << this->demand << " " << this->population << "\n";
 }
 
-void HashCidade::readLines() {
+void HashCidade::readLines(vector<Stations> &stations) {
     string input = "../src/Project1DataSetSmall/Project1DataSetSmall/Cities_Madeira.csv";
     ifstream MyReadFile(input);
     int i = 0;
@@ -96,6 +96,8 @@ void HashCidade::readLines() {
 
         cidade = City(values[0], stoi(values[1]), values[2], stod(values[3]), stod(values[4]));
         this->cidadeTable.insert(cidade);
+        stations.push_back(Stations(stoi(values[1]), values[2], 'C'));
+
         i = 0;
     }
 }
