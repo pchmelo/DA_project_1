@@ -2,7 +2,7 @@
 // Created by pchmelo on 05-03-2024.
 //
 
-#include "reservatorio.h"
+#include "Reservoir.h"
 #include "sstream"
 #include "fstream"
 #include "vector"
@@ -10,71 +10,51 @@
 
 using namespace std;
 
-Reservatorio::Reservatorio() {
+Reservoir::Reservoir() : Stations() {
     this->reservoir = "";
     this->municipality = "";
-    this->id = -1;
-    this->code = "";
     this->maxDelivery = -1;
 }
 
-Reservatorio::Reservatorio(int id) {
+Reservoir::Reservoir(int id) : Stations(id){
     this->reservoir = "";
     this->municipality = "";
-    this->id = id;
-    this->code = "";
     this->maxDelivery = -1;
 }
 
-Reservatorio::Reservatorio(std::string reservoir, std::string municipality, int id, std::string code, int maxDelivery) {
+Reservoir::Reservoir(std::string reservoir, std::string municipality, int id, std::string code, int maxDelivery) : Stations(id, code, 'R') {
     this->reservoir = reservoir;
     this->municipality = municipality;
-    this->id = id;
-    this->code = code;
     this->maxDelivery = maxDelivery;
 }
 
-std::string Reservatorio::get_reservoir() const{
+std::string Reservoir::get_reservoir() const{
     return this->reservoir;
 }
 
-std::string Reservatorio::get_municipality() const{
+std::string Reservoir::get_municipality() const{
     return this->municipality;
 }
 
-int Reservatorio::get_id() const{
-    return this->id;
-}
 
-std::string Reservatorio::get_code() const{
-    return this->code;
-}
-
-int Reservatorio::get_maxDelivery() const{
+int Reservoir::get_maxDelivery() const{
     return this->maxDelivery;
 }
 
-void Reservatorio::set_reservoir(std::string reservoir) {
+void Reservoir::set_reservoir(std::string reservoir) {
     this->reservoir = reservoir;
 }
 
-void Reservatorio::set_municipality(std::string municipality) {
+void Reservoir::set_municipality(std::string municipality) {
     this->municipality = municipality;
 }
 
-void Reservatorio::set_id(int id) {
-    this->id = id;
-}
 
-void Reservatorio::set_code(std::string code) {
-    this->code = code;
-}
-
-void Reservatorio::set_maxDelivery(int maxDelivery) {
+void Reservoir::set_maxDelivery(int maxDelivery) {
     this->maxDelivery = maxDelivery;
 }
 
-void Reservatorio::print() const{
+void Reservoir::print() const{
     cout << this->reservoir << " " << this->municipality << " " << this->id << " " << this->code << " " << this->maxDelivery << "\n";
 }
 
@@ -83,7 +63,7 @@ void HashReservatorio::readLines() {
     ifstream MyReadFile(input);
 
     string line;
-    Reservatorio reservatorio;
+    Reservoir reservatorio;
 
     getline(MyReadFile, line);
 
@@ -97,7 +77,7 @@ void HashReservatorio::readLines() {
             values.push_back(subtr);
         }
 
-        reservatorio = Reservatorio(values[0], values[1], stoi(values[2]), values[3], stoi(values[4]));
+        reservatorio = Reservoir(values[0], values[1], stoi(values[2]), values[3], stoi(values[4]));
         this->reservatorioTable.insert(reservatorio);
 
     }

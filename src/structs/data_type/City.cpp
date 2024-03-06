@@ -2,7 +2,7 @@
 // Created by pchmelo on 05-03-2024.
 //
 
-#include "cidade.h"
+#include "City.h"
 #include "sstream"
 #include "fstream"
 #include "vector"
@@ -12,71 +12,49 @@
 
 using namespace std;
 
-Cidade::Cidade() {
+City::City() : Stations() {
     this->city = "";
-    this->id = -1;
-    this->code = "";
     this->demand = -1;
     this->population = -1;
 }
 
-Cidade::Cidade(int id) {
+City::City(int id) : Stations(id){
     this->city = "";
-    this->id = id;
-    this->code = "";
     this->demand = -1;
     this->population = -1;
 }
 
-Cidade::Cidade(std::string city, int id, std::string code, double demand, double population) {
+City::City(std::string city, int id, std::string code, double demand, double population) : Stations(id, code, 'C'){
     this->city = city;
-    this->id = id;
-    this->code = code;
     this->demand = demand;
     this->population = population;
 }
 
-std::string Cidade::get_city() const {
+std::string City::get_city() const {
     return this->city;
 }
 
-int Cidade::get_id() const {
-    return this->id;
-}
-
-std::string Cidade::get_code() const {
-    return this->code;
-}
-
-double Cidade::get_demand() const {
+double City::get_demand() const {
     return this->demand;
 }
 
-double Cidade::get_population() const {
+double City::get_population() const {
     return this->population;
 }
 
-void Cidade::set_city(std::string city) {
+void City::set_city(std::string city) {
     this->city = city;
 }
 
-void Cidade::set_id(int id) {
-    this->id = id;
-}
-
-void Cidade::set_code(std::string code) {
-    this->code = code;
-}
-
-void Cidade::set_demand(double demand) {
+void City::set_demand(double demand) {
     this->demand = demand;
 }
 
-void Cidade::set_population(double population) {
+void City::set_population(double population) {
     this->population = population;
 }
 
-void Cidade::print() const{
+void City::print() const{
     cout << this->city << " " << this->id << " " << this->code << " " << this->demand << " " << this->population << "\n";
 }
 
@@ -86,7 +64,7 @@ void HashCidade::readLines() {
     int i = 0;
 
     string line;
-    Cidade cidade;
+    City cidade;
 
     getline(MyReadFile, line);
 
@@ -116,7 +94,7 @@ void HashCidade::readLines() {
 
         }
 
-        cidade = Cidade(values[0], stoi(values[1]), values[2], stod(values[3]), stod(values[4]));
+        cidade = City(values[0], stoi(values[1]), values[2], stod(values[3]), stod(values[4]));
         this->cidadeTable.insert(cidade);
         i = 0;
     }
