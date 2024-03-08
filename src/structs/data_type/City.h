@@ -35,7 +35,14 @@ class City : public Stations{
 
 struct cidadeHash{
     int operator() (const City& b) const {
-        return b.get_id() % 37;
+        const std::string& code = b.get_code();
+        unsigned  int hash = 37;
+
+        for(char c: b.get_code()){
+            hash = 33*hash + static_cast<unsigned int>(c);
+        }
+
+        return hash % 449;
     }
     bool operator()(const City &b1, const City &b2) const {
         return b1.get_code() == b2.get_code();
