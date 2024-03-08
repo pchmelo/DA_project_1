@@ -3,6 +3,7 @@
 //
 
 #include "menu.h"
+#include "functions.h"
 
 int Menu::Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation,
                    HashCidade hashCidade) {
@@ -56,5 +57,15 @@ int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReser
     auto cidade = hashCidade.cidadeTable.find(City(1));
     cidade->print();
 
-    return 0;
+    pair<string , int> p_1 = {"Vasco", 100};
+    pair<string , int> p_2 = {"Diogo", 2};
+
+    vector<pair<string , int>> vec;
+    vec.push_back(p_1);
+    vec.push_back(p_2);
+
+    functions::file_ouput(vec);
+
+
+    abort();
 }
