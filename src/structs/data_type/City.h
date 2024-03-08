@@ -19,6 +19,7 @@ class City : public Stations{
     public:
         City();
         City(int id);
+        City(std::string code);
         City(std::string city, int id, std::string code, double demand, double population);
 
         std::string get_city() const;

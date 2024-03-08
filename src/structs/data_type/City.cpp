@@ -24,6 +24,12 @@ City::City(int id) : Stations(id){
     this->population = -1;
 }
 
+City::City(std::string code) : Stations(code) {
+    this->city = "";
+    this->demand = -1;
+    this->population = -1;
+}
+
 City::City(std::string city, int id, std::string code, double demand, double population) : Stations(id, code, 'C'){
     this->city = city;
     this->demand = demand;
