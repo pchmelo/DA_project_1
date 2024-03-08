@@ -55,7 +55,7 @@ int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReser
     auto station = hashStation.stationTable.find(Stations(1));
     station->print();
 
-    auto cidade = hashCidade.cidadeTable.find(City(1));
+    auto cidade = hashCidade.cidadeTable.find(City("C_10"));
     cidade->print();
 
     auto it = supplyNetwork.supply_network.findVertex(*reservatorio);
