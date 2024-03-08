@@ -54,7 +54,7 @@ int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReser
     auto station = hashStation.stationTable.find(Stations(1));
     station->print();
 
-    auto cidade = hashCidade.cidadeTable.find(City(1));
+    auto cidade = hashCidade.cidadeTable.find(City(city));
     cidade->print();
 
     pair<string , int> p_1 = {"Vasco", 100};
@@ -64,8 +64,11 @@ int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReser
     vec.push_back(p_1);
     vec.push_back(p_2);
 
+    vector<pair<string , int>> res = functions::watter_deficit(vec, hashCidade);
     functions::file_ouput(vec);
-
+    for(auto v: res){
+        cout << v.first << "," << v.second << "\n";
+    }
 
     abort();
 }
