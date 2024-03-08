@@ -48,6 +48,7 @@ int Menu::Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservator
 
 int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation,
                         HashCidade hashCidade) {
+
     auto reservatorio = hashReservatorio.reservatorioTable.find(Reservoir(1));
     reservatorio->print();
 
@@ -57,10 +58,13 @@ int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReser
     auto cidade = hashCidade.cidadeTable.find(City(1));
     cidade->print();
 
+    auto it = supplyNetwork.supply_network.findVertex(*reservatorio);
+
     pair<string , int> p_1 = {"Vasco", 100};
     pair<string , int> p_2 = {"Diogo", 2};
 
     vector<pair<string , int>> vec;
+
     vec.push_back(p_1);
     vec.push_back(p_2);
 
