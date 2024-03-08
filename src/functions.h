@@ -12,7 +12,7 @@
 class functions {
     public:
         static void file_ouput(std::vector<std::pair<std::string, int>> vec_lines);
-        static std::vector<std::pair<std::string, int>> watter_deficit(std::vector<std::pair<std::string, int>> city_supply, HashCidade hashCidade);
+        static std::vector<std::pair<std::string, int>> water_deficit(std::vector<std::pair<std::string, int>> city_supply, HashCidade hashCidade);
 };
 
 

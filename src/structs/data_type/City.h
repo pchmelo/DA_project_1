@@ -38,7 +38,7 @@ struct cidadeHash{
         return b.get_id() % 37;
     }
     bool operator()(const City &b1, const City &b2) const {
-        return b1.get_id() == b2.get_id();
+        return b1.get_code() == b2.get_code();
     }
 };
 
