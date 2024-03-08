@@ -16,4 +16,6 @@ add_executable(project_2 src/main.cpp
         src/structs/data_type/Stations.h
         src/structs/data_type/Stations.cpp
         src/structs/data_type/Supply_Network.h
-        src/structs/data_type/Supply_Network.cpp)
+        src/structs/data_type/Supply_Network.cpp
+        src/menu.cpp
+        src/menu.h)

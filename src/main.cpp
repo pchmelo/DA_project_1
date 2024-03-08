@@ -2,11 +2,7 @@
 // Created by pchmelo on 05-03-2024.
 //
 
-#include "iostream"
-#include "structs/data_type/Reservoir.h"
-#include "structs/data_type/City.h"
-#include "structs/data_type/Stations.h"
-#include "structs/data_type/Supply_Network.h"
+#include "menu.h"
 
 using namespace std;
 
@@ -32,15 +28,6 @@ int main(){
         }
     }
 
-    auto reservatorio = hashReservatorio.reservatorioTable.find(Reservoir(1));
-    reservatorio->print();
-
-    auto station = hashStation.stationTable.find(Stations(1));
-    station->print();
-
-    auto cidade = hashCidade.cidadeTable.find(City(1));
-    cidade->print();
-
-    cout << "Hello World!\n";
+    Menu::Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     return 0;
 }
