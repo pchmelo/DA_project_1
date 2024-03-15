@@ -49,7 +49,7 @@ int Menu::Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservator
 int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation,
                         HashCidade hashCidade) {
 
-    auto reservatorio = hashReservatorio.reservatorioTable.find(Reservoir(1));
+    auto reservatorio = hashReservatorio.reservatorioTable.find(Reservoir("R_1"));
     reservatorio->print();
 
     auto station = hashStation.stationTable.find(Stations(1));
@@ -68,11 +68,8 @@ int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReser
     vec.push_back(p_1);
     vec.push_back(p_2);
 
-    vector<pair<string , int>> res = functions::water_deficit(vec, hashCidade);
     functions::file_ouput(vec);
-    for(auto v: res){
-        cout << v.first << "," << v.second << "\n";
-    }
+
 
     abort();
 }

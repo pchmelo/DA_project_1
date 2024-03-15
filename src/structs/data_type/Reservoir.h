@@ -20,6 +20,7 @@ class Reservoir : public Stations{
     public:
         Reservoir();
         Reservoir(int id);
+        Reservoir(std::string code);
         Reservoir(std::string reservoir, std::string municipality, int id, std::string code, int maxDelivery);
 
         std::string get_reservoir() const;
@@ -35,10 +36,17 @@ class Reservoir : public Stations{
 
 struct reservatorioHash{
     int operator() (const Reservoir& b) const {
-        return b.get_id() % 37;
+        const std::string& code = b.get_code();
+        unsigned  int hash = 37;
+
+        for(char c: b.get_code()){
+            hash = 33*hash + static_cast<unsigned int>(c);
+        }
+
+        return hash % 449;
     }
     bool operator()(const Reservoir &b1, const Reservoir &b2) const {
-        return b1.get_id() == b2.get_id();
+        return b1.get_code() == b2.get_code();
     }
 };
 
