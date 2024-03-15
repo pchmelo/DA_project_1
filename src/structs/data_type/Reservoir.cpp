@@ -22,6 +22,12 @@ Reservoir::Reservoir(int id) : Stations(id){
     this->maxDelivery = -1;
 }
 
+Reservoir::Reservoir(std::string code) : Stations(code) {
+    this->reservoir = "";
+    this->municipality = "";
+    this->maxDelivery = -1;
+}
+
 Reservoir::Reservoir(std::string reservoir, std::string municipality, int id, std::string code, int maxDelivery) : Stations(id, code, 'R') {
     this->reservoir = reservoir;
     this->municipality = municipality;

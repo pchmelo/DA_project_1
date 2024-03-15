@@ -49,7 +49,7 @@ int Menu::Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservator
 int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation,
                         HashCidade hashCidade) {
 
-    auto reservatorio = hashReservatorio.reservatorioTable.find(Reservoir(1));
+    auto reservatorio = hashReservatorio.reservatorioTable.find(Reservoir("R_1"));
     reservatorio->print();
 
     auto station = hashStation.stationTable.find(Stations(1));
@@ -69,6 +69,8 @@ int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReser
     vec.push_back(p_2);
 
     functions::file_ouput(vec);
+
+    auto res = supplyNetwork.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
 
     abort();
