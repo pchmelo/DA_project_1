@@ -488,12 +488,17 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
     vec.push_back(p_1);
     vec.push_back(p_2);
 
-    auto res = supplyNetwork.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    Supply_Network new_one;
+    new_one.supply_network = supplyNetwork.supply_network;
+
+    auto res = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
     functions::file_ouput(res);
+    functions::file_ouput(res);
+
 
     auto vec_2 = functions::file_input();
 
-    /*
+
     int sum = 0;
 
     for(auto v : supplyNetwork.supply_network.getVertexSet()){
@@ -506,7 +511,7 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
         }
 
     }
-    */
+
 
 
 

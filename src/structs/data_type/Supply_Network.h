@@ -12,8 +12,8 @@
 #include "vector"
 #include "limits"
 
-class Supply_Network {
-    public:
+struct Supply_Network {
+
         Graph<Stations> supply_network;
 
         void add_vertex(std::vector<Stations> stations);
@@ -30,6 +30,7 @@ class Supply_Network {
 
         std::vector<std::pair<std::string , double>> processAllCitiesMaxFlow(HashCidade &hashCidade, HashReservatorio &hashReservatorio);
         std::vector<std::pair<std::string, double>> calculeMaxFlow(HashCidade &hashCidade);
+
 };
 
 
