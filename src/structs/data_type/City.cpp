@@ -101,7 +101,7 @@ void HashCidade::readLines(vector<Stations> &stations) {
         }
 
         cidade = City(values[0], stoi(values[1]), values[2], stod(values[3]), stod(values[4]));
-        this->cidadeTable.insert(cidade);
+        this->cidadeTable[values[2]] = cidade;
         stations.push_back(Stations(stoi(values[1]), values[2], 'C'));
 
         i = 0;

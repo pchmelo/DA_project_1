@@ -9,6 +9,7 @@
 #include "unordered_set"
 #include "Stations.h"
 #include "vector"
+#include "unordered_map"
 
 class City : public Stations{
     private:
@@ -33,6 +34,8 @@ class City : public Stations{
         void print() const;
 };
 
+
+/*
 struct cidadeHash{
     int operator() (const City& b) const {
         const std::string& code = b.get_code();
@@ -48,8 +51,9 @@ struct cidadeHash{
         return b1.get_code() == b2.get_code();
     }
 };
+*/
 
-typedef std::unordered_set<City, cidadeHash, cidadeHash> CidadeTable;
+typedef std::unordered_map<std::string, City> CidadeTable;
 
 class HashCidade{
     public:

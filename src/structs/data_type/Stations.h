@@ -8,6 +8,7 @@
 #include "string"
 #include "unordered_set"
 #include "vector"
+#include "unordered_map"
 
 class Stations {
     protected:
@@ -38,7 +39,7 @@ class Stations {
 };
 
 
-
+/*
 struct stationHash{
     int operator() (const Stations& b) const {
         return b.get_id() % 10;
@@ -47,8 +48,9 @@ struct stationHash{
         return b1.get_id() == b2.get_id();
     }
 };
+*/
 
-typedef std::unordered_set<Stations, stationHash, stationHash> StationTable;
+typedef std::unordered_map<std::string, Stations> StationTable;
 
 class HashStation{
 public:

@@ -9,6 +9,7 @@
 #include "unordered_set"
 #include "Stations.h"
 #include "vector"
+#include "unordered_map"
 
 
 class Reservoir : public Stations{
@@ -34,6 +35,7 @@ class Reservoir : public Stations{
         void print() const;
 };
 
+/*
 struct reservatorioHash{
     int operator() (const Reservoir& b) const {
         const std::string& code = b.get_code();
@@ -49,8 +51,9 @@ struct reservatorioHash{
         return b1.get_code() == b2.get_code();
     }
 };
+*/
 
-typedef std::unordered_set<Reservoir, reservatorioHash, reservatorioHash> ReservatorioTable;
+typedef std::unordered_map<std::string, Reservoir> ReservatorioTable;
 
 class HashReservatorio{
     public:

@@ -5,8 +5,8 @@
 #include "menu.h"
 #include "functions.h"
 
-int Menu::Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation,
-                   HashCidade hashCidade) {
+int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
+                   HashCidade &hashCidade) {
 
     cout << endl;
     cout << "\033[1;34m      ___    _____     _______\033[0m\n";
@@ -23,6 +23,7 @@ int Menu::Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservator
     cout << "\033[1;36m[ 4 ]\033[0m" << " Remove a Water Reservoir" << endl;
     cout << "\033[1;36m[ 5 ]\033[0m" << " Remove Pumping Stations" << endl;
     cout << "\033[1;36m[ 6 ]\033[0m" << " Remove Pipes" << endl;
+    cout << "\033[1;36m[ 7 ]\033[0m" << " Ambiente de Teste" << endl;
     cout << "\033[0;31m[ 0 ]\033[0m" << "\033[0;31m Quit\033[0m" << endl;
     cout << endl;
 
@@ -52,6 +53,8 @@ int Menu::Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservator
             case 6:
                 RemovePipes(supplyNetwork, hashReservatorio, hashStation, hashCidade);
                 break;
+            case 7:
+                AmbienteTeste(supplyNetwork, hashReservatorio, hashStation, hashCidade);
             case 0:
                 break;
             default:
@@ -466,30 +469,48 @@ int Menu::RemovePipes(Supply_Network supplyNetwork, HashReservatorio hashReserva
     }
 }
 
-int Menu::AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation,
-                        HashCidade hashCidade) {
+int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
+                        HashCidade &hashCidade) {
 
-    auto reservatorio = hashReservatorio.reservatorioTable.find(Reservoir("R_1"));
-    reservatorio->print();
+    auto reservatorio = hashReservatorio.reservatorioTable.find("R_1");
+    reservatorio->second.print();
 
-    auto station = hashStation.stationTable.find(Stations(1));
-    station->print();
+    auto cidade = hashCidade.cidadeTable.find("C_10");
+    cidade->second.print();
 
-    auto cidade = hashCidade.cidadeTable.find(City("C_10"));
-    cidade->print();
+    auto it = supplyNetwork.supply_network.findVertex(reservatorio->first);
 
-    auto it = supplyNetwork.supply_network.findVertex(*reservatorio);
-
-    pair<string , int> p_1 = {"C_10", 100};
-    pair<string , int> p_2 = {"C_9", 2};
+    pair<string , int> p_1 = {"Vasco", 100};
+    pair<string , int> p_2 = {"Diogo", 2};
 
     vector<pair<string , int>> vec;
 
     vec.push_back(p_1);
     vec.push_back(p_2);
 
-    functions::file_ouput(vec);
+    auto res = supplyNetwork.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    functions::file_ouput(res);
 
+    auto vec_2 = functions::file_input();
+
+    /*
+    int sum = 0;
+
+    for(auto v : supplyNetwork.supply_network.getVertexSet()){
+        if(v->getInfo().get_type() == 'R'){
+            for(auto e : v->getAdj()){
+                sum += e->getFlow();
+            }
+            cout << v->getInfo().get_code() << " " << sum << endl;
+            sum = 0;
+        }
+
+    }
+    */
+
+
+
+    functions::print_result(res, hashCidade);
 
     abort();
 }

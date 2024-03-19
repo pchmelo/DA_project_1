@@ -84,7 +84,7 @@ void HashReservatorio::readLines(vector<Stations> &stations) {
         }
 
         reservatorio = Reservoir(values[0], values[1], stoi(values[2]), values[3], stoi(values[4]));
-        this->reservatorioTable.insert(reservatorio);
+        this->reservatorioTable[values[3]] = reservatorio;
         stations.push_back(Stations(stoi(values[2]), values[3], 'R'));
     }
 }

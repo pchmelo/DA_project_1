@@ -14,7 +14,6 @@ using namespace std;
 
 class Menu {
 public:
-    static int Terminal(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
     static int MaxFlow(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
     static int MaxFlowForSpecificCity(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
     static int MaxFlowForSpecificCityByID(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
@@ -25,7 +24,8 @@ public:
     static int RemoveWaterReservoir(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
     static int RemovePumpingStation(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
     static int RemovePipes(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
-    static int AmbienteTeste(Supply_Network supplyNetwork, HashReservatorio hashReservatorio, HashStation hashStation, HashCidade hashCidade);
+    static int Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
+    static int AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 };
 
 #endif //PROJETO_1_MENU_H

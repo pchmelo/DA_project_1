@@ -43,6 +43,10 @@ std::string Stations::get_code() const{
     return this->code;
 }
 
+char Stations::get_type() const {
+    return this->type;
+}
+
 void Stations::set_id(int id) {
     this->id = id;
 }
@@ -89,7 +93,7 @@ void HashStation::readLines(vector<Stations> &stations) {
             break;
         }
         station = Stations(stoi(values[0]), values[1], 'S');
-        this->stationTable.insert(station);
+        this->stationTable[values[1]] = station;
         stations.push_back(station);
 
     }

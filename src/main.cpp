@@ -22,12 +22,6 @@ int main(){
     supplyNetwork.add_vertex(stations);
     supplyNetwork.read_lines();
 
-    for(Vertex<Stations>* v : supplyNetwork.supply_network.getVertexSet()){
-        for(Edge<Stations>* e : v->getAdj()){
-            int i = 0;
-        }
-    }
-
     Menu::Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     return 0;
 }

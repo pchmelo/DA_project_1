@@ -45,17 +45,25 @@ void Supply_Network::read_lines() {
     }
 }
 
-void Supply_Network::create_super_sink(HashReservatorio hashReservatorio) {
-    Stations super_reservoir = Stations(0, "super", 'I');
+void Supply_Network::create_super_source(HashReservatorio &hashReservatorio) {
+    Stations super_reservoir = Stations(0, "super_source", 'O');
     this->supply_network.addVertex(super_reservoir);
 
     for(auto reservoir : hashReservatorio.reservatorioTable){
-        this->supply_network.addEdge(super_reservoir, Stations(reservoir.get_code()), numeric_limits<int>::max());
+        this->supply_network.addEdge(super_reservoir, Stations(reservoir.second.get_code()), numeric_limits<int>::max());
     }
-
 }
 
-void Supply_Network::edmondsKarp(Stations source, Stations target) {
+void Supply_Network::create_super_target(HashCidade &hashCidade) {
+    Stations super_target = Stations(0, "super_target", 'D');
+    this->supply_network.addVertex(super_target);
+
+    for(auto city : hashCidade.cidadeTable){
+        this->supply_network.addEdge(Stations(city.second.get_code()), super_target, numeric_limits<int>::max());
+    }
+}
+
+void Supply_Network::edmondsKarp(Stations source, Stations target, HashReservatorio &hashReservatorio) {
     Vertex<Stations>* s = this->supply_network.findVertex(source);
     Vertex<Stations>* t = this->supply_network.findVertex(target);
 
@@ -69,13 +77,13 @@ void Supply_Network::edmondsKarp(Stations source, Stations target) {
         }
     }
 
-    while(findAugmentingPath(s, t)){
-        double f = findMinResidualAlongPath(s, t);
+    while(findAugmentingPath(s, t, hashReservatorio)){
+        double f = findMinResidualAlongPath(s, t, hashReservatorio);
         augmentFlowAlongPath(s, t, f);
     }
 }
 
-bool Supply_Network::findAugmentingPath(Vertex<Stations> *s, Vertex<Stations> *t) {
+bool Supply_Network::findAugmentingPath(Vertex<Stations> *s, Vertex<Stations> *t, HashReservatorio &hashReservatorio) {
     for(Vertex<Stations>* v : this->supply_network.getVertexSet()){
         v->setVisited(false);
     }
@@ -89,11 +97,11 @@ bool Supply_Network::findAugmentingPath(Vertex<Stations> *s, Vertex<Stations> *t
         q.pop();
 
         for(Edge<Stations>* e : v->getAdj()){
-            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow());
+            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow(), hashReservatorio);
         }
 
         for(Edge<Stations>* e : v->getIncoming()){
-            testAndVisit(q, e, e->getOrig(), e->getFlow());
+            testAndVisit(q, e, e->getOrig(), e->getFlow(), hashReservatorio);
         }
     }
 
@@ -101,15 +109,26 @@ bool Supply_Network::findAugmentingPath(Vertex<Stations> *s, Vertex<Stations> *t
 }
 
 void Supply_Network::testAndVisit(std::queue<Vertex<Stations> *> &q, Edge<Stations> *e, Vertex<Stations> *w,
-                                  double residual) {
+                                  double residual, HashReservatorio &hashReservatorio) {
+
     if(!w->isVisited() && residual > 0){
-        w->setVisited(true);
-        w->setPath(e);
-        q.push(w);
+        if(w->getInfo().get_type() == 'R'){
+            auto reserv = hashReservatorio.reservatorioTable.find(w->getInfo().get_code());
+            if(reserv->second.get_maxDelivery() > 0){
+                w->setVisited(true);
+                w->setPath(e);
+                q.push(w);
+            }
+        }
+        else{
+            w->setVisited(true);
+            w->setPath(e);
+            q.push(w);
+        }
     }
 }
 
-double Supply_Network::findMinResidualAlongPath(Vertex<Stations> *s, Vertex<Stations> *t) {
+double Supply_Network::findMinResidualAlongPath(Vertex<Stations> *s, Vertex<Stations> *t, HashReservatorio &hashReservatorio) {
     double f = INF;
     Vertex<Stations>* v = t;
 
@@ -118,10 +137,17 @@ double Supply_Network::findMinResidualAlongPath(Vertex<Stations> *s, Vertex<Stat
         if(e->getDest() == v){
             f = min(f, e->getWeight() - e->getFlow());
             v = e->getOrig();
+
+            if(v->getInfo().get_type() == 'R'){
+                auto rev = hashReservatorio.reservatorioTable.at(v->getInfo().get_code());
+                f = min(f, (double) rev.get_maxDelivery());
+                hashReservatorio.reservatorioTable.at(rev.get_code()).set_maxDelivery(rev.get_maxDelivery() - f);
+            }
         }
         else{
             f = min(f, e->getFlow());
             v = e->getDest();
+
         }
     }
 
@@ -145,36 +171,38 @@ void Supply_Network::augmentFlowAlongPath(Vertex<Stations> *s, Vertex<Stations> 
     }
 }
 
-vector<pair<string , double>> Supply_Network::processAllCitiesMaxFlow(HashCidade hashCidade, HashReservatorio hashReservatorio) {
+vector<pair<string , double>> Supply_Network::processAllCitiesMaxFlow(HashCidade &hashCidade, HashReservatorio &hashReservatorio) {
     vector<pair<string , double>> res;
 
-    create_super_sink(hashReservatorio);
-    Stations source = Stations("super");
+    create_super_source(hashReservatorio);
+    create_super_target(hashCidade);
 
-    for(auto c : hashCidade.cidadeTable){
-        Stations target = Stations(c.get_code());
+    Stations source = Stations("super_source");
+    Stations target = Stations("super_target");
 
-        this->edmondsKarp(source, target);
-        res.push_back(calculeMaxFlow(target));
-    }
+    this->edmondsKarp(source, target, hashReservatorio);
+    res = calculeMaxFlow(hashCidade);
 
     return  res;
-
 }
 
-std::pair<std::string, double> Supply_Network::calculeMaxFlow(Stations target) {
-    pair<string, int> res;
+vector<std::pair<std::string, double>> Supply_Network::calculeMaxFlow(HashCidade &hashCidade) {
+    vector<pair<string , double>> res;
+
+    pair<string, int> p_res;
     double sum = 0;
 
-    Vertex<Stations>* t = this->supply_network.findVertex(target);
+    for(auto target : hashCidade.cidadeTable){
+        Vertex<Stations>* t = this->supply_network.findVertex(target.first);
+        for(Edge<Stations>* e: t->getIncoming()){
+            sum += e->getFlow();
+        }
+        p_res.first = target.second.get_code();
+        p_res.second = sum;
 
-    for(Edge<Stations>* e: t->getIncoming()){
-        sum += e->getFlow();
+        res.push_back(p_res);
+        sum = 0;
     }
-
-    res.first = target.get_code();
-    res.second = sum;
-
     return res;
 }
 
