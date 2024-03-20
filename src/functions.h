@@ -16,7 +16,8 @@ class functions {
         static std::vector<std::pair<std::string, double>> file_input();
 
         static void print_result(std::vector<std::pair<std::string, double>> vec_lines, HashCidade hashCidade);
-        static std::vector<std::pair<std::string, int>> water_deficit(std::vector<std::pair<std::string, int>> city_supply, HashCidade hashCidade);
+        static void print_deficit(std::vector<std::pair<std::string, double>> vec_lines);
+        static std::vector<std::pair<std::string, double>> water_deficit(std::vector<std::pair<std::string, double>> city_supply, HashCidade hashCidade);
 };
 
 
