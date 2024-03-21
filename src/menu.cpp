@@ -492,8 +492,8 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
     new_one.supply_network = supplyNetwork.supply_network;
 
     auto res = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-    functions::file_ouput(res);
-    functions::file_ouput(res);
+    //functions::file_ouput(res);
+
 
 
     auto vec_2 = functions::file_input();
@@ -512,10 +512,8 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
 
     }
 
-
-
-
-    functions::print_result(res, hashCidade);
+    //functions::print_result(res, hashCidade);
+    //supplyNetwork.station_deativation(hashStation);
 
     abort();
 }

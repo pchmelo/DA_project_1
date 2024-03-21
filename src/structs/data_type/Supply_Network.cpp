@@ -114,7 +114,7 @@ void Supply_Network::testAndVisit(std::queue<Vertex<Stations> *> &q, Edge<Statio
     if(!w->isVisited() && residual > 0){
         if(w->getInfo().get_type() == 'R'){
             auto reserv = hashReservatorio.reservatorioTable.find(w->getInfo().get_code());
-            if(reserv->second.get_maxDelivery() > 0){
+            if(reserv->second.get_t_maxDelivery() > 0){
                 w->setVisited(true);
                 w->setPath(e);
                 q.push(w);
@@ -140,14 +140,13 @@ double Supply_Network::findMinResidualAlongPath(Vertex<Stations> *s, Vertex<Stat
 
             if(v->getInfo().get_type() == 'R'){
                 auto rev = hashReservatorio.reservatorioTable.at(v->getInfo().get_code());
-                f = min(f, (double) rev.get_maxDelivery());
-                hashReservatorio.reservatorioTable.at(rev.get_code()).set_maxDelivery(rev.get_maxDelivery() - f);
+                f = min(f, (double) rev.get_t_maxDelivery());
+                hashReservatorio.reservatorioTable.at(rev.get_code()).set_t_maxDelivery(rev.get_t_maxDelivery() - f);
             }
         }
         else{
             f = min(f, e->getFlow());
             v = e->getDest();
-
         }
     }
 
@@ -183,6 +182,11 @@ vector<pair<string , double>> Supply_Network::processAllCitiesMaxFlow(HashCidade
     this->edmondsKarp(source, target, hashReservatorio);
     res = calculeMaxFlow(hashCidade);
 
+    hashReservatorio.reseatMaxDelivery();
+
+    this->supply_network.removeVertex(source);
+    this->supply_network.removeVertex(target);
+
     return  res;
 }
 
@@ -203,6 +207,35 @@ vector<std::pair<std::string, double>> Supply_Network::calculeMaxFlow(HashCidade
         res.push_back(p_res);
         sum = 0;
     }
+    return res;
+}
+
+vector<stations_affected> Supply_Network::station_deativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade){
+    vector<stations_affected> res;
+    stations_affected t;
+    save_station s;
+
+    std::map<std::string, double> first_comp = functions::file_input();
+    std::map<std::string, double>  second_comp;
+
+    if(first_comp.empty()){
+       // first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+        functions::file_ouput(first_comp);
+    }
+
+    for(auto v : this->supply_network.getVertexSet()){
+        if(v->getInfo().get_type() == 'R'){
+            s = s.save(v);
+            this->supply_network.removeVertex(v->getInfo());
+
+           // second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+
+
+            s.restore(s, this->supply_network);
+        }
+    }
+
+
     return res;
 }
 
