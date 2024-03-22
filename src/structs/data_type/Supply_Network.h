@@ -13,8 +13,10 @@
 #include "limits"
 #include "functions.h"
 #include "map"
+#include "math.h"
 
 struct stations_affected;
+struct edge;
 
 struct Supply_Network {
 
@@ -34,6 +36,11 @@ struct Supply_Network {
 
         std::map<std::string, double> processAllCitiesMaxFlow(HashCidade &hashCidade, HashReservatorio &hashReservatorio);
         std::map<std::string, double>  calculeMaxFlow(HashCidade &hashCidade);
+
+        //2.3
+        double average();
+        double variance();
+        edge max_difference(std::vector<edge> &below_average, std::vector<edge> &above_average);
 
         //3.2
         std::vector<stations_affected> station_desativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade);
@@ -84,6 +91,17 @@ struct save_station{
         for(auto e: s.edges){
             g.addEdge(Stations(e.first), Stations(e.second), e.third);
         }
+    }
+};
+
+struct edge{
+    Stations orig;
+    Stations dest;
+    double flow;
+    double diff;
+
+    bool operator ==(const edge &b) const{
+        return orig.get_code() == b.orig.get_code() && dest.get_code() == b.dest.get_code();
     }
 };
 

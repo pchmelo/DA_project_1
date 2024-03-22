@@ -206,6 +206,87 @@ std::map<std::string, double>  Supply_Network::calculeMaxFlow(HashCidade &hashCi
     return res;
 }
 
+double Supply_Network::average(){
+    double sum = 0.0;
+
+    int count = 0;
+    for(auto v : this->supply_network.getVertexSet()){
+        for(auto e : v->getAdj()){
+            sum += e->getWeight() - e->getFlow();
+            count++;
+        }
+    }
+
+    return round((sum / count) * 1000) / 1000;
+}
+
+double Supply_Network::variance(){
+    double sum = 0.0;
+    double mean_difference = this->average();
+
+    int count = 0;
+    for(auto v : this->supply_network.getVertexSet()){
+        for(auto e : v->getAdj()){
+            sum += pow(e->getWeight() - e->getFlow() - mean_difference, 2);
+            count++;
+        }
+    }
+
+    return round((sum / count) * 1000) / 1000;
+}
+
+edge Supply_Network::max_difference(vector<edge> &above_average, vector<edge> &below_average){
+    edge temp;
+
+    edge max;
+    bool flag = true;
+
+    double avg = this->average();
+
+    for(auto v : this->supply_network.getVertexSet()){
+        for(auto e : v->getAdj()){
+            temp.orig = e->getOrig()->getInfo();
+            temp.dest = e->getDest()->getInfo();
+            temp.flow = e->getWeight() - e->getFlow();
+            temp.diff = temp.flow - avg;
+            edge e1 = {temp.dest, temp.orig, 0, 0};
+
+            if(temp.diff > 0){
+                auto it = std::find(above_average.begin(), above_average.end(), e1);
+                if(it == above_average.end()){
+                    above_average.push_back(temp);
+                }
+            } else {
+                auto it = std::find(below_average.begin(), below_average.end(), e1);
+                if(it == below_average.end()) {
+                    below_average.push_back(temp);
+                }
+            }
+
+
+            if(flag){
+                max = temp;
+                flag = false;
+            } else {
+                int t1 = max.diff - avg;
+                int t2 = temp.diff - avg;
+
+                if(t1 < 0) t1 *= -1;
+                if(t2 < 0) t2 *= -1;
+
+                if(t1 < t2){
+                    max = temp;
+                }
+            }
+        }
+    }
+
+    std::sort(above_average.begin(), above_average.end(), [](edge a, edge b){ return a.diff > b.diff; });
+    std::sort(below_average.begin(), below_average.end(), [](edge a, edge b){ return a.diff < b.diff; });
+
+    return max;
+}
+
 vector<stations_affected> Supply_Network::station_desativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade){
     vector<stations_affected> res;
     stations_affected t;

@@ -696,7 +696,7 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
 
     new_one.supply_network = supplyNetwork.supply_network;
 
-    auto res = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    auto res = supplyNetwork.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
     //functions::file_ouput(res);
 
 
@@ -719,6 +719,13 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
 
     //functions::print_result(res, hashCidade);
     //supplyNetwork.station_deativation(hashStation);
+
+    //double avg = supplyNetwork.average();
+
+    vector<edge> v1;
+    vector<edge> v2;
+
+    edge max = supplyNetwork.max_difference(v1, v2);
 
     abort();
 }
