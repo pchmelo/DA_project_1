@@ -16,22 +16,24 @@ void functions::file_ouput(std::map<std::string, double> vec_lines) {
 
     fout << "City_code,value\n";
 
-    for(int i = 0; i < vec_lines.size(); i++){
-       // fout << vec_lines[i].first << "," << vec_lines[i].second << "\n";
+    auto inicio = vec_lines.begin();
+    while(inicio != vec_lines.end()){
+       fout << inicio->first << "," << inicio->second << "\n";
+       inicio++;
     }
 
     fout.close();
 }
 
 std::map<std::string, double>  functions::file_input() {
-    std::map<std::string, double> res_new;
+    std::map<std::string, double> res;
 
     string dir_file = "../src/Project1DataSetSmall/output.txt";
     ifstream MyReadFile(dir_file);
     bool flag = true;
 
     string line;
-    vector<std::pair<std::string, double>> res;
+
 
     getline(MyReadFile, line);
 
@@ -53,10 +55,10 @@ std::map<std::string, double>  functions::file_input() {
         if(values[0] == ""){
             break;
         }
-        res.push_back(pair{values[0], stoi(values[1])});
+        res.insert(pair{values[0], stoi(values[1])});
 
     }
-    return res_new;
+    return res;
 }
 
 
@@ -67,28 +69,43 @@ void functions::print_result(std::map<std::string, double>  vec_lines, HashCidad
     cout << "\033[0;32mCode \033[0m";
     cout << "\033[0;31mMax Flow\033[0m\n\n";
 
-
-    for(int i = 0; i < vec_lines.size(); i++){
-      //  auto city = hashCidade.cidadeTable.find(vec_lines[i].first);
-     //   cout << "\033[1;34m" << city->second.get_city() << " " << "\033[0m";
-     //   cout << "\033[1;33m" << city->second.get_id() << " " << "\033[0m";
-      //  cout << "\033[1;32m" << city->second.get_code() << " " << "\033[0m";
-     //   cout << "\033[1;31m" << vec_lines[i].second <<"\033[0m\n\n";
-
+    auto inicio = vec_lines.begin();
+    while(inicio != vec_lines.end()){
+      auto city = hashCidade.cidadeTable.find(inicio->first);
+        cout << "\033[1;34m" << city->second.get_city() << " " << "\033[0m";
+        cout << "\033[1;33m" << city->second.get_id() << " " << "\033[0m";
+        cout << "\033[1;32m" << city->second.get_code() << " " << "\033[0m";
+        cout << "\033[1;31m" << inicio->second <<"\033[0m\n\n";
+        inicio++;
     }
 }
 
 
-void functions::print_deficit(std::vector<std::pair<std::string, double>> vec_lines) {
+void functions::print_deficit(std::map<std::string, double> vec_lines) {
     cout << endl;
     cout << "\033[0;32mCode \033[0m";
     cout << "\033[0;31mDeficit\033[0m\n\n";
 
-
-    for(int i = 0; i < vec_lines.size(); i++){
-        cout << "\033[1;32m" << vec_lines[i].first << " " << "\033[0m";
-        cout << "\033[1;31m" << vec_lines[i].second <<"\033[0m\n\n";
+    auto inicio = vec_lines.begin();
+    while(inicio != vec_lines.end()){
+        cout << "\033[1;32m" << inicio->first << " " << "\033[0m";
+        cout << "\033[1;31m" << inicio->second <<"\033[0m\n\n";
 
     }
 }
 
+std::map<std::string, double>  water_deficit(std::map<std::string, double> city_supply, HashCidade hashCidade) {
+    map<string, double> noWater;
+
+    auto inicio = city_supply.begin();
+    while (inicio != city_supply.end()) {
+        string city = inicio->first;
+        double value = inicio->second;
+        auto cidade = hashCidade.cidadeTable.find(city);
+        if (cidade->second.get_demand() - value < 0) {
+            inicio->second = value - cidade->second.get_demand();
+        }
+        noWater.insert(*inicio);
+    }
+    return noWater;
+}

@@ -17,8 +17,8 @@ class functions {
         static std::map<std::string, double> file_input();
 
         static void print_result(std::map<std::string, double>  vec_lines, HashCidade hashCidade);
-        static std::map<std::string, double>  water_deficit(std::vector<std::pair<std::string, int>> city_supply, HashCidade hashCidade);
-        static void print_deficit(std::vector<std::pair<std::string, double>> vec_lines);
+        static std::map<std::string, double>  water_deficit(std::map<std::string, double> city_supply, HashCidade hashCidade);
+        static void print_deficit(std::map<std::string, double> vec_lines);
 };
 
 

@@ -6,9 +6,9 @@
 #include "functions.h"
 
 Supply_Network new_one;
-std::vector<std::pair<std::string, double>> max_flow;
-std::vector<std::pair<std::string, double>> water_suply;
-std::vector<std::pair<std::string, double>> deficit;
+std::map<std::string, double> max_flow;
+std::map<std::string, double> water_suply;
+std::map<std::string, double> deficit;
 
 int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                    HashCidade &hashCidade) {
@@ -127,9 +127,9 @@ int Menu::MaxFlow(Supply_Network &supplyNetwork, HashReservatorio &hashReservato
         switch (decision) {
             case 1:
                 new_one.supply_network = supplyNetwork.supply_network;
-                max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-              //  functions::file_ouput(max_flow);
-              //  functions::print_result(max_flow, hashCidade);
+                //max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+                functions::file_ouput(max_flow);
+                functions::print_result(max_flow, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
                 cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
@@ -426,7 +426,7 @@ int Menu::WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReserv
                // water_suply = functions::file_input();
                 if(water_suply.size() == 0){
                     new_one.supply_network = supplyNetwork.supply_network;
-                    water_suply = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+                    //water_suply = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
                   //  functions::file_ouput(water_suply);
                 }
                // deficit = functions::water_deficit(water_suply, hashCidade);
