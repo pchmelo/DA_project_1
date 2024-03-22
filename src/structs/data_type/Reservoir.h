@@ -17,6 +17,7 @@ class Reservoir : public Stations{
         std::string reservoir;
         std::string municipality;
         int maxDelivery;
+        int t_maxDelivery;
 
     public:
         Reservoir();
@@ -27,10 +28,12 @@ class Reservoir : public Stations{
         std::string get_reservoir() const;
         std::string get_municipality() const;
         int get_maxDelivery() const;
+        int get_t_maxDelivery() const;
 
         void set_reservoir(std::string reservoir);
         void set_municipality(std::string municipality);
         void set_maxDelivery(int maxDelivery);
+        void set_t_maxDelivery(int t_maxDelivery);
 
         void print() const;
 };
@@ -59,6 +62,7 @@ class HashReservatorio{
     public:
         ReservatorioTable reservatorioTable;
         void readLines(std::vector<Stations> &stations);
+        void reseatMaxDelivery();
 };
 
 #endif //PROJETO_1_RESERVOIR_H

@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(COPY src/Project1DataSetSmall/Project1DataSetSmall DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 include_directories(src/structs/aux_structs)
+include_directories(src)
 
 add_executable(project_2 src/main.cpp
         src/structs/aux_structs/Graph.h
