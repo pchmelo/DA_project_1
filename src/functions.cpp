@@ -78,10 +78,7 @@ void functions::print_result(std::map<std::string, double>  vec_lines, HashCidad
     }
 }
 
-std::map<std::string, double>  functions::water_deficit(std::vector<std::pair<std::string, int>> city_supply, HashCidade hashCidade){
-    std::map<std::string, double> res;
 
-    vector<pair<string, int>> noWater;
 void functions::print_deficit(std::vector<std::pair<std::string, double>> vec_lines) {
     cout << endl;
     cout << "\033[0;32mCode \033[0m";
@@ -95,17 +92,3 @@ void functions::print_deficit(std::vector<std::pair<std::string, double>> vec_li
     }
 }
 
-std::vector<std::pair<std::string, double>> functions::water_deficit(std::vector<std::pair<std::string, double>> city_supply, HashCidade hashCidade){
-    vector<pair<string, double>> noWater;
-    for(auto info: city_supply){
-        string city = info.first;
-        double value = info.second;
-
-        auto cidade = hashCidade.cidadeTable.at(city);
-        if(cidade.get_demand() - value < 0){
-            info.second = value - cidade.get_demand();
-            noWater.push_back(info);
-        }
-    }
-    return res;
-}

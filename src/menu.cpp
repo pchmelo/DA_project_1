@@ -128,8 +128,8 @@ int Menu::MaxFlow(Supply_Network &supplyNetwork, HashReservatorio &hashReservato
             case 1:
                 new_one.supply_network = supplyNetwork.supply_network;
                 max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-                functions::file_ouput(max_flow);
-                functions::print_result(max_flow, hashCidade);
+              //  functions::file_ouput(max_flow);
+              //  functions::print_result(max_flow, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
                 cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
@@ -423,13 +423,13 @@ int Menu::WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReserv
 
         switch (decision) {
             case 1:
-                water_suply = functions::file_input();
+               // water_suply = functions::file_input();
                 if(water_suply.size() == 0){
                     new_one.supply_network = supplyNetwork.supply_network;
                     water_suply = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-                    functions::file_ouput(water_suply);
+                  //  functions::file_ouput(water_suply);
                 }
-                deficit = functions::water_deficit(water_suply, hashCidade);
+               // deficit = functions::water_deficit(water_suply, hashCidade);
                 functions::print_deficit(deficit);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -688,7 +688,7 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
     int i = 1;
     for(auto pipe: supplyNetwork.supply_network.getVertexSet()) {
         for(auto pipe_to_remove: pipe->getAdj()) {
-            cout << "\033[1;36m[ " <<  i << " ]\033[0m" << pipe_to_remove->getOrig()->getInfo() << " to " << pipe_to_remove->getDest()->getInfo() << endl;
+          //  cout << "\033[1;36m[ " <<  i << " ]\033[0m" << pipe_to_remove->getOrig()->getInfo() << " to " << pipe_to_remove->getDest()->getInfo() << endl;
             i++;
         }
     }
