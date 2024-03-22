@@ -12,6 +12,8 @@
 #include "structs/data_type/Supply_Network.h"
 
 
+struct stations_affected;
+
 class functions {
     public:
         static void file_ouput(std::map<std::string, double> vec_lines);

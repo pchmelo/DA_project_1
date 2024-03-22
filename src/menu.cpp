@@ -127,7 +127,7 @@ int Menu::MaxFlow(Supply_Network &supplyNetwork, HashReservatorio &hashReservato
         switch (decision) {
             case 1:
                 new_one.supply_network = supplyNetwork.supply_network;
-                //max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+                max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
                 functions::file_ouput(max_flow);
                 functions::print_result(max_flow, hashCidade);
                 cout << endl;
@@ -423,13 +423,13 @@ int Menu::WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReserv
 
         switch (decision) {
             case 1:
-               // water_suply = functions::file_input();
+               water_suply = functions::file_input();
                 if(water_suply.size() == 0){
                     new_one.supply_network = supplyNetwork.supply_network;
-                    //water_suply = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-                  //  functions::file_ouput(water_suply);
+                    water_suply = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+                    functions::file_ouput(water_suply);
                 }
-               // deficit = functions::water_deficit(water_suply, hashCidade);
+                deficit = functions::water_deficit(water_suply, hashCidade);
                 functions::print_deficit(deficit);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
