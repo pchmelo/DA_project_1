@@ -32,18 +32,18 @@ struct Supply_Network {
         double findMinResidualAlongPath(Vertex<Stations> *s, Vertex<Stations> *t, HashReservatorio &hashReservatorio);
         void augmentFlowAlongPath(Vertex<Stations> *s, Vertex<Stations> *t, double f);
 
-        std::vector<std::pair<std::string , double>> processAllCitiesMaxFlow(HashCidade &hashCidade, HashReservatorio &hashReservatorio);
-        std::vector<std::pair<std::string, double>> calculeMaxFlow(HashCidade &hashCidade);
+        std::map<std::string, double> processAllCitiesMaxFlow(HashCidade &hashCidade, HashReservatorio &hashReservatorio);
+        std::map<std::string, double>  calculeMaxFlow(HashCidade &hashCidade);
 
         //3.2
-        std::vector<stations_affected> station_deativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+        std::vector<stations_affected> station_desativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 
 };
 
 
 struct stations_affected{
     Stations stations;
-    std::vector<std::pair<City, double>> q;
+    std::map<std::string, double> cities_affect;
 };
 
 struct trio{

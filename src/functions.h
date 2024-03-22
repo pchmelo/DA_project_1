@@ -9,6 +9,7 @@
 #include "string"
 #include "structs/data_type/City.h"
 #include "map"
+#include "structs/data_type/Supply_Network.h"
 
 
 class functions {
@@ -17,6 +18,9 @@ class functions {
         static std::map<std::string, double> file_input();
 
         static void print_result(std::map<std::string, double>  vec_lines, HashCidade hashCidade);
+
+        static std::map<std::string, double> calculate_difference(std::map<std::string, double> comp_1, std::map<std::string, double> comp_2);
+        static std::map<std::string, double> cities_most_affected_stations(std::vector<stations_affected> stations_affected);
         static std::map<std::string, double>  water_deficit(std::map<std::string, double> city_supply, HashCidade hashCidade);
         static void print_deficit(std::map<std::string, double> vec_lines);
 };

@@ -170,8 +170,8 @@ void Supply_Network::augmentFlowAlongPath(Vertex<Stations> *s, Vertex<Stations> 
     }
 }
 
-vector<pair<string , double>> Supply_Network::processAllCitiesMaxFlow(HashCidade &hashCidade, HashReservatorio &hashReservatorio) {
-    vector<pair<string , double>> res;
+std::map<std::string, double> Supply_Network::processAllCitiesMaxFlow(HashCidade &hashCidade, HashReservatorio &hashReservatorio) {
+    std::map<std::string, double> res;
 
     create_super_source(hashReservatorio);
     create_super_target(hashCidade);
@@ -190,10 +190,8 @@ vector<pair<string , double>> Supply_Network::processAllCitiesMaxFlow(HashCidade
     return  res;
 }
 
-vector<std::pair<std::string, double>> Supply_Network::calculeMaxFlow(HashCidade &hashCidade) {
-    vector<pair<string , double>> res;
-
-    pair<string, int> p_res;
+std::map<std::string, double>  Supply_Network::calculeMaxFlow(HashCidade &hashCidade) {
+    std::map<std::string, double>  res;
     double sum = 0;
 
     for(auto target : hashCidade.cidadeTable){
@@ -201,16 +199,14 @@ vector<std::pair<std::string, double>> Supply_Network::calculeMaxFlow(HashCidade
         for(Edge<Stations>* e: t->getIncoming()){
             sum += e->getFlow();
         }
-        p_res.first = target.second.get_code();
-        p_res.second = sum;
 
-        res.push_back(p_res);
+        res[target.first] = sum;
         sum = 0;
     }
     return res;
 }
 
-vector<stations_affected> Supply_Network::station_deativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade){
+vector<stations_affected> Supply_Network::station_desativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade){
     vector<stations_affected> res;
     stations_affected t;
     save_station s;
@@ -219,7 +215,7 @@ vector<stations_affected> Supply_Network::station_deativation(HashStation &hashS
     std::map<std::string, double>  second_comp;
 
     if(first_comp.empty()){
-       // first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+        first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
         functions::file_ouput(first_comp);
     }
 
@@ -228,8 +224,11 @@ vector<stations_affected> Supply_Network::station_deativation(HashStation &hashS
             s = s.save(v);
             this->supply_network.removeVertex(v->getInfo());
 
-           // second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+            second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
+            t.stations = v->getInfo();
+            t.cities_affect = functions::calculate_difference(first_comp, second_comp);
+            res.push_back(t);
 
             s.restore(s, this->supply_network);
         }

@@ -94,7 +94,42 @@ void functions::print_deficit(std::map<std::string, double> vec_lines) {
     }
 }
 
-std::map<std::string, double>  water_deficit(std::map<std::string, double> city_supply, HashCidade hashCidade) {
+std::map<std::string, double> functions::calculate_difference(std::map<std::string, double> comp_1, std::map<std::string, double> comp_2) {
+    std::map<std::string, double> res;
+    auto it_1 = comp_1.begin();
+    int t;
+
+    while (it_1 != comp_1.end()){
+        t = comp_2[it_1->first] - it_1->second;
+
+        if(t != 0){
+            res[it_1->first] = t;
+        }
+    }
+
+    return res;
+}
+
+std::map<std::string, double> functions::cities_most_affected_stations(std::vector<stations_affected> stations_affected) {
+    std::map<std::string, double> res;
+    auto it = stations_affected.begin();
+
+    while (it != stations_affected.end()){
+        auto it_2 = it->cities_affect.begin();
+        while (it_2 != it->cities_affect.end()){
+           if(res.count(it_2->first) == 0){
+               res[it_2->first] = 1;
+           }
+           else{
+                res[it_2->first] += 1;
+           }
+       }
+    }
+
+    return res;
+}
+std::map<std::string, double>  functions::water_deficit(std::map<std::string, double> city_supply,
+                                                        HashCidade hashCidade) {
     map<string, double> noWater;
 
     auto inicio = city_supply.begin();
