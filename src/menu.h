@@ -37,9 +37,6 @@ public:
     //Function to Remove a Water Reservoir
     static int RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 
-    //Function to Remove Pumping Stations
-    static int RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
-
     //Function to Remove Pipes
     static int RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 

@@ -534,7 +534,7 @@ int Menu::ReliabilityAndSensitivityToFailures(Supply_Network &supplyNetwork, Has
                 RemoveWaterReservoir(supplyNetwork, hashReservatorio, hashStation, hashCidade);
                 break;
             case 2:
-                RemovePumpingStation(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                //print for each examined pumping station, list the affected cities displaying their codes and water supply deficits
                 break;
             case 3:
                 RemovePipes(supplyNetwork, hashReservatorio, hashStation, hashCidade);
@@ -612,67 +612,6 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
         return 0;
 }
 
-int Menu::RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
-                               HashCidade &hashCidade) {
-    cout << endl;
-    cout << "\033[1;34m      ___    _____     _______\033[0m\n";
-    cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
-    cout << "\033[1;34m   / _  |  |  | | |   |  |_|  |\033[0m\n";
-    cout << "\033[1;34m  / /_| |  |  | | |   |  _____|\033[0m\n";
-    cout << "\033[1;34m / ___  |  |  |_/ /   |  |\033[0m\n";
-    cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
-
-
-    cout << "\033[1;34mPlease choose the Pumping Station you desire to remove:\033[0m\n";
-    int i = 1;
-    for(auto station: hashStation.stationTable) {
-        cout << "\033[1;36m[ " <<  i << " ]\033[0m" << station.second.get_code() << endl;
-        i++;
-    }
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
-    cout << endl;
-
-    cout << "\033[1;34mDecision: \033[0m";
-    int decision;
-    cin >> decision;
-    cout << endl;
-
-    if(decision == 0){
-        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
-    }
-    else{
-        //print do reservatorio escolhido
-        cout << "Libertem o Macaco \n";
-        cout << endl;
-        cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-        cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
-        cout << "\033[0;31m[ 0 ]\033[0m" << "\033[0;31m Quit\033[0m" << endl;
-        cout << endl;
-
-        cout << "\033[1;34mDecision: \033[0m";
-        cin >> decision;
-        cout << endl;
-
-        while (true) {
-
-            switch (decision) {
-                case 1:
-                    Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
-                    break;
-                case 0:
-                    break;
-                default:
-                    break;
-            }
-
-            return 0;
-
-        }
-    }
-
-    return 0;
-}
-
 int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                       HashCidade &hashCidade) {
     cout << endl;
@@ -688,7 +627,7 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
     int i = 1;
     for(auto pipe: supplyNetwork.supply_network.getVertexSet()) {
         for(auto pipe_to_remove: pipe->getAdj()) {
-            cout << "\033[1;36m[ " <<  i << " ]\033[0m" << pipe_to_remove->getOrig()->getInfo() << " to " << pipe_to_remove->getDest()->getInfo() << endl;
+            cout << "\033[1;36m[ " <<  i << " ]\033[0m" << pipe_to_remove->getOrig() << " to " << pipe_to_remove->getDest() << endl;
             i++;
         }
     }
