@@ -63,8 +63,16 @@ void Stations::print() const{
     cout << this->id << " " << this->code << "\n";
 }
 
-void HashStation::readLines(vector<Stations> &stations) {
-    string input = "../src/Project1DataSetSmall/Project1DataSetSmall/Stations_Madeira.csv";
+void HashStation::readLines(vector<Stations> &stations, bool data_set) {
+    string input;
+
+    if(data_set){
+        input = "../src/Data/Project1LargeDataSet/Stations.csv";
+    }
+    else{
+        input = "../src/Data/Project1DataSetSmall/Stations_Madeira.csv";
+    }
+
     ifstream MyReadFile(input);
     int i = 0;
 
@@ -78,9 +86,11 @@ void HashStation::readLines(vector<Stations> &stations) {
         stringstream ss(line);
 
         while (ss.good()) {
-            if(i == 2){
-                i = 0;
-                break;
+            if(!data_set){
+                if(i == 2){
+                    i = 0;
+                    break;
+                }
             }
 
             std::string subtr;
@@ -92,6 +102,11 @@ void HashStation::readLines(vector<Stations> &stations) {
         if(values[0] == ""){
             break;
         }
+
+        if(data_set){
+            values[1].pop_back();
+        }
+
         station = Stations(stoi(values[0]), values[1], 'S');
         this->stationTable[values[1]] = station;
         stations.push_back(station);

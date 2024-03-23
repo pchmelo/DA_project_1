@@ -11,7 +11,7 @@
 using  namespace std;
 
 void functions::file_ouput(std::map<std::string, double> vec_lines) {
-    string dir_file = "../src/Project1DataSetSmall/output.txt";
+    string dir_file = "../src/Project1DataSet/output.txt";
     ofstream fout(dir_file,ios::out | ios::trunc);
 
     fout << "City_code,value\n";
@@ -105,26 +105,39 @@ std::map<std::string, double> functions::calculate_difference(std::map<std::stri
         if(t != 0){
             res[it_1->first] = t;
         }
+        it_1++;
     }
 
     return res;
 }
 
-std::map<std::string, double> functions::cities_most_affected_stations(std::vector<stations_affected> stations_affected) {
-    std::map<std::string, double> res;
-    auto it = stations_affected.begin();
+vector<cities_station> functions::cities_most_affected_stations(std::vector<stations_affected> stations_affected) {
+    vector<cities_station> res;
+    auto it_1 = stations_affected.begin();
 
-    while (it != stations_affected.end()){
-        auto it_2 = it->cities_affect.begin();
-        while (it_2 != it->cities_affect.end()){
-           if(res.count(it_2->first) == 0){
-               res[it_2->first] = 1;
-           }
-           else{
-                res[it_2->first] += 1;
-           }
+    while (it_1 != stations_affected.end()){
+        auto it_2 = it_1->cities_affect.begin();
+        while (it_2 != it_1->cities_affect.end()){
+            auto it_3 = find(res.begin(), res.end(), it_2->first);
+            if(it_3 == res.end()){
+                cities_station c;
+                c.city = it_2->first;
+                c.stations = {it_1->stations};
+                c.count++;
+                res.push_back(c);
+            }
+            else{
+                it_3->stations.push_back(it_1->stations);
+                it_3->count++;
+            }
+            it_2++;
        }
+        it_1++;
     }
+
+    std::sort(res.begin(), res.end(), [](const cities_station& a, const cities_station& b) {
+        return a.count > b.count;
+    });
 
     return res;
 }
@@ -143,4 +156,32 @@ std::map<std::string, double>  functions::water_deficit(std::map<std::string, do
         noWater.insert(*inicio);
     }
     return noWater;
+}
+
+std::vector<cities_pipes> functions::cities_most_affected_pipes(std::map<std::string, pipes_affected> pipes_affected) {
+    vector<cities_pipes> res;
+    auto it_1 = pipes_affected.begin();
+
+    while (it_1 != pipes_affected.end()){
+        auto it_2 = it_1->second.cities_affect.begin();
+
+        while(it_2 != it_1->second.cities_affect.end()){
+            auto it_3 = find(res.begin(), res.end(), it_2->first);
+            if(it_3 == res.end()){
+                cities_pipes c;
+                c.city = it_2->first;
+                c.pipes = {edge{it_1->second.orig, it_1->second.dest, 0, it_2->second}};
+                res.push_back(c);
+            }
+            else{
+                it_3->pipes.push_back(edge{it_1->second.orig, it_1->second.dest, 0, it_2->second});
+            }
+
+            it_2++;
+        }
+
+        it_1++;
+    }
+
+    return res;
 }

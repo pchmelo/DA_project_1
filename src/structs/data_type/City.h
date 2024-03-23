@@ -58,7 +58,7 @@ typedef std::unordered_map<std::string, City> CidadeTable;
 class HashCidade{
     public:
         CidadeTable cidadeTable;
-        void readLines(std::vector<Stations> &stations);
+        void readLines(std::vector<Stations> &stations, bool data_set);
 };
 
 

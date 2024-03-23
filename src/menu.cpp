@@ -727,5 +727,11 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
 
     edge max = supplyNetwork.max_difference(v1, v2);
 
+    auto t_1 = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
+    auto t_2 = functions::cities_most_affected_stations(t_1);
+
+    auto t_3 = supplyNetwork.pipes_desativation(hashReservatorio, hashCidade);
+    auto t_4 = functions::cities_most_affected_pipes(t_3);
+
     abort();
 }

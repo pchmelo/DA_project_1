@@ -3,7 +3,9 @@ project(projeto_1)
 
 set(CMAKE_CXX_STANDARD 17)
 
-file(COPY src/Project1DataSetSmall/Project1DataSetSmall DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY src/Data/Project1DataSetSmall DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY src/Data/Project1LargeDataSet DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 include_directories(src/structs/aux_structs)
 include_directories(src/structs/data_type)
 include_directories(src)

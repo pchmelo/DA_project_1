@@ -64,8 +64,16 @@ void City::print() const{
     cout << this->city << " " << this->id << " " << this->code << " " << this->demand << " " << this->population << "\n";
 }
 
-void HashCidade::readLines(vector<Stations> &stations) {
-    string input = "../src/Project1DataSetSmall/Project1DataSetSmall/Cities_Madeira.csv";
+void HashCidade::readLines(vector<Stations> &stations, bool data_set){
+    string input;
+
+    if(data_set){
+        input = "../src/Data/Project1LargeDataSet/Cities.csv";
+    }
+    else{
+        input = "../src/Data/Project1DataSetSmall/Cities_Madeira.csv";
+    }
+
     ifstream MyReadFile(input);
     int i = 0;
 
@@ -81,23 +89,28 @@ void HashCidade::readLines(vector<Stations> &stations) {
         while (ss.good()) {
             std::string subtr;
 
-            if(i == 4){
-                getline(ss, subtr, '"');
-                i++;
-
-            }
-            else if(i == 5){
-                getline(ss, subtr, '"');
-                subtr.erase(remove(subtr.begin(), subtr.end(), ','), subtr.end());
+            if(data_set){
+                getline(ss, subtr, ',');
                 values.push_back(subtr);
-                break;
             }
             else{
-                getline(ss, subtr, ',');
-                i++;
-                values.push_back(subtr);
-            }
+                if(i == 4){
+                    getline(ss, subtr, '"');
+                    i++;
 
+                }
+                else if(i == 5){
+                    getline(ss, subtr, '"');
+                    subtr.erase(remove(subtr.begin(), subtr.end(), ','), subtr.end());
+                    values.push_back(subtr);
+                    break;
+                }
+                else{
+                    getline(ss, subtr, ',');
+                    i++;
+                    values.push_back(subtr);
+                }
+            }
         }
 
         cidade = City(values[0], stoi(values[1]), values[2], stod(values[3]), stod(values[4]));

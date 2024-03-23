@@ -17,13 +17,14 @@
 
 struct stations_affected;
 struct edge;
+struct pipes_affected;
 
 struct Supply_Network {
 
         Graph<Stations> supply_network;
 
         void add_vertex(std::vector<Stations> stations);
-        void read_lines();
+        void read_lines(bool data_set);
 
         void create_super_source(HashReservatorio &hashReservatorio);
         void create_super_target(HashCidade &hashCidade);
@@ -43,13 +44,21 @@ struct Supply_Network {
         edge max_difference(std::vector<edge> &below_average, std::vector<edge> &above_average);
 
         //3.2
-        std::vector<stations_affected> station_desativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+        std::vector<stations_affected> station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 
+        //3.3
+        std::map<std::string, pipes_affected> pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 };
 
 
 struct stations_affected{
     Stations stations;
+    std::map<std::string, double> cities_affect;
+};
+
+struct pipes_affected{
+    std::string orig;
+    std::string dest;
     std::map<std::string, double> cities_affect;
 };
 
@@ -105,6 +114,23 @@ struct edge{
     }
 };
 
+struct cities_station{
+    std::string city;
+    std::vector<Stations> stations = {};
+    int count = 0;
 
+    bool operator==(const std::string &rhs) const {
+        return city == rhs;
+    }
+};
+
+struct cities_pipes{
+    std::string city;
+    std::vector<edge> pipes = {};
+
+    bool operator==(const std::string &rhs) const {
+        return city == rhs;
+    }
+};
 
 #endif //PROJETO_1_SUPPLY_NETWORK_H

@@ -15,8 +15,16 @@ void Supply_Network::add_vertex(std::vector<Stations> stations) {
     }
 }
 
-void Supply_Network::read_lines() {
-    string input = "../src/Project1DataSetSmall/Project1DataSetSmall/Pipes_Madeira.csv";
+void Supply_Network::read_lines(bool data_set) {
+    string input;
+
+    if(data_set){
+        input = "../src/Data/Project1LargeDataSet/Pipes.csv";
+    }
+    else{
+        input = "../src/Data/Project1DataSetSmall/Pipes_Madeira.csv";
+    }
+
     ifstream MyReadFile(input);
 
     string line;
@@ -287,7 +295,7 @@ edge Supply_Network::max_difference(vector<edge> &above_average, vector<edge> &b
     return max;
 }
 
-vector<stations_affected> Supply_Network::station_desativation(HashStation &hashStation, HashReservatorio &hashReservatorio, HashCidade &hashCidade){
+vector<stations_affected> Supply_Network::station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade){
     vector<stations_affected> res;
     stations_affected t;
     save_station s;
@@ -301,13 +309,13 @@ vector<stations_affected> Supply_Network::station_desativation(HashStation &hash
     }
 
     for(auto v : this->supply_network.getVertexSet()){
-        if(v->getInfo().get_type() == 'R'){
+        if(v->getInfo().get_type() == 'S'){
             s = s.save(v);
-            this->supply_network.removeVertex(v->getInfo());
+            t.stations = v->getInfo();
 
+            this->supply_network.removeVertex(v->getInfo());
             second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
-            t.stations = v->getInfo();
             t.cities_affect = functions::calculate_difference(first_comp, second_comp);
             res.push_back(t);
 
@@ -318,4 +326,48 @@ vector<stations_affected> Supply_Network::station_desativation(HashStation &hash
 
     return res;
 }
+
+std::map<std::string, pipes_affected>
+Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
+                                   HashCidade &hashCidade) {
+    std::map<std::string, pipes_affected> res;
+    pipes_affected t;
+
+    std::map<std::string, double> first_comp = functions::file_input();
+    std::map<std::string, double>  second_comp;
+
+    bool biderectional = false;
+
+    if(first_comp.empty()){
+        first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+        functions::file_ouput(first_comp);
+    }
+
+    for(auto v : this->supply_network.getVertexSet()){
+        for(auto e : v->getAdj()){
+            if(res.count(e->getDest()->getInfo().get_code())){
+                continue;
+            }
+
+            t.orig = e->getOrig()->getInfo().get_code();
+            t.dest = e->getDest()->getInfo().get_code();
+
+            this->supply_network.removeEdge(t.orig, t.dest);
+            biderectional = supply_network.removeEdge(t.dest, t.orig);
+
+            second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+            t.cities_affect = functions::calculate_difference(first_comp, second_comp);
+            res[t.orig] = t;
+
+            this->supply_network.addEdge(t.orig, t.dest, e->getWeight());
+            if(biderectional){
+                this->supply_network.addEdge(t.dest, t.orig, e->getWeight());
+                biderectional = false;
+            }
+        }
+    }
+
+    return res;
+}
+
 

@@ -55,7 +55,7 @@ typedef std::unordered_map<std::string, Stations> StationTable;
 class HashStation{
 public:
     StationTable stationTable;
-    void readLines(std::vector<Stations> &stations);
+    void readLines(std::vector<Stations> &stations, bool data_set);
 };
 
 #endif //PROJETO_1_STATIONS_H

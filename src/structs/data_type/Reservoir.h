@@ -61,7 +61,7 @@ typedef std::unordered_map<std::string, Reservoir> ReservatorioTable;
 class HashReservatorio{
     public:
         ReservatorioTable reservatorioTable;
-        void readLines(std::vector<Stations> &stations);
+        void readLines(std::vector<Stations> &stations, bool data_set);
         void reseatMaxDelivery();
 };
 
