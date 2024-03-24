@@ -260,24 +260,17 @@ edge Supply_Network::max_difference(vector<edge> &above_average, vector<edge> &b
             edge e1 = {temp.dest, temp.orig, 0, 0};
 
             if(temp.diff > 0){
-                auto it = std::find(above_average.begin(), above_average.end(), e1);
-                if(it == above_average.end()){
-                    above_average.push_back(temp);
-                }
+                above_average.push_back(temp);
             } else {
-                auto it = std::find(below_average.begin(), below_average.end(), e1);
-                if(it == below_average.end()) {
-                    below_average.push_back(temp);
-                }
+                below_average.push_back(temp);
             }
-
 
             if(flag){
                 max = temp;
                 flag = false;
             } else {
-                int t1 = max.diff - avg;
-                int t2 = temp.diff - avg;
+                int t1 = max.diff;
+                int t2 = temp.diff;
 
                 if(t1 < 0) t1 *= -1;
                 if(t2 < 0) t2 *= -1;
@@ -336,8 +329,6 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
     std::map<std::string, double> first_comp = functions::file_input();
     std::map<std::string, double>  second_comp;
 
-    bool biderectional = false;
-
     if(first_comp.empty()){
         first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
         functions::file_ouput(first_comp);
@@ -345,25 +336,24 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
 
     for(auto v : this->supply_network.getVertexSet()){
         for(auto e : v->getAdj()){
-            if(res.count(e->getDest()->getInfo().get_code())){
-                continue;
-            }
-
+            double  weight = e->getWeight();
             t.orig = e->getOrig()->getInfo().get_code();
             t.dest = e->getDest()->getInfo().get_code();
 
-            this->supply_network.removeEdge(t.orig, t.dest);
-            biderectional = supply_network.removeEdge(t.dest, t.orig);
+            e->setWeight(0);
 
             second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-            t.cities_affect = functions::calculate_difference(first_comp, second_comp);
-            res[t.orig] = t;
 
-            this->supply_network.addEdge(t.orig, t.dest, e->getWeight());
-            if(biderectional){
-                this->supply_network.addEdge(t.dest, t.orig, e->getWeight());
-                biderectional = false;
+            //functions::print_result(first_comp, hashCidade);
+            functions::print_result(second_comp, hashCidade);
+
+            t.cities_affect = functions::calculate_difference(first_comp, second_comp);
+
+            if(t.cities_affect.size() != 0){
+                res[t.orig] = t;
             }
+
+            e->setWeight(weight);
         }
     }
 

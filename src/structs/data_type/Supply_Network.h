@@ -50,16 +50,21 @@ struct Supply_Network {
         std::map<std::string, pipes_affected> pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 };
 
+struct double_3{
+    double first;
+    double second;
+    double third;
+};
 
 struct stations_affected{
     Stations stations;
-    std::map<std::string, double> cities_affect;
+    std::map<std::string, double_3> cities_affect;
 };
 
 struct pipes_affected{
     std::string orig;
     std::string dest;
-    std::map<std::string, double> cities_affect;
+    std::map<std::string, double_3> cities_affect;
 };
 
 struct trio{
@@ -106,8 +111,10 @@ struct save_station{
 struct edge{
     Stations orig;
     Stations dest;
+
     double flow;
     double diff;
+    double t;
 
     bool operator ==(const edge &b) const{
         return orig.get_code() == b.orig.get_code() && dest.get_code() == b.dest.get_code();

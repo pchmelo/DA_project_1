@@ -16,6 +16,7 @@ struct stations_affected;
 struct cities_station;
 struct cities_pipes;
 struct pipes_affected;
+struct double_3;
 
 class functions {
     public:
@@ -25,12 +26,17 @@ class functions {
         static void print_result(std::map<std::string, double>  vec_lines, HashCidade hashCidade);
 
         //3
-        static std::map<std::string, double> calculate_difference(std::map<std::string, double> comp_1, std::map<std::string, double> comp_2);
+        static std::map<std::string, double_3> calculate_difference(std::map<std::string, double> comp_1, std::map<std::string, double> comp_2);
+
         //3.2
         static std::vector<cities_station> cities_most_affected_stations(std::vector<stations_affected> stations_affected);
-        //3.3
-        static std::vector<cities_pipes> cities_most_affected_pipes(std::map<std::string, pipes_affected> pipes_affected);
+        static void print_cities_station(std::vector<cities_station> vec, HashCidade hashCidade);
+        static void print_stations_affected(std::vector<stations_affected> vec, HashCidade hashCidade);
 
+        //3.3
+        static std::vector<cities_pipes> cities_most_affected_pipes(std::map<std::string, pipes_affected> pipes_affected, HashCidade hashCidade);
+        static void print_cities_pipes(std::vector<cities_pipes> vec, HashCidade hashCidade);
+        static void print_pipes_affected(std::map<std::string, pipes_affected> lines, HashCidade hashCidade);
 
 
         static std::map<std::string, double>  water_deficit(std::map<std::string, double> city_supply, HashCidade hashCidade);

@@ -720,18 +720,32 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
     //functions::print_result(res, hashCidade);
     //supplyNetwork.station_deativation(hashStation);
 
-    //double avg = supplyNetwork.average();
+    double avg = supplyNetwork.average();
+    double varience = supplyNetwork.variance();
+
+    vector<edge> vec_t_1;
+    vector<edge> vec_t_2;
+
+    auto e = supplyNetwork.max_difference(vec_t_1, vec_t_2);
 
     vector<edge> v1;
     vector<edge> v2;
 
     edge max = supplyNetwork.max_difference(v1, v2);
 
+    /*
     auto t_1 = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
     auto t_2 = functions::cities_most_affected_stations(t_1);
 
+    functions::print_cities_station(t_2, hashCidade);
+    functions::print_stations_affected(t_1, hashCidade);
+    */
+
     auto t_3 = supplyNetwork.pipes_desativation(hashReservatorio, hashCidade);
-    auto t_4 = functions::cities_most_affected_pipes(t_3);
+    auto t_4 = functions::cities_most_affected_pipes(t_3, hashCidade);
+
+    functions::print_pipes_affected(t_3, hashCidade);
+    functions::print_cities_pipes(t_4, hashCidade);
 
     abort();
 }
