@@ -17,6 +17,7 @@ struct cities_station;
 struct cities_pipes;
 struct pipes_affected;
 struct double_3;
+struct reservoir_affected;
 
 class functions {
     public:
@@ -27,6 +28,9 @@ class functions {
 
         //3
         static std::map<std::string, double_3> calculate_difference(std::map<std::string, double> comp_1, std::map<std::string, double> comp_2);
+
+        //3.1
+        static void print_cities_reservoir(std::vector<reservoir_affected> vec, HashCidade hashCidade);
 
         //3.2
         static std::vector<cities_station> cities_most_affected_stations(std::vector<stations_affected> stations_affected);

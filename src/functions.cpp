@@ -320,7 +320,6 @@ void functions::print_pipes_affected(std::map<std::string, pipes_affected> lines
             cout << "\033[0;38mDefict \033[0m\n";
 
             auto it_2 = it_1->second.cities_affect.begin();
-
             while (it_2 != it_1->second.cities_affect.end()){
                 auto cidade = hashCidade.cidadeTable.find(it_2->first);
 
@@ -335,6 +334,43 @@ void functions::print_pipes_affected(std::map<std::string, pipes_affected> lines
                 it_2++;
             }
 
+            cout << endl;
+            it_1++;
+        }
+    }
+}
+
+void functions::print_cities_reservoir(std::vector<reservoir_affected> vec, HashCidade hashCidade) {
+    if(vec.size() != 0){
+        auto it_1 = vec.begin();
+        while (it_1 != vec.end()){
+            cout << endl;
+            cout << "\033[0;34mCom a remoção do reservatorio com codigo \033[0m";
+            cout << "\033[1;31m"<< it_1->reservoir.get_code() <<"\033[0m\n";
+            cout << "\033[0;34mAs seguintes cidades sao afetadas: \033[0m\n\n";
+
+            cout << "\033[1;34mCity Name \033[0m";
+            cout << "\033[0;33mID \033[0m";
+            cout << "\033[0;31mCode \033[0m";
+            cout << "\033[0;32mDemanda \033[0m";
+            cout << "\033[0;36mFlow antes \033[0m";
+            cout << "\033[0;37mFlow depois \033[0m";
+            cout << "\033[0;38mDefict \033[0m\n";
+
+            auto it_2 = it_1->cities_affect.begin();
+            while (it_2 != it_1->cities_affect.end()){
+                auto cidade = hashCidade.cidadeTable.find(it_2->first);
+
+                cout << "\033[1;34m" << cidade->second.get_city() << " " << "\033[0m";
+                cout << "\033[1;33m" << cidade->second.get_id() << " " << "\033[0m";
+                cout << "\033[1;31m" << cidade->second.get_code() << " " << "\033[0m";
+                cout << "\033[1;32m" << cidade->second.get_demand() << " " << "\033[0m";
+                cout << "\033[1;36m" << it_2->second.first << " " << "\033[0m";
+                cout << "\033[1;37m" << it_2->second.second << " " << "\033[0m";
+                cout << "\033[1;38m" << it_2->second.third << " " << "\033[0m\n";
+
+                it_2++;
+            }
             cout << endl;
             it_1++;
         }

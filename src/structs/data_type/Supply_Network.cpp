@@ -360,4 +360,32 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
     return res;
 }
 
+std::vector<reservoir_affected>
+Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
+    std::vector<reservoir_affected> res;
+    reservoir_affected t;
+
+    std::map<std::string, double> first_comp = functions::file_input();
+    std::map<std::string, double>  second_comp;
+
+    if(first_comp.empty()){
+        first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+        functions::file_ouput(first_comp);
+    }
+
+    for(auto v : this->supply_network.getVertexSet()){
+        if(v->getInfo().get_type() == 'R'){
+            t.reservoir = v->getInfo();
+            hashReservatorio.reservatorioTable[v->getInfo().get_code()].set_t_maxDelivery(0);
+
+            second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+
+            t.cities_affect = functions::calculate_difference(first_comp, second_comp);
+            res.push_back(t);
+
+        }
+    }
+    return res;
+}
+
 

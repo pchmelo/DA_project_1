@@ -677,7 +677,7 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
 
 int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                         HashCidade &hashCidade) {
-
+    /*
     auto reservatorio = hashReservatorio.reservatorioTable.find("R_1");
     reservatorio->second.print();
 
@@ -732,7 +732,7 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
     vector<edge> v2;
 
     edge max = supplyNetwork.max_difference(v1, v2);
-
+    */
     /*
     auto t_1 = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
     auto t_2 = functions::cities_most_affected_stations(t_1);
@@ -740,12 +740,16 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
     functions::print_cities_station(t_2, hashCidade);
     functions::print_stations_affected(t_1, hashCidade);
     */
-
+    /*
     auto t_3 = supplyNetwork.pipes_desativation(hashReservatorio, hashCidade);
     auto t_4 = functions::cities_most_affected_pipes(t_3, hashCidade);
 
     functions::print_pipes_affected(t_3, hashCidade);
     functions::print_cities_pipes(t_4, hashCidade);
+    */
+
+    auto t_5 = supplyNetwork.reservoir_desativation(hashReservatorio, hashCidade);
+    functions::print_cities_reservoir(t_5, hashCidade);
 
     abort();
 }

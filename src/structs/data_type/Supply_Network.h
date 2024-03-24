@@ -18,6 +18,7 @@
 struct stations_affected;
 struct edge;
 struct pipes_affected;
+struct reservoir_affected;
 
 struct Supply_Network {
 
@@ -43,6 +44,9 @@ struct Supply_Network {
         double variance();
         edge max_difference(std::vector<edge> &below_average, std::vector<edge> &above_average);
 
+        //3.1
+        std::vector<reservoir_affected> reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+
         //3.2
         std::vector<stations_affected> station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 
@@ -54,6 +58,11 @@ struct double_3{
     double first;
     double second;
     double third;
+};
+
+struct reservoir_affected{
+    Stations reservoir;
+    std::map<std::string, double_3> cities_affect;
 };
 
 struct stations_affected{
