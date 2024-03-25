@@ -25,7 +25,9 @@ class functions {
         static std::map<std::string, double> file_input();
 
         static void print_result(std::map<std::string, double>  vec_lines, HashCidade hashCidade);
-
+        static void print_result_specific_city_by_ID(std::map<std::string, double>  vec_lines, std::string code, HashCidade hashCidade);
+        static void print_result_specific_city_by_name(std::map<std::string, double>  vec_lines, std::string code, HashCidade hashCidade);
+        static void print_result_specific_city_by_code(std::map<std::string, double>  vec_lines, std::string code, HashCidade hashCidade);
         //3
         static std::map<std::string, double_3> calculate_difference(std::map<std::string, double> comp_1, std::map<std::string, double> comp_2);
 

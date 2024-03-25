@@ -226,6 +226,7 @@ int Menu::MaxFlowForSpecificCity(Supply_Network &supplyNetwork, HashReservatorio
 
 int Menu::MaxFlowForSpecificCityByID(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                                      HashCidade &hashCidade) {
+    std::vector<string> codes;
     cout << endl;
     cout << "\033[1;34m      ___    _____     _______\033[0m\n";
     cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
@@ -238,6 +239,7 @@ int Menu::MaxFlowForSpecificCityByID(Supply_Network &supplyNetwork, HashReservat
     cout << "\033[1;34mPlease choose the ID of your city:\033[0m\n";
     for(auto city: hashCidade.cidadeTable){
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_id() << endl;
+        codes.push_back(city.second.get_code());
         i++;
     }
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
@@ -251,9 +253,10 @@ int Menu::MaxFlowForSpecificCityByID(Supply_Network &supplyNetwork, HashReservat
     if(decision == 0){
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
-    else{
-        //print do max-flow cidade escolhida
-        cout << "Libertem o Macaco \n";
+    else {
+        new_one.supply_network = supplyNetwork.supply_network;
+        max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+        functions::print_result_specific_city_by_ID(max_flow, codes[decision - 1], hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
         cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
@@ -280,13 +283,13 @@ int Menu::MaxFlowForSpecificCityByID(Supply_Network &supplyNetwork, HashReservat
 
         }
     }
-
     return 0;
 
 }
 
 int Menu::MaxFlowForSpecificCityByName(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                                        HashCidade &hashCidade) {
+    std::vector<string> codes;
     cout << endl;
     cout << "\033[1;34m      ___    _____     _______\033[0m\n";
     cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
@@ -299,6 +302,7 @@ int Menu::MaxFlowForSpecificCityByName(Supply_Network &supplyNetwork, HashReserv
     cout << "\033[1;34mPlease choose the name of your city:\033[0m\n";
     for(auto city: hashCidade.cidadeTable){
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_city() << endl;
+        codes.push_back(city.second.get_code());
         i++;
     }
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
@@ -312,9 +316,10 @@ int Menu::MaxFlowForSpecificCityByName(Supply_Network &supplyNetwork, HashReserv
     if(decision == 0){
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
-    else{
-        //print do max-flow cidade escolhida
-        cout << "Libertem o Macaco \n";
+    else {
+        new_one.supply_network = supplyNetwork.supply_network;
+        max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+        functions::print_result_specific_city_by_name(max_flow, codes[decision - 1], hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
         cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
@@ -341,13 +346,13 @@ int Menu::MaxFlowForSpecificCityByName(Supply_Network &supplyNetwork, HashReserv
 
         }
     }
-
     return 0;
 
 }
 
 int Menu::MaxFlowForSpecificCityByCode(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                                        HashCidade &hashCidade) {
+    std::vector<string> codes;
     cout << endl;
     cout << "\033[1;34m      ___    _____     _______\033[0m\n";
     cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
@@ -360,6 +365,7 @@ int Menu::MaxFlowForSpecificCityByCode(Supply_Network &supplyNetwork, HashReserv
     cout << "\033[1;34mPlease choose the code of your city:\033[0m\n";
     for(auto city: hashCidade.cidadeTable){
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_code() << endl;
+        codes.push_back(city.second.get_code());
         i++;
     }
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
@@ -373,9 +379,10 @@ int Menu::MaxFlowForSpecificCityByCode(Supply_Network &supplyNetwork, HashReserv
     if(decision == 0){
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
-    else{
-        //print do max-flow cidade escolhida
-        cout << "Libertem o Macaco \n";
+    else {
+        new_one.supply_network = supplyNetwork.supply_network;
+        max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+        functions::print_result_specific_city_by_code(max_flow, codes[decision - 1], hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
         cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
@@ -402,7 +409,6 @@ int Menu::MaxFlowForSpecificCityByCode(Supply_Network &supplyNetwork, HashReserv
 
         }
     }
-
     return 0;
 
 }

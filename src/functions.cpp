@@ -64,22 +64,50 @@ std::map<std::string, double>  functions::file_input() {
 
 void functions::print_result(std::map<std::string, double>  vec_lines, HashCidade hashCidade) {
     cout << endl;
-    cout << "\033[1;34mCity Name \033[0m";
-    cout << "\033[0;33mID \033[0m";
     cout << "\033[0;32mCode \033[0m";
     cout << "\033[0;31mMax Flow\033[0m\n\n";
 
     auto inicio = vec_lines.begin();
     while(inicio != vec_lines.end()){
       auto city = hashCidade.cidadeTable.find(inicio->first);
-        cout << "\033[1;34m" << city->second.get_city() << " " << "\033[0m";
-        cout << "\033[1;33m" << city->second.get_id() << " " << "\033[0m";
         cout << "\033[1;32m" << city->second.get_code() << " " << "\033[0m";
         cout << "\033[1;31m" << inicio->second <<"\033[0m\n\n";
         inicio++;
     }
 }
 
+void functions::print_result_specific_city_by_ID(std::map<std::string, double>  vec_lines, std::string code, HashCidade hashCidade){
+    cout << endl;
+    cout << "\033[0;32mID \033[0m";
+    cout << "\033[0;31mMax Flow\033[0m\n\n";
+
+    auto cidade = hashCidade.cidadeTable.find(code);
+    auto city = vec_lines.find(code);
+    cout << "\033[1;32m" << cidade->second.get_id() << " " << "\033[0m";
+    cout << "\033[1;31m" << city->second <<"\033[0m\n\n";
+}
+
+void functions::print_result_specific_city_by_name(std::map<std::string, double>  vec_lines, std::string code, HashCidade hashCidade){
+    cout << endl;
+    cout << "\033[0;32mName \033[0m";
+    cout << "\033[0;31mMax Flow\033[0m\n\n";
+
+    auto cidade = hashCidade.cidadeTable.find(code);
+    auto city = vec_lines.find(code);
+    cout << "\033[1;32m" << cidade->second.get_city() << " " << "\033[0m";
+    cout << "\033[1;31m" << city->second <<"\033[0m\n\n";
+}
+
+void functions::print_result_specific_city_by_code(std::map<std::string, double>  vec_lines, std::string code, HashCidade hashCidade){
+    cout << endl;
+    cout << "\033[0;32mCode \033[0m";
+    cout << "\033[0;31mMax Flow\033[0m\n\n";
+
+    auto cidade = hashCidade.cidadeTable.find(code);
+    auto city = vec_lines.find(code);
+    cout << "\033[1;32m" << cidade->second.get_code() << " " << "\033[0m";
+    cout << "\033[1;31m" << city->second <<"\033[0m\n\n";
+}
 
 void functions::print_deficit(std::map<std::string, double> vec_lines) {
     cout << endl;
