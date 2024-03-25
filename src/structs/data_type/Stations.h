@@ -20,6 +20,7 @@ class Stations {
         Stations();
         Stations(int id);
         Stations(std::string code);
+        Stations(std::string code, char type);
         Stations(int id, std::string code, char type);
 
         int get_id() const;

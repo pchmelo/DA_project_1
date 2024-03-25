@@ -46,6 +46,7 @@ struct Supply_Network {
 
         //3.1
         std::vector<reservoir_affected> reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+        std::vector<reservoir_affected> reservoir_desativation_especific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, std::string code);
 
         //3.2
         std::vector<stations_affected> station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
@@ -87,35 +88,34 @@ struct save_station{
     std::vector<trio> edges;
 
 
-    save_station save(Vertex<Stations>* v){
+    void save(Vertex<Stations>* v){
         trio trio_t;
-        save_station s;
-        s.code = v->getInfo().get_code();
+        this->code = v->getInfo().get_code();
 
         for(Edge<Stations>* e: v->getAdj()){
             trio_t.first = e->getOrig()->getInfo().get_code();
             trio_t.second = e->getDest()->getInfo().get_code();
-            trio_t.third = e->getFlow();
+            trio_t.third = e->getWeight();
 
-            s.edges.push_back(trio_t);
+            this->edges.push_back(trio_t);
         }
         for(Edge<Stations>* e: v->getIncoming()){
             trio_t.first = e->getOrig()->getInfo().get_code();
             trio_t.second = e->getDest()->getInfo().get_code();
-            trio_t.third = e->getFlow();
+            trio_t.third = e->getWeight();
 
-            s.edges.push_back(trio_t);
+            this->edges.push_back(trio_t);
         }
-        return s;
     }
 
-    void restore(save_station s, Graph<Stations> &g){
-        g.addVertex(Stations(s.code));
-        for(auto e: s.edges){
+    void restore(Graph<Stations> &g, char type){
+        g.addVertex(Stations(this->code, type));
+        for(auto e: this->edges){
             g.addEdge(Stations(e.first), Stations(e.second), e.third);
         }
     }
 };
+
 
 struct edge{
     Stations orig;

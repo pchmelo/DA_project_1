@@ -23,6 +23,12 @@ Stations::Stations(int id) {
 
 }
 
+Stations::Stations(std::string code, char type) {
+    this->id = -1;
+    this->code = code;
+    this->type = type;
+}
+
 Stations::Stations(std::string code) {
     this->id = -1;
     this->code = code;

@@ -58,7 +58,7 @@ void Supply_Network::create_super_source(HashReservatorio &hashReservatorio) {
     this->supply_network.addVertex(super_reservoir);
 
     for(auto reservoir : hashReservatorio.reservatorioTable){
-        this->supply_network.addEdge(super_reservoir, Stations(reservoir.second.get_code()), numeric_limits<int>::max());
+        this->supply_network.addEdge(super_reservoir, Stations(reservoir.second.get_code()), reservoir.second.get_maxDelivery());
     }
 }
 
@@ -67,7 +67,8 @@ void Supply_Network::create_super_target(HashCidade &hashCidade) {
     this->supply_network.addVertex(super_target);
 
     for(auto city : hashCidade.cidadeTable){
-        this->supply_network.addEdge(Stations(city.second.get_code()), super_target, numeric_limits<int>::max());
+        //this->supply_network.addEdge(Stations(city.second.get_code()), super_target, numeric_limits<int>::max());
+        this->supply_network.addEdge(Stations(city.second.get_code()), super_target, city.second.get_demand());
     }
 }
 
@@ -120,7 +121,11 @@ void Supply_Network::testAndVisit(std::queue<Vertex<Stations> *> &q, Edge<Statio
                                   double residual, HashReservatorio &hashReservatorio) {
 
     if(!w->isVisited() && residual > 0){
-        if(w->getInfo().get_type() == 'R'){
+        w->setVisited(true);
+        w->setPath(e);
+        q.push(w);
+
+        /*if(w->getInfo().get_type() == 'R'){
             auto reserv = hashReservatorio.reservatorioTable.find(w->getInfo().get_code());
             if(reserv->second.get_t_maxDelivery() > 0){
                 w->setVisited(true);
@@ -132,7 +137,7 @@ void Supply_Network::testAndVisit(std::queue<Vertex<Stations> *> &q, Edge<Statio
             w->setVisited(true);
             w->setPath(e);
             q.push(w);
-        }
+        }*/
     }
 }
 
@@ -146,11 +151,12 @@ double Supply_Network::findMinResidualAlongPath(Vertex<Stations> *s, Vertex<Stat
             f = min(f, e->getWeight() - e->getFlow());
             v = e->getOrig();
 
+            /*
             if(v->getInfo().get_type() == 'R'){
                 auto rev = hashReservatorio.reservatorioTable.at(v->getInfo().get_code());
                 f = min(f, (double) rev.get_t_maxDelivery());
                 hashReservatorio.reservatorioTable.at(rev.get_code()).set_t_maxDelivery(rev.get_t_maxDelivery() - f);
-            }
+            }*/
         }
         else{
             f = min(f, e->getFlow());
@@ -296,14 +302,12 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
     std::map<std::string, double> first_comp = functions::file_input();
     std::map<std::string, double>  second_comp;
 
-    if(first_comp.empty()){
-        first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-        functions::file_ouput(first_comp);
-    }
+    first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    functions::file_ouput(first_comp);
 
     for(auto v : this->supply_network.getVertexSet()){
         if(v->getInfo().get_type() == 'S'){
-            s = s.save(v);
+            s.save(v);
             t.stations = v->getInfo();
 
             this->supply_network.removeVertex(v->getInfo());
@@ -312,7 +316,7 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
             t.cities_affect = functions::calculate_difference(first_comp, second_comp);
             res.push_back(t);
 
-            s.restore(s, this->supply_network);
+            s.restore(this->supply_network, 'S');
         }
     }
 
@@ -329,10 +333,8 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
     std::map<std::string, double> first_comp = functions::file_input();
     std::map<std::string, double>  second_comp;
 
-    if(first_comp.empty()){
-        first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-        functions::file_ouput(first_comp);
-    }
+    first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    functions::file_ouput(first_comp);
 
     for(auto v : this->supply_network.getVertexSet()){
         for(auto e : v->getAdj()){
@@ -364,28 +366,55 @@ std::vector<reservoir_affected>
 Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     std::vector<reservoir_affected> res;
     reservoir_affected t;
+    save_station save;
 
     std::map<std::string, double> first_comp = functions::file_input();
     std::map<std::string, double>  second_comp;
 
-    if(first_comp.empty()){
-        first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-        functions::file_ouput(first_comp);
-    }
+    first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    functions::file_ouput(first_comp);
 
     for(auto v : this->supply_network.getVertexSet()){
         if(v->getInfo().get_type() == 'R'){
+            save.save(v);
             t.reservoir = v->getInfo();
-            hashReservatorio.reservatorioTable[v->getInfo().get_code()].set_t_maxDelivery(0);
 
+            this->supply_network.removeVertex(v->getInfo());
             second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
             t.cities_affect = functions::calculate_difference(first_comp, second_comp);
             res.push_back(t);
-
+            save.restore(this->supply_network, 'R');
         }
     }
     return res;
+}
+
+std::vector<reservoir_affected>
+Supply_Network::reservoir_desativation_especific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code) {
+    std::vector<reservoir_affected> res;
+    reservoir_affected t;
+    save_station save;
+
+    std::map<std::string, double> first_comp = functions::file_input();
+    std::map<std::string, double>  second_comp;
+
+    first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    functions::file_ouput(first_comp);
+
+    auto v = this->supply_network.findVertex(code);
+    t.reservoir = v->getInfo();
+
+    save.save(v);
+    this->supply_network.removeVertex(v->getInfo());
+    second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+
+    t.cities_affect = functions::calculate_difference(first_comp, second_comp);
+    res.push_back(t);
+    save.restore(this->supply_network, 'R');
+
+    return res;
+
 }
 
 

@@ -25,7 +25,7 @@ int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservat
     cout << "\033[1;36m[ 1 ]\033[0m" << " Basic Service Metrics" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << " Reliability and Sensitivity to Failures" << endl;
     cout << "\033[1;36m[ 3 ]\033[0m" << " Ambiente de Teste" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Exit" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -69,7 +69,7 @@ int Menu::BasicServiceMetrics(Supply_Network &supplyNetwork, HashReservatorio &h
     cout << "\033[1;36m[ 1 ]\033[0m" << " Max-Flow" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << " Water Suply" << endl;
     cout << "\033[1;36m[ 3 ]\033[0m" << " Pipes capacity reduction" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -114,7 +114,7 @@ int Menu::MaxFlow(Supply_Network &supplyNetwork, HashReservatorio &hashReservato
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
     cout << "\033[1;36m[ 1 ]\033[0m" << "For each city" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << "For a specific city" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -185,7 +185,7 @@ int Menu::MaxFlowForSpecificCity(Supply_Network &supplyNetwork, HashReservatorio
     cout << "\033[1;36m[ 1 ]\033[0m" << "Select by ID" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << "Select by Name" << endl;
     cout << "\033[1;36m[ 3 ]\033[0m" << "Select by Code" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
     int decision;
@@ -232,7 +232,7 @@ int Menu::MaxFlowForSpecificCityByID(Supply_Network &supplyNetwork, HashReservat
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_id() << endl;
         i++;
     }
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
     string city;
@@ -293,7 +293,7 @@ int Menu::MaxFlowForSpecificCityByName(Supply_Network &supplyNetwork, HashReserv
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_city() << endl;
         i++;
     }
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
     string city;
@@ -354,7 +354,7 @@ int Menu::MaxFlowForSpecificCityByCode(Supply_Network &supplyNetwork, HashReserv
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_code() << endl;
         i++;
     }
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
     string city;
@@ -411,7 +411,7 @@ int Menu::WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReserv
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
     cout << "\033[1;36m[ 1 ]\033[0m" << " Cities with water deficit" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -480,7 +480,7 @@ int Menu::PipesReduction(Supply_Network &supplyNetwork, HashReservatorio &hashRe
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
     cout << "\033[1;36m[ 1 ]\033[0m" << "Pipes that can be reducted" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -519,7 +519,7 @@ int Menu::ReliabilityAndSensitivityToFailures(Supply_Network &supplyNetwork, Has
     cout << "\033[1;36m[ 1 ]\033[0m" << " Remove a Water Reservoir" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << " Remove Pumping Stations" << endl;
     cout << "\033[1;36m[ 3 ]\033[0m" << " Remove Pipes" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -637,7 +637,7 @@ int Menu::RemoveSpecificWaterReservoir(Supply_Network &supplyNetwork, HashReserv
         cout << "\033[1;36m[ " <<  i << " ]\033[0m" << reservoir.second.get_reservoir() << endl;
         i++;
     }
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -700,7 +700,7 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
             i++;
         }
     }
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -809,16 +809,20 @@ int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashRes
     functions::print_cities_station(t_2, hashCidade);
     functions::print_stations_affected(t_1, hashCidade);
     */
-    /*
+
     auto t_3 = supplyNetwork.pipes_desativation(hashReservatorio, hashCidade);
     auto t_4 = functions::cities_most_affected_pipes(t_3, hashCidade);
 
     functions::print_pipes_affected(t_3, hashCidade);
     functions::print_cities_pipes(t_4, hashCidade);
-    */
+
 
     auto t_5 = supplyNetwork.reservoir_desativation(hashReservatorio, hashCidade);
     functions::print_cities_reservoir(t_5, hashCidade);
+
+
+    auto t_6 = supplyNetwork.reservoir_desativation_especific(hashReservatorio, hashCidade, "R_3");
+    functions::print_cities_reservoir(t_6, hashCidade);
 
     abort();
 }
