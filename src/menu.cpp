@@ -561,6 +561,75 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
     cout << "\033[1;34m / ___  |  |  |_/ /   |  |\033[0m\n";
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
+    cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
+    cout << "\033[1;36m[ 1 ]\033[0m" << "For each water reservoir" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << "For a specific water reservoir" << endl;
+    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << endl;
+
+    cout << "\033[1;34mDecision: \033[0m";
+    int decision;
+    cin >> decision;
+    cout << endl;
+
+    while (true) {
+
+        switch (decision) {
+            case 1:
+                new_one.supply_network = supplyNetwork.supply_network;
+                max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+                functions::file_ouput(max_flow);
+                functions::print_result(max_flow, hashCidade);
+                cout << endl;
+                cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
+                cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
+                cout << "\033[0;31m[ 0 ]\033[0m" << "\033[0;31m Quit\033[0m" << endl;
+                cout << endl;
+
+                cout << "\033[1;34mDecision: \033[0m";
+                cin >> decision;
+                cout << endl;
+
+                while (true) {
+
+                    switch (decision) {
+                        case 1:
+                            Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            break;
+                    }
+
+                    return 0;
+
+                }
+            case 2:
+                RemoveSpecificWaterReservoir(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                break;
+            case 0:
+                Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                break;
+            default:
+                break;
+        }
+
+        return 0;
+
+    }
+}
+
+int Menu::RemoveSpecificWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
+                               HashCidade &hashCidade) {
+    cout << endl;
+    cout << "\033[1;34m      ___    _____     _______\033[0m\n";
+    cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
+    cout << "\033[1;34m   / _  |  |  | | |   |  |_|  |\033[0m\n";
+    cout << "\033[1;34m  / /_| |  |  | | |   |  _____|\033[0m\n";
+    cout << "\033[1;34m / ___  |  |  |_/ /   |  |\033[0m\n";
+    cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
+
 
     cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
     int i = 1;
@@ -576,40 +645,40 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
     cin >> decision;
     cout << endl;
 
-        if(decision == 0){
-            Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
-        }
-        else{
-            //print do reservatorio escolhido
-            cout << "Libertem o Macaco \n";
-            cout << endl;
-            cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-            cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
-            cout << "\033[0;31m[ 0 ]\033[0m" << "\033[0;31m Quit\033[0m" << endl;
-            cout << endl;
+    if(decision == 0){
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        //print do reservatorio escolhido
+        cout << "Libertem o Macaco \n";
+        cout << endl;
+        cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
+        cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
+        cout << "\033[0;31m[ 0 ]\033[0m" << "\033[0;31m Quit\033[0m" << endl;
+        cout << endl;
 
-            cout << "\033[1;34mDecision: \033[0m";
-            cin >> decision;
-            cout << endl;
+        cout << "\033[1;34mDecision: \033[0m";
+        cin >> decision;
+        cout << endl;
 
-            while (true) {
+        while (true) {
 
-                switch (decision) {
-                    case 1:
-                        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        break;
-                }
-
-                return 0;
-
+            switch (decision) {
+                case 1:
+                    Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                    break;
+                case 0:
+                    break;
+                default:
+                    break;
             }
-        }
 
-        return 0;
+            return 0;
+
+        }
+    }
+
+    return 0;
 }
 
 int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
