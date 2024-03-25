@@ -9,6 +9,10 @@ Supply_Network new_one;
 std::map<std::string, double> max_flow;
 std::map<std::string, double> water_suply;
 std::map<std::string, double> deficit;
+std::vector<reservoir_affected> remove_reservoir;
+std::vector<reservoir_affected> remove_reservoir_by_ID;
+std::vector<reservoir_affected> remove_reservoir_by_name;
+std::vector<reservoir_affected> remove_reservoir_by_code;
 
 int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                    HashCidade &hashCidade) {
@@ -576,10 +580,8 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
 
         switch (decision) {
             case 1:
-                new_one.supply_network = supplyNetwork.supply_network;
-                max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-                functions::file_ouput(max_flow);
-                functions::print_result(max_flow, hashCidade);
+                remove_reservoir = supplyNetwork.reservoir_desativation(hashReservatorio, hashCidade);
+                functions::print_cities_reservoir(remove_reservoir, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
                 cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
@@ -621,7 +623,53 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
 }
 
 int Menu::RemoveSpecificWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
-                               HashCidade &hashCidade) {
+                                 HashCidade &hashCidade) {
+    cout << endl;
+    cout << "\033[1;34m      ___    _____     _______\033[0m\n";
+    cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
+    cout << "\033[1;34m   / _  |  |  | | |   |  |_|  |\033[0m\n";
+    cout << "\033[1;34m  / /_| |  |  | | |   |  _____|\033[0m\n";
+    cout << "\033[1;34m / ___  |  |  |_/ /   |  |\033[0m\n";
+    cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
+
+    cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
+    cout << "\033[1;36m[ 1 ]\033[0m" << "Select by ID" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << "Select by Name" << endl;
+    cout << "\033[1;36m[ 3 ]\033[0m" << "Select by Code" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << endl;
+    cout << "\033[1;34mDecision: \033[0m";
+    int decision;
+    cin >> decision;
+    cout << endl;
+
+    while (true) {
+
+        switch (decision) {
+            case 1:
+                RemoveSpecificWaterReservoirByID(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                break;
+            case 2:
+                RemoveSpecificWaterReservoirByName(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                break;
+            case 3:
+                RemoveSpecificWaterReservoirByCode(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                break;
+            case 0:
+                MaxFlowForSpecificCity(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                break;
+            default:
+                break;
+        }
+
+        return 0;
+
+    }
+}
+
+int Menu::RemoveSpecificWaterReservoirByID(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
+                                             HashCidade &hashCidade) {
+    std::vector<string> codes;
     cout << endl;
     cout << "\033[1;34m      ___    _____     _______\033[0m\n";
     cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
@@ -634,7 +682,8 @@ int Menu::RemoveSpecificWaterReservoir(Supply_Network &supplyNetwork, HashReserv
     cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
     int i = 1;
     for(auto reservoir: hashReservatorio.reservatorioTable) {
-        cout << "\033[1;36m[ " <<  i << " ]\033[0m" << reservoir.second.get_reservoir() << endl;
+        cout << "\033[1;36m[ " <<  i << " ]\033[0m" << reservoir.second.get_id() << endl;
+        codes.push_back(reservoir.second.get_code());
         i++;
     }
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
@@ -649,8 +698,134 @@ int Menu::RemoveSpecificWaterReservoir(Supply_Network &supplyNetwork, HashReserv
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
     else{
-        //print do reservatorio escolhido
-        cout << "Libertem o Macaco \n";
+        remove_reservoir_by_ID = supplyNetwork.reservoir_desativation_especific(hashReservatorio, hashCidade, codes[decision - 1]);
+        functions::print_cities_reservoir(remove_reservoir_by_ID, hashCidade);
+        cout << endl;
+        cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
+        cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
+        cout << "\033[0;31m[ 0 ]\033[0m" << "\033[0;31m Quit\033[0m" << endl;
+        cout << endl;
+
+        cout << "\033[1;34mDecision: \033[0m";
+        cin >> decision;
+        cout << endl;
+
+        while (true) {
+
+            switch (decision) {
+                case 1:
+                    Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                    break;
+                case 0:
+                    break;
+                default:
+                    break;
+            }
+
+            return 0;
+
+        }
+    }
+
+    return 0;
+}
+
+int Menu::RemoveSpecificWaterReservoirByName(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
+                                             HashCidade &hashCidade) {
+    std::vector<string> codes;
+    cout << endl;
+    cout << "\033[1;34m      ___    _____     _______\033[0m\n";
+    cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
+    cout << "\033[1;34m   / _  |  |  | | |   |  |_|  |\033[0m\n";
+    cout << "\033[1;34m  / /_| |  |  | | |   |  _____|\033[0m\n";
+    cout << "\033[1;34m / ___  |  |  |_/ /   |  |\033[0m\n";
+    cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
+
+
+    cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
+    int i = 1;
+    for(auto reservoir: hashReservatorio.reservatorioTable) {
+        cout << "\033[1;36m[ " <<  i << " ]\033[0m" << reservoir.second.get_reservoir() << endl;
+        codes.push_back(reservoir.second.get_code());
+        i++;
+    }
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << endl;
+
+    cout << "\033[1;34mDecision: \033[0m";
+    int decision;
+    cin >> decision;
+    cout << endl;
+
+    if(decision == 0){
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        remove_reservoir_by_name = supplyNetwork.reservoir_desativation_especific(hashReservatorio, hashCidade, codes[decision - 1]);
+        functions::print_cities_reservoir(remove_reservoir_by_name, hashCidade);
+        cout << endl;
+        cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
+        cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
+        cout << "\033[0;31m[ 0 ]\033[0m" << "\033[0;31m Quit\033[0m" << endl;
+        cout << endl;
+
+        cout << "\033[1;34mDecision: \033[0m";
+        cin >> decision;
+        cout << endl;
+
+        while (true) {
+
+            switch (decision) {
+                case 1:
+                    Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+                    break;
+                case 0:
+                    break;
+                default:
+                    break;
+            }
+
+            return 0;
+
+        }
+    }
+
+    return 0;
+}
+
+int Menu::RemoveSpecificWaterReservoirByCode(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
+                               HashCidade &hashCidade) {
+    std::vector<string> codes;
+    cout << endl;
+    cout << "\033[1;34m      ___    _____     _______\033[0m\n";
+    cout << "\033[1;34m    /   |  |  ___ |   |  ___  |\033[0m\n";
+    cout << "\033[1;34m   / _  |  |  | | |   |  |_|  |\033[0m\n";
+    cout << "\033[1;34m  / /_| |  |  | | |   |  _____|\033[0m\n";
+    cout << "\033[1;34m / ___  |  |  |_/ /   |  |\033[0m\n";
+    cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
+
+
+    cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
+    int i = 1;
+    for(auto reservoir: hashReservatorio.reservatorioTable) {
+        cout << "\033[1;36m[ " <<  i << " ]\033[0m" << reservoir.second.get_code() << endl;
+        codes.push_back(reservoir.second.get_code());
+        i++;
+    }
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << endl;
+
+    cout << "\033[1;34mDecision: \033[0m";
+    int decision;
+    cin >> decision;
+    cout << endl;
+
+    if(decision == 0){
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        remove_reservoir_by_code = supplyNetwork.reservoir_desativation_especific(hashReservatorio, hashCidade, codes[decision - 1]);
+        functions::print_cities_reservoir(remove_reservoir_by_code, hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
         cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
