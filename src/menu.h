@@ -41,6 +41,9 @@ public:
     static int RemoveSpecificWaterReservoirByID(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
     static int RemoveSpecificWaterReservoirByCode(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 
+    //Functions to Remove Pumping Stations
+    static int RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
+
     //Function to Remove Pipes
     static int RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 
