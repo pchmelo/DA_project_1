@@ -345,10 +345,6 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
             e->setWeight(0);
 
             second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-
-            //functions::print_result(first_comp, hashCidade);
-            functions::print_result(second_comp, hashCidade);
-
             t.cities_affect = functions::calculate_difference(first_comp, second_comp);
 
             if(t.cities_affect.size() != 0){

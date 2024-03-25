@@ -84,13 +84,13 @@ struct trio{
 };
 
 struct save_station{
-    std::string code;
+    Stations stations;
     std::vector<trio> edges;
 
 
     void save(Vertex<Stations>* v){
         trio trio_t;
-        this->code = v->getInfo().get_code();
+        this->stations = v->getInfo();
 
         for(Edge<Stations>* e: v->getAdj()){
             trio_t.first = e->getOrig()->getInfo().get_code();
@@ -109,10 +109,11 @@ struct save_station{
     }
 
     void restore(Graph<Stations> &g, char type){
-        g.addVertex(Stations(this->code, type));
+        g.addVertex(stations);
         for(auto e: this->edges){
             g.addEdge(Stations(e.first), Stations(e.second), e.third);
         }
+        this->edges.clear();
     }
 };
 

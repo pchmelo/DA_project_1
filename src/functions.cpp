@@ -198,28 +198,31 @@ void functions::print_cities_station(std::vector<cities_station> vec, HashCidade
     else{
         cout << endl;
         cout << "\033[0;32mCom a remocao de uma station existe alteracao da agua chegada nas cidades\033[0m\n";
-        cout << "\033[0;35mAs cidades mais afetadas sao:\033[0m\n";
-        cout << "\033[1;34mCity Name \033[0m";
-        cout << "\033[0;33mID \033[0m";
-        cout << "\033[0;31mCode \033[0m\n\n";
+        cout << "\033[0;35mAs cidades mais afetadas sao:\033[0m\n\n";
+
 
         auto it_1 = vec.begin();
         while(it_1 != vec.end()){
             auto cidade = hashCidade.cidadeTable.find(it_1->city);
 
+            cout << "\033[1;32mPara a cidade: \033[0m\n";
+            cout << "\033[1;34mCity Name \033[0m";
+            cout << "\033[0;33mID \033[0m";
+            cout << "\033[0;31mCode \033[0m\n";
             cout << "\033[1;34m" << cidade->second.get_city() << " " << "\033[0m";
             cout << "\033[1;33m" << cidade->second.get_id() << " " << "\033[0m";
-            cout << "\033[1;31m" << cidade->second.get_code() << " " << "\033[0m\n";
+            cout << "\033[1;31m" << cidade->second.get_code() << " " << "\033[0m\n\n";
             cout << "\033[1;35mSao \033[0m";
             cout << "\033[1;31m"<< it_1->count << " " <<"\033[0m";
             cout << "\033[1;35mstations que afetam esta cidade e sao:\033[0m\n";
-            cout << "\033[1;36mId \033[0m";
+            cout << "\033[1;34mId \033[0m";
             cout << "\033[1;33mCode \033[0m\n";
 
             auto it_2 = it_1->stations.begin();
             while(it_2 != it_1->stations.end()) {
-                cout << "\033[1;36m" << it_2->get_id() << " " << "\033[0m";
+                cout << "\033[1;34m" << it_2->get_id() << " " << "\033[0m";
                 cout << "\033[1;33m" << it_2->get_code() << " " << "\033[0m\n";
+
                 it_2++;
             }
             it_1++;
@@ -234,13 +237,18 @@ void functions::print_stations_affected(std::vector<stations_affected> vec, Hash
         while(it_1 != vec.end()){
             cout << endl;
             cout << "\033[0;35mCom a remocao da estacao:\033[0m\n";
-            cout << "\033[1;36m" << it_1->stations.get_id() << " " << "\033[0m";
+            cout << "\033[1;34mId \033[0m";
+            cout << "\033[1;33mCode \033[0m\n";
+            cout << "\033[1;34m" << it_1->stations.get_id() << " " << "\033[0m";
             cout << "\033[1;33m" << it_1->stations.get_code() << " " << "\033[0m\n\n";
-            cout << "\033[0;35mAs seguintes cidades sao afetadas da seguinte forma:\033[0m\n";
+            cout << "\033[0;35mAs seguintes cidades sao afetadas da seguinte forma:\033[0m\n\n";
             cout << "\033[1;34mCity Name \033[0m";
             cout << "\033[0;33mID \033[0m";
             cout << "\033[0;31mCode \033[0m";
-            cout << "\033[0;35mDefecit \033[0m\n";
+            cout << "\033[0;32mDemanda \033[0m";
+            cout << "\033[0;36mFlow antes \033[0m";
+            cout << "\033[0;37mFlow depois \033[0m";
+            cout << "\033[0;38mDefict \033[0m\n";
 
             auto it_2 = it_1->cities_affect.begin();
 
@@ -249,7 +257,10 @@ void functions::print_stations_affected(std::vector<stations_affected> vec, Hash
                 cout << "\033[1;34m" << cidade->second.get_city() << " " << "\033[0m";
                 cout << "\033[1;33m" << cidade->second.get_id() << " " << "\033[0m";
                 cout << "\033[1;31m" << cidade->second.get_code() << " " << "\033[0m";
-                cout << "\033[1;35m" << it_2->second.second << " " << "\033[0m\n";
+                cout << "\033[1;32m" << cidade->second.get_demand() << " " << "\033[0m";
+                cout << "\033[1;36m" << it_2->second.first << " " << "\033[0m";
+                cout << "\033[1;37m" << it_2->second.second << " " << "\033[0m";
+                cout << "\033[1;38m" << it_2->second.third << " " << "\033[0m\n";
                 it_2++;
             }
             it_1++;
