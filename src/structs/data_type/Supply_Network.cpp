@@ -195,7 +195,7 @@ std::map<std::string, double>  Supply_Network::calculateMaxFlow(HashCidade &hash
     return res;
 }
 
-vector<stations_affected> Supply_Network::station_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade){
+vector<stations_affected> Supply_Network::station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade){
     vector<stations_affected> res;
     stations_affected t;
     save_station s;
@@ -226,7 +226,7 @@ vector<stations_affected> Supply_Network::station_deactivation(HashReservatorio 
 }
 
 std::map<std::string, pipes_affected>
-Supply_Network::pipes_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
+Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     std::map<std::string, pipes_affected> res;
     pipes_affected t;
 
@@ -259,7 +259,7 @@ Supply_Network::pipes_deactivation(HashReservatorio &hashReservatorio, HashCidad
 }
 
 std::vector<reservoir_affected>
-Supply_Network::reservoir_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
+Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     std::vector<reservoir_affected> res;
     reservoir_affected t;
     save_station save;
@@ -287,7 +287,7 @@ Supply_Network::reservoir_deactivation(HashReservatorio &hashReservatorio, HashC
 }
 
 std::vector<reservoir_affected>
-Supply_Network::reservoir_deactivation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code) {
+Supply_Network::reservoir_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code) {
     std::vector<reservoir_affected> res;
     reservoir_affected t;
     save_station save;

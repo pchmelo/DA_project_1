@@ -113,8 +113,8 @@ struct Supply_Network {
         std::map<std::string, double>  calculateMaxFlow(HashCidade &hashCidade);
 
         //3.1
-        std::vector<reservoir_affected> reservoir_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
-        std::vector<reservoir_affected> reservoir_deactivation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code);
+        std::vector<reservoir_affected> reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+        std::vector<reservoir_affected> reservoir_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, std::string code);
 
         //3.2
         /** @brief Function that finds the most affected stations after deactivating a reservoir.
@@ -125,7 +125,7 @@ struct Supply_Network {
          *  @return A vector with the most affected stations.
          */
 
-        std::vector<stations_affected> station_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+        std::vector<stations_affected> station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 
         //3.3
         /** @brief Function that finds the most affected pipes after deactivating a reservoir.
@@ -135,7 +135,7 @@ struct Supply_Network {
          *
          *  @return A map with the most affected pipes.
          */
-        std::map<std::string, pipes_affected> pipes_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+        std::map<std::string, pipes_affected> pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 };
 
 struct double_3{
