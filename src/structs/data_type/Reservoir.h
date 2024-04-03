@@ -133,31 +133,28 @@ class Reservoir : public Stations{
         void print() const;
 };
 
-/*
-struct reservatorioHash{
-    int operator() (const Reservoir& b) const {
-        const std::string& code = b.get_code();
-        unsigned  int hash = 37;
-
-        for(char c: b.get_code()){
-            hash = 33*hash + static_cast<unsigned int>(c);
-        }
-
-        return hash % 449;
-    }
-    bool operator()(const Reservoir &b1, const Reservoir &b2) const {
-        return b1.get_code() == b2.get_code();
-    }
-};
-*/
-
 typedef std::unordered_map<std::string, Reservoir> ReservatorioTable;
+
+/** @brief Class that stores the reservoirs in a hash table.
+ *
+ */
 
 class HashReservatorio{
     public:
         ReservatorioTable reservatorioTable;
+
+    /** @brief Function that reads the reservoirs from the file.
+     *
+     * @param stations The vector of stations.
+     * @param data_set A boolean that indicates if the data set is being read.
+     */
+
         void readLines(std::vector<Stations> &stations, bool data_set);
-        void reseatMaxDelivery();
+
+    /** @brief Function that resets the maxDelivery of the reservoirs.
+     *
+     */
+        void resetMaxDelivery();
 };
 
 #endif //PROJETO_1_RESERVOIR_H

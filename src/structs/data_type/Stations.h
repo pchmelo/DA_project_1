@@ -139,24 +139,23 @@ class Stations {
 
 };
 
-
-/*
-struct stationHash{
-    int operator() (const Stations& b) const {
-        return b.get_id() % 10;
-    }
-    bool operator()(const Stations &b1, const Stations &b2) const {
-        return b1.get_id() == b2.get_id();
-    }
-};
-*/
-
 typedef std::unordered_map<std::string, Stations> StationTable;
 
+/** @brief Class that stores the stations in a hash table.
+ *
+ */
+
 class HashStation{
-public:
-    StationTable stationTable;
-    void readLines(std::vector<Stations> &stations, bool data_set);
+    public:
+        StationTable stationTable;
+
+    /** @brief Function that reads the stations from the file.
+     *
+     * @param stations The vector of stations.
+     * @param data_set A boolean that indicates if the data set is being read.
+     */
+
+        void readLines(std::vector<Stations> &stations, bool data_set);
 };
 
 #endif //PROJETO_1_STATIONS_H

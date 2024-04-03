@@ -120,20 +120,6 @@ void Supply_Network::testAndVisit(std::queue<Vertex<Stations> *> &q, Edge<Statio
         w->setVisited(true);
         w->setPath(e);
         q.push(w);
-
-        /*if(w->getInfo().get_type() == 'R'){
-            auto reserv = hashReservatorio.reservatorioTable.find(w->getInfo().get_code());
-            if(reserv->second.get_t_maxDelivery() > 0){
-                w->setVisited(true);
-                w->setPath(e);
-                q.push(w);
-            }
-        }
-        else{
-            w->setVisited(true);
-            w->setPath(e);
-            q.push(w);
-        }*/
     }
 }
 
@@ -146,13 +132,6 @@ double Supply_Network::findMinResidualAlongPath(Vertex<Stations> *s, Vertex<Stat
         if(e->getDest() == v){
             f = min(f, e->getWeight() - e->getFlow());
             v = e->getOrig();
-
-            /*
-            if(v->getInfo().get_type() == 'R'){
-                auto rev = hashReservatorio.reservatorioTable.at(v->getInfo().get_code());
-                f = min(f, (double) rev.get_t_maxDelivery());
-                hashReservatorio.reservatorioTable.at(rev.get_code()).set_t_maxDelivery(rev.get_t_maxDelivery() - f);
-            }*/
         }
         else{
             f = min(f, e->getFlow());
@@ -190,17 +169,17 @@ std::map<std::string, double> Supply_Network::processAllCitiesMaxFlow(HashCidade
     Stations target = Stations("super_target");
 
     this->edmondsKarp(source, target, hashReservatorio);
-    res = calculeMaxFlow(hashCidade);
+    res = calculateMaxFlow(hashCidade);
 
-    hashReservatorio.reseatMaxDelivery();
+    hashReservatorio.resetMaxDelivery();
 
     this->supply_network.removeVertex(source);
     this->supply_network.removeVertex(target);
 
-    return  res;
+    return res;
 }
 
-std::map<std::string, double>  Supply_Network::calculeMaxFlow(HashCidade &hashCidade) {
+std::map<std::string, double>  Supply_Network::calculateMaxFlow(HashCidade &hashCidade) {
     std::map<std::string, double>  res;
     double sum = 0;
 
@@ -216,81 +195,7 @@ std::map<std::string, double>  Supply_Network::calculeMaxFlow(HashCidade &hashCi
     return res;
 }
 
-double Supply_Network::average(){
-    double sum = 0.0;
-
-    int count = 0;
-    for(auto v : this->supply_network.getVertexSet()){
-        for(auto e : v->getAdj()){
-            sum += e->getWeight() - e->getFlow();
-            count++;
-        }
-    }
-
-    return round((sum / count) * 1000) / 1000;
-}
-
-double Supply_Network::variance(){
-    double sum = 0.0;
-    double mean_difference = this->average();
-
-    int count = 0;
-    for(auto v : this->supply_network.getVertexSet()){
-        for(auto e : v->getAdj()){
-            sum += pow(e->getWeight() - e->getFlow() - mean_difference, 2);
-            count++;
-        }
-    }
-
-    return round((sum / count) * 1000) / 1000;
-}
-
-edge Supply_Network::max_difference(vector<edge> &above_average, vector<edge> &below_average){
-    edge temp;
-
-    edge max;
-    bool flag = true;
-
-    double avg = this->average();
-
-    for(auto v : this->supply_network.getVertexSet()){
-        for(auto e : v->getAdj()){
-            temp.orig = e->getOrig()->getInfo();
-            temp.dest = e->getDest()->getInfo();
-            temp.flow = e->getWeight() - e->getFlow();
-            temp.diff = temp.flow - avg;
-            edge e1 = {temp.dest, temp.orig, 0, 0};
-
-            if(temp.diff > 0){
-                above_average.push_back(temp);
-            } else {
-                below_average.push_back(temp);
-            }
-
-            if(flag){
-                max = temp;
-                flag = false;
-            } else {
-                int t1 = max.diff;
-                int t2 = temp.diff;
-
-                if(t1 < 0) t1 *= -1;
-                if(t2 < 0) t2 *= -1;
-
-                if(t1 < t2){
-                    max = temp;
-                }
-            }
-        }
-    }
-
-    std::sort(above_average.begin(), above_average.end(), [](edge a, edge b){ return a.diff > b.diff; });
-    std::sort(below_average.begin(), below_average.end(), [](edge a, edge b){ return a.diff < b.diff; });
-
-    return max;
-}
-
-vector<stations_affected> Supply_Network::station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade){
+vector<stations_affected> Supply_Network::station_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade){
     vector<stations_affected> res;
     stations_affected t;
     save_station s;
@@ -321,8 +226,7 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
 }
 
 std::map<std::string, pipes_affected>
-Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
-                                   HashCidade &hashCidade) {
+Supply_Network::pipes_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     std::map<std::string, pipes_affected> res;
     pipes_affected t;
 
@@ -355,7 +259,7 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio,
 }
 
 std::vector<reservoir_affected>
-Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
+Supply_Network::reservoir_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     std::vector<reservoir_affected> res;
     reservoir_affected t;
     save_station save;
@@ -383,7 +287,7 @@ Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashC
 }
 
 std::vector<reservoir_affected>
-Supply_Network::reservoir_desativation_especific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code) {
+Supply_Network::reservoir_deactivation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code) {
     std::vector<reservoir_affected> res;
     reservoir_affected t;
     save_station save;

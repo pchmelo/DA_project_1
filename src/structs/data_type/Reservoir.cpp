@@ -104,7 +104,7 @@ void HashReservatorio::readLines(vector<Stations> &stations, bool data_set) {
     }
 }
 
-void HashReservatorio::reseatMaxDelivery() {
+void HashReservatorio::resetMaxDelivery() {
     for(auto rev : this->reservatorioTable){
         this->reservatorioTable.at(rev.second.get_code()).set_t_maxDelivery(rev.second.get_maxDelivery());
     }

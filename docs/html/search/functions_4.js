@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['print_0',['print',['../class_city.html#a58e45c2c1f305dfaaaa42a719eb318d8',1,'City::print()'],['../class_reservoir.html#ad9b311060d35ccda6cc27fb956615678',1,'Reservoir::print()'],['../class_stations.html#a07dfe85ccad8a4f89b9a51c7f00fea81',1,'Stations::print()']]]
+  ['findaugmentingpath_0',['findAugmentingPath',['../struct_supply___network.html#a457992c322ea24ee016da20842d0d7cc',1,'Supply_Network']]],
+  ['findminresidualalongpath_1',['findMinResidualAlongPath',['../struct_supply___network.html#aff8ed3f405af427cc0f9f881e1c9bead',1,'Supply_Network']]]
 ];

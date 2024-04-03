@@ -16,7 +16,7 @@ class City : public Stations{
     public:
 
     /**
-     * @brief Default constructor for the City class
+     * @brief Default constructor for the City class.
      *
      * This constructor initializes the City object with default values.
      * The default values for city, demand, and population are "", -1, and -1, respectively.
@@ -25,7 +25,7 @@ class City : public Stations{
         City();
 
     /**
-     * @brief Constructor for the City class
+     * @brief Constructor for the City class.
      *
      * This constructor initializes the City object with the given id,
      * and default values for city, demand, and population.
@@ -115,30 +115,22 @@ class City : public Stations{
         void print() const;
 };
 
-
-/*
-struct cidadeHash{
-    int operator() (const City& b) const {
-        const std::string& code = b.get_code();
-        unsigned  int hash = 37;
-
-        for(char c: b.get_code()){
-            hash = 33*hash + static_cast<unsigned int>(c);
-        }
-
-        return hash % 449;
-    }
-    bool operator()(const City &b1, const City &b2) const {
-        return b1.get_code() == b2.get_code();
-    }
-};
-*/
-
 typedef std::unordered_map<std::string, City> CidadeTable;
+
+/**
+ * @brief Class that stores the cities in a hash table.
+ */
 
 class HashCidade{
     public:
         CidadeTable cidadeTable;
+
+    /** @brief Function that reads the cities from the file.
+     *
+     * @param stations The vector of stations.
+     * @param data_set A boolean that indicates if the data set is being read.
+     */
+
         void readLines(std::vector<Stations> &stations, bool data_set);
 };
 
