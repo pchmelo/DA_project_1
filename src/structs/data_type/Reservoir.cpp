@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 05-03-2024.
-//
-
 #include "Reservoir.h"
 #include "sstream"
 #include "fstream"

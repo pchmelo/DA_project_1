@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 05-03-2024.
-//
-
 #include "City.h"
 #include "sstream"
 #include "fstream"

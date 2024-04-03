@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 08-03-2024.
-//
-
 #include <iostream>
 #include "functions.h"
 #include "sstream"

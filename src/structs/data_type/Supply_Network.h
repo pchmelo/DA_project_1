@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 06-03-2024.
-//
-
 #ifndef PROJETO_1_SUPPLY_NETWORK_H
 #define PROJETO_1_SUPPLY_NETWORK_H
 
@@ -23,7 +19,7 @@ struct reservoir_affected;
 struct Supply_Network {
 
         Graph<Stations> supply_network;
-
+        
         void add_vertex(std::vector<Stations> stations);
         void read_lines(bool data_set);
 

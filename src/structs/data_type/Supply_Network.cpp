@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 06-03-2024.
-//
-
 #include "Supply_Network.h"
 #include "string"
 #include "fstream"

@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 05-03-2024.
-//
-
 #include "Stations.h"
 #include "iostream"
 #include "sstream"

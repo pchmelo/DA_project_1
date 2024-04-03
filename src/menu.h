@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 07-03-2024.
-//
-
 #ifndef PROJETO_1_MENU_H
 #define PROJETO_1_MENU_H
 

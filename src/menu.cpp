@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 07-03-2024.
-//
-
 #include "menu.h"
 #include "functions.h"
 

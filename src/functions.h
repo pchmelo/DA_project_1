@@ -1,7 +1,3 @@
-//
-// Created by pchmelo on 08-03-2024.
-//
-
 #ifndef PROJETO_1_FUNCTIONS_H
 #define PROJETO_1_FUNCTIONS_H
 
