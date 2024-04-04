@@ -12,5 +12,80 @@ Observações Prévias:
               conjunto limitado de cidades (influência direta);
 
         2.º - A entrega da água a uma cidade é limitada pelo valor da demanda da própria cidade, ou seja ao influenciar
-              a entrega diretamente irá levar com que outros reservatórios entreguem mais água a essa cidade influência
+              a entrega diretamente irá levar com que outros reservatórios entreguem mais água a essa cidade para supremir
+              a sua demanda. Isto pode levar a um efeito em cadeia onde, ao impactar na entrega de uma cidade pode acabar
+              por influenciar na entrega de muitas cidades (influência indireta);
 
+    Tendo em conta as observações apontadas previamente, para podermos identificar as diferentes "zonas de influência" (representa
+    o conjunto de cidades que serão afetadas pela remoção de um reservatório) da rede temos ter em conta não só a influência direta (1.ª
+    observação), mas como também a influência indireta (2.ª observação).
+
+Possível Solução:
+    Uma possível solução seria aplicar um algoritmo de BFS adaptado para a identificação das "zonas de influência". Este algoritmo iria
+    selecionar um reservatório aleatório, de seguida iria procurar pelas cidades que ele consegue chegar com uma BFS. Após encontrar todas
+    cidades, ele irá utilizar uma das cidades encontradas e tentar descobrir os reservatórios que impactam-na diretamente (para fazer isto
+    era necessário deixar o grafo undirected). Com a identificação dos resevatórios que influenciam diretamente a cidade, o resto do algoritmo
+    iria comportar-se recursivamente até ter identificado todas as cidades dessa zona de influência.
+    Após a identicação dessa "zona de influência", percorria-se a lista de reservatórios e se identificasse um reservatorio que não fosse
+    atribuído ainda a nenhuma "zona de influência", voltaria-se a aplicar esse algoritmo para identificar a sua "zona de influência" do mesmo.
+    Após terem sido encontradas todas "zonas de influência", sempre que removessemos um reservatório, teríamos que aplicar apenas o algoritmo de
+    Edmound-Karp com super source ligada aos reservatórios dessa "zona de influência" e super-target nas cidades da mesma.
+
+Passo a Passo:
+    1.º - Identificar todas as "zonas de influência" da rede;
+    2.º - Remover um reservatório da rede;
+    3.º - Aplicar o algoritmo de Edmound-Karp com super source ligada aos reservatórios dessa "zona de influência" e super-target nas cidades da mesma;
+
+    Identificar todas as "zonas de influência":
+        1.º - Selecionar um reservatório aleatório;
+        2.º - Aplicar um algoritmo de BFS adaptado para identificar todas as cidades que o reservatório consegue chegar;
+        3.º - Selecionar uma cidade encontrada e identificar todos os reservatórios que influenciam-na diretamente;
+        4.º - Aplicar o passo 3 recursivamente até ter identificado todas as cidades da "zona de influência";
+        5.º - Adicionar a "zona de influência" ao array de "zonas de influência";
+        6.º - Repetir o processo até ter identificado todas as "zonas de influência";
+
+Pseudocodigo da Solução:
+
+    struct zona de influência{
+        Array reservatorio[];   //array dos reservatórios da zona de influência
+        Array cidades[];    //array das cidades da zona de influência
+    }
+
+    def Identicar Zonas Influencia(array_reservatorios, array_cidades, supply_network)  //esta função irá identificar todas as zonas de influência e colocá-las num array
+        Array zonas_influencia[];   //variavel de returno
+
+        for(auto rev : array_reservatorio)
+            auto vertex = supply_network.get_vertex(rev);
+            if(vertex isn't visited)
+                new_zona = auxiliar_BFS(rev, supply_network, array_reservatorio, array_cidades);   //função auxiliar que irá identificar a zona de influência de um reservatório
+                zonas_influencia.push_back(new_zona);
+
+        return zonas_influencia;
+
+    def auxiliar_BFS(rev, supply_network, array_reservatorio, array_cidades)
+        zona_influencia zona;   //zona de influência a ser retornada
+
+        Queue q_rervatorio;  //fila de reservatórios
+        Queue q_ciades; //fila de cidades
+
+        q_rervatorio.push(rev);
+
+        while(!q_rervatorio.empty() or !q_cidades.empty())  //enquanto houver reservatórios ou cidades na fila
+            if(!q_rervatorio.empty())
+                auto rev = q_rervatorio.pop();
+                Array cidades = cidades(rev, supply_network);   //função que retorna as cidades que o reservatório consegue chegar
+                for(auto cidade : cidades)
+                    if(cidade isn't visited)
+                        cidade.visited = true;
+                        zona.cidades.push_back(cidade);  //adiciona a cidade à zona de influência
+                        q_cidades.push(cidade); //adiciona a cidade à fila de cidades
+            else
+                auto cidade = q_cidades.pop();
+                Array reservatorios = reservatorios(cidade, supply_network);    //função que retorna os reservatórios que influenciam diretamente a cidade
+                for(auto rev : reservatorios)
+                    if(rev isn't visited)
+                        rev.visited = true;
+                        zona.reservatorios.push_back(rev);  //adiciona o reservatório à zona de influência
+                        q_reservatorio.push(rev);   //adiciona o reservatório à fila de reservatórios
+
+        return zona;
