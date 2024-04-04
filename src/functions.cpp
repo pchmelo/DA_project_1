@@ -106,16 +106,21 @@ void functions::print_result_specific_city_by_code(std::map<std::string, double>
     cout << "\033[1;31m" << city->second <<"\033[0m\n\n";
 }
 
-void functions::print_deficit(std::map<std::string, double> vec_lines) {
+void functions::print_deficit(std::map<std::string, double> vec_lines, HashCidade hashCidade) {
     cout << endl;
     cout << "\033[0;32mCode \033[0m";
+    cout << "\033[0;32mDemand \033[0m";
+    cout << "\033[0;32mActual Flow \033[0m";
     cout << "\033[0;31mDeficit\033[0m\n\n";
 
     auto inicio = vec_lines.begin();
     while(inicio != vec_lines.end()){
+        auto cidade = hashCidade.cidadeTable.find(inicio->first);
         cout << "\033[1;32m" << inicio->first << " " << "\033[0m";
+        cout << "\033[1;32m" << cidade->second.get_demand() << " " << "\033[0m";
+        cout << "\033[1;32m" << cidade->second.get_demand() - inicio->second << " " << "\033[0m";
         cout << "\033[1;31m" << inicio->second <<"\033[0m\n\n";
-
+        inicio++;
     }
 }
 
@@ -178,10 +183,11 @@ std::map<std::string, double>  functions::water_deficit(std::map<std::string, do
         string city = inicio->first;
         double value = inicio->second;
         auto cidade = hashCidade.cidadeTable.find(city);
-        if (cidade->second.get_demand() - value < 0) {
-            inicio->second = value - cidade->second.get_demand();
+        if (value - cidade->second.get_demand() < 0) {
+            inicio->second = cidade->second.get_demand() - value;
+            noWater.insert(*inicio);
         }
-        noWater.insert(*inicio);
+        inicio++;
     }
     return noWater;
 }

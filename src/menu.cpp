@@ -4,6 +4,8 @@
 
 #include "menu.h"
 #include "functions.h"
+#include <ctype.h>
+#include <stdio.h>
 
 Supply_Network new_one;
 std::map<std::string, double> max_flow;
@@ -17,7 +19,8 @@ std::vector<stations_affected> station_affect;
 std::vector<cities_station> cities_most_affected_by_stations;
 std::map<std::string, pipes_affected> pipe_affect;
 std::vector<cities_pipes> cities_most_affected_by_pipes;
-std::vector<pair<string, string>> Pipe;
+std::vector<pipe> Pipes;
+
 
 int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
                    HashCidade &hashCidade) {
@@ -38,10 +41,27 @@ int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservat
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
 
+
+    if((decision_1 < "0") || (decision_1 > "3")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }if(decision_1 == "3"){
+            decision = 3;
+        }
+    }
     while (true) {
 
         switch (decision) {
@@ -442,7 +462,7 @@ int Menu::WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReserv
                     functions::file_ouput(water_suply);
                 }
                 deficit = functions::water_deficit(water_suply, hashCidade);
-                functions::print_deficit(deficit);
+                functions::print_deficit(deficit, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
                 cout << "\033[1;36m[ 1 ]\033[0m" << " Back to Main Menu" << endl;
@@ -842,7 +862,7 @@ int Menu::RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
     cout << "\033[1;36m[ 1 ]\033[0m" << "Cities affected for each pumping station" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << "Most affected cities" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "For a sepcific pumping station" << endl;
+    cout << "\033[1;36m[ 3 ]\033[0m" << "For a specific pumping station" << endl;
     cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
@@ -959,7 +979,8 @@ int Menu::RemoveSpecificPumpingStationByID(Supply_Network &supplyNetwork, HashRe
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
     else{
-        station_affect = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
+        auto station_chosen = hashStation.stationTable.at(codes[decision - 1]);
+        station_affect = supplyNetwork.station_desativation_specific(hashReservatorio, hashCidade, station_chosen);
         functions::print_stations_affected(station_affect, hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1022,8 +1043,8 @@ int Menu::RemoveSpecificPumpingStationByCode(Supply_Network &supplyNetwork, Hash
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
     else{
-        auto station_chosen = hashStation.stationTable.at(codes[decision-1]);
-        station_affect = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
+        auto station_chosen = hashStation.stationTable.at(codes[decision - 1]);
+        station_affect = supplyNetwork.station_desativation_specific(hashReservatorio, hashCidade, station_chosen);
         functions::print_stations_affected(station_affect, hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1281,7 +1302,8 @@ int Menu::RemoveSpecificPipeReservoir(Supply_Network &supplyNetwork, HashReserva
         cin >> decision2;
         cout << endl;
 
-        Pipe.push_back(pair(codes[decision1 - 1], codes1[decision2 - 1]));
+        pipe p_1 = {Stations(codes[decision1 - 1]), Stations(codes1[decision2 - 1])};
+        Pipes.push_back(p_1);
 
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1301,8 +1323,9 @@ int Menu::RemoveSpecificPipeReservoir(Supply_Network &supplyNetwork, HashReserva
                     Menu::RemoveSpecificPipe(supplyNetwork, hashReservatorio, hashStation, hashCidade);
                     break;
                 case 0:
-                    cout << "LIBERTEM O MACACO! \n";
-                    Pipe.clear();
+                    auto pipe_chosen = supplyNetwork.pipes_desativation_specific(hashReservatorio, hashCidade, Pipes);
+                    functions::print_pipes_affected(pipe_chosen, hashCidade);
+                    Pipes.clear();
 
                     cout << endl;
                     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1326,8 +1349,6 @@ int Menu::RemoveSpecificPipeReservoir(Supply_Network &supplyNetwork, HashReserva
                                 break;
                         }
                         break;
-                        default:
-                            break;
                     }
 
                     return 0;
@@ -1383,7 +1404,8 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
         cin >> decision2;
         cout << endl;
 
-        Pipe.push_back(pair(codes[decision1 - 1], codes1[decision2 - 1]));
+        pipe p_1 = {Stations(codes[decision1 - 1]), Stations(codes1[decision2 - 1])};
+        Pipes.push_back(p_1);
 
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1403,8 +1425,9 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
                     Menu::RemoveSpecificPipe(supplyNetwork, hashReservatorio, hashStation, hashCidade);
                     break;
                 case 0:
-                    cout << "LIBERTEM O MACACO! \n";
-                    Pipe.clear();
+                    auto pipe_chosen = supplyNetwork.pipes_desativation_specific(hashReservatorio, hashCidade, Pipes);
+                    functions::print_pipes_affected(pipe_chosen, hashCidade);
+                    Pipes.clear();
 
                     cout << endl;
                     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1428,8 +1451,6 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
                                 break;
                         }
                         break;
-                        default:
-                            break;
                     }
 
                     return 0;
