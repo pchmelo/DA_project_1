@@ -1551,8 +1551,11 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
         auto t_10 = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade, "R_1");
         functions::print_cities_reservoir(t_10, hashCidade);
 
-        pipe p_1 = {Stations("PS_10"), Stations("C_5")};
-        pipe p_2 = {Stations("PS_9"), Stations("C_5")};
+        //PS_9 - PS_10
+        //PS_4 - PS_5
+
+        pipe p_1 = {Stations("PS_9"), Stations("PS_10")};
+        pipe p_2 = {Stations("PS_4"), Stations("PS_5")};
 
         vector<pipe> pipes = {p_1, p_2};
         auto t_11 = supplyNetwork.pipes_desativation_specific(hashReservatorio, hashCidade, pipes);
@@ -1566,7 +1569,6 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
 
         functions::print_stations_affected(t_13, hashCidade);
         functions::print_cities_station(t_14, hashCidade);
-
 
         abort();
     }

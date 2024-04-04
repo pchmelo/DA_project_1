@@ -42,7 +42,8 @@ class functions {
 
 
         static std::map<std::string, double>  water_deficit(std::map<std::string, double> city_supply, HashCidade hashCidade);
-        static void print_deficit(std::map<std::string, double> vec_lines, HashCidade hashCidade);
+        static void print_deficit(std::map<std::string, double> vec_lines);
+
 };
 
 

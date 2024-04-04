@@ -141,6 +141,8 @@ struct Supply_Network {
         std::map<std::string, pipes_affected> pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
 
         std::map<std::string, pipes_affected> pipes_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, std::vector<pipe> pipes);
+        void directed_pipes(std::vector<pipe> &pipes);
+
 };
 
 struct double_3{
