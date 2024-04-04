@@ -3,7 +3,7 @@
 using namespace std;
 
 int main(){
-    bool data_set = true;
+    bool data_set = false;
 
     Supply_Network supplyNetwork;
     vector<Stations> stations;

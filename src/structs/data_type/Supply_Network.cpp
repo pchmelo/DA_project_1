@@ -291,6 +291,8 @@ Supply_Network::pipes_desativation_specific(HashReservatorio &hashReservatorio, 
     pipes_affected t;
     t.pipes = pipes;
 
+    this->directed_pipes(pipes);
+
     std::map<std::string, double> first_comp = functions::file_input();
     std::map<std::string, double>  second_comp;
 
@@ -392,4 +394,18 @@ Supply_Network::reservoir_desativation_specific(HashReservatorio &hashReservator
 
 }
 
+void Supply_Network::directed_pipes(std::vector<pipe> &pipes){
+    std::vector<pipe> res;
+    int size = pipes.size();
 
+    for(int i = 0; i < size; i++){
+        res.push_back(pipes.at(i));
+        auto v = this->supply_network.findVertex(pipes.at(i).dest);
+        for(auto e : v->getAdj()){
+            if(e->getDest()->getInfo().get_code() == pipes.at(i).orig.get_code()){
+                pipes.push_back({pipes.at(i).dest, pipes.at(i).orig});
+                break;
+            }
+        }
+    }
+}
