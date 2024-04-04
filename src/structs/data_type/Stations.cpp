@@ -105,9 +105,11 @@ void HashStation::readLines(vector<Stations> &stations, bool data_set) {
             break;
         }
 
+        /*
         if(data_set){
             values[1].pop_back();
         }
+        */
 
         station = Stations(stoi(values[0]), values[1], 'S');
         this->stationTable[values[1]] = station;

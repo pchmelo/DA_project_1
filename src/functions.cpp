@@ -61,15 +61,16 @@ std::map<std::string, double>  functions::file_input() {
 void functions::print_result(std::map<std::string, double>  vec_lines, HashCidade hashCidade) {
     cout << endl;
     cout << "\033[0;32mCode \033[0m";
-    cout << "\033[0;31mMax Flow\033[0m\n\n";
+    cout << "\033[0;31mMax Flow\033[0m\n";
 
     auto inicio = vec_lines.begin();
     while(inicio != vec_lines.end()){
       auto city = hashCidade.cidadeTable.find(inicio->first);
         cout << "\033[1;32m" << city->second.get_code() << " " << "\033[0m";
-        cout << "\033[1;31m" << inicio->second <<"\033[0m\n\n";
+        cout << "\033[1;31m" << inicio->second <<"\033[0m\n";
         inicio++;
     }
+    cout << endl;
 }
 
 void functions::print_result_specific_city_by_ID(std::map<std::string, double>  vec_lines, std::string code, HashCidade hashCidade){
@@ -199,11 +200,11 @@ std::vector<cities_pipes> functions::cities_most_affected_pipes(std::map<std::st
             if(it_3 == res.end()){
                 cities_pipes c;
                 c.city = it_2->first;
-                c.pipes = {edge{it_1->second.orig, it_1->second.dest, it_2->second.first, it_2->second.second, it_2->second.third}};
+                c.pipes = {edge{it_1->second.pipes, it_2->second.first, it_2->second.second, it_2->second.third}};
                 res.push_back(c);
             }
             else{
-                it_3->pipes.push_back(edge{it_1->second.orig, it_1->second.dest, it_2->second.first, it_2->second.second, it_2->second.third});
+                it_3->pipes.push_back(edge{it_1->second.pipes, it_2->second.first, it_2->second.second, it_2->second.third});
             }
 
             it_2++;
@@ -256,7 +257,7 @@ void functions::print_cities_station(std::vector<cities_station> vec, HashCidade
 }
 
 void functions::print_stations_affected(std::vector<stations_affected> vec, HashCidade hashCidade) {
-    if(vec.size() != 0){
+
         auto it_1 = vec.begin();
         while(it_1 != vec.end()){
             cout << endl;
@@ -265,32 +266,37 @@ void functions::print_stations_affected(std::vector<stations_affected> vec, Hash
             cout << "\033[1;33mCode \033[0m\n";
             cout << "\033[1;34m" << it_1->stations.get_id() << " " << "\033[0m";
             cout << "\033[1;33m" << it_1->stations.get_code() << " " << "\033[0m\n\n";
-            cout << "\033[0;35mAs seguintes cidades sao afetadas da seguinte forma:\033[0m\n\n";
-            cout << "\033[1;34mCity Name \033[0m";
-            cout << "\033[0;33mID \033[0m";
-            cout << "\033[0;31mCode \033[0m";
-            cout << "\033[0;32mDemanda \033[0m";
-            cout << "\033[0;36mFlow antes \033[0m";
-            cout << "\033[0;37mFlow depois \033[0m";
-            cout << "\033[0;38mDefict \033[0m\n";
 
-            auto it_2 = it_1->cities_affect.begin();
+            if(it_1->cities_affect.size() == 0){
+                cout << "\033[0;35mNão existe cidades afetadas\033[0m\n\n";
+            } else{
+                cout << "\033[0;35mAs seguintes cidades sao afetadas da seguinte forma:\033[0m\n\n";
+                cout << "\033[1;34mCity Name \033[0m";
+                cout << "\033[0;33mID \033[0m";
+                cout << "\033[0;31mCode \033[0m";
+                cout << "\033[0;32mDemanda \033[0m";
+                cout << "\033[0;36mFlow antes \033[0m";
+                cout << "\033[0;37mFlow depois \033[0m";
+                cout << "\033[0;38mDefict \033[0m\n";
 
-            while(it_2 != it_1->cities_affect.end()){
-                auto cidade = hashCidade.cidadeTable.find(it_2->first);
-                cout << "\033[1;34m" << cidade->second.get_city() << " " << "\033[0m";
-                cout << "\033[1;33m" << cidade->second.get_id() << " " << "\033[0m";
-                cout << "\033[1;31m" << cidade->second.get_code() << " " << "\033[0m";
-                cout << "\033[1;32m" << cidade->second.get_demand() << " " << "\033[0m";
-                cout << "\033[1;36m" << it_2->second.first << " " << "\033[0m";
-                cout << "\033[1;37m" << it_2->second.second << " " << "\033[0m";
-                cout << "\033[1;38m" << it_2->second.third << " " << "\033[0m\n";
-                it_2++;
+                auto it_2 = it_1->cities_affect.begin();
+
+                while(it_2 != it_1->cities_affect.end()){
+                    auto cidade = hashCidade.cidadeTable.find(it_2->first);
+                    cout << "\033[1;34m" << cidade->second.get_city() << " " << "\033[0m";
+                    cout << "\033[1;33m" << cidade->second.get_id() << " " << "\033[0m";
+                    cout << "\033[1;31m" << cidade->second.get_code() << " " << "\033[0m";
+                    cout << "\033[1;32m" << cidade->second.get_demand() << " " << "\033[0m";
+                    cout << "\033[1;36m" << it_2->second.first << " " << "\033[0m";
+                    cout << "\033[1;37m" << it_2->second.second << " " << "\033[0m";
+                    cout << "\033[1;38m" << it_2->second.third << " " << "\033[0m\n";
+                    it_2++;
+                }
+
+                cout << endl;
             }
             it_1++;
-            cout << endl;
         }
-    }
 }
 
 void functions::print_cities_pipes(std::vector<cities_pipes> vec, HashCidade hashCidade) {
@@ -311,21 +317,28 @@ void functions::print_cities_pipes(std::vector<cities_pipes> vec, HashCidade has
             cout << "\033[1;31m" << cidade->second.get_code() << " " << "\033[0m";
             cout << "\033[1;32m" << cidade->second.get_demand() << " " << "\033[0m\n\n";
 
-            cout << "\033[1;34mDest \033[0m";
-            cout << "\033[0;33mOrig \033[0m";
-            cout << "\033[0;32mFlow antes \033[0m";
-            cout << "\033[0;31mFlow depois \033[0m";
-            cout << "\033[0;36mDefict \033[0m\n";
-
             auto it_2 = it_1->pipes.begin();
+
             while(it_2 != it_1->pipes.end()){
-                cout << "\033[1;34m" << it_2->orig.get_code() << " " << "\033[0m";
-                cout << "\033[1;33m" << it_2->dest.get_code() << " " << "\033[0m";
-                cout << "\033[1;32m" << it_2->flow << " " << "\033[0m";
-                cout << "\033[1;31m" << it_2->diff << " " << "\033[0m";
-                cout << "\033[1;36m" << it_2->t << " " << "\033[0m\n";
+                cout << "\033[0;35mCom a remoção das seguintes pipe(s):\033[0m\n";
+                cout << "\033[1;34mDest \033[0m";
+                cout << "\033[0;33mOrig \033[0m\n";
+                auto it_3 = it_2->pipe_.begin();
+
+                while(it_3 != it_2->pipe_.end()){
+                    cout << "\033[1;34m" << it_3->orig.get_code() << " " << "\033[0m";
+                    cout << "\033[1;33m" << it_3->dest.get_code() << " " << "\033[0m\n";
+                    it_3++;
+                }
+                cout << "\033[0;32mFlow antes \033[0m";
+                cout << "\033[0;31mFlow depois \033[0m";
+                cout << "\033[0;36mDefict \033[0m\n";
+                cout << "\033[1;32m" << it_2->stats.first << " " << "\033[0m";
+                cout << "\033[1;31m" << it_2->stats.second << " " << "\033[0m";
+                cout << "\033[1;36m" << it_2->stats.third << " " << "\033[0m\n";
 
                 it_2++;
+                cout << endl;
             }
 
             cout << endl;
@@ -339,10 +352,18 @@ void functions::print_pipes_affected(std::map<std::string, pipes_affected> lines
         auto it_1 = lines.begin();
         while(it_1 != lines.end()){
             cout << endl;
-            cout << "\033[0;34mPara a pipe com comeco em \033[0m";
-            cout << "\033[1;33m" << it_1->second.orig << " " << "\033[0m";
-            cout << "\033[0;34me fim em \033[0m";
-            cout << "\033[1;31m" << it_1->second.dest << " " << "\033[0m\n";
+            cout << "\033[0;34mPara as pipes:\033[0m\n";
+
+            auto it_3 = it_1->second.pipes.begin();
+            while(it_3 != it_1->second.pipes.end()){
+                cout << "\033[0;34mComeco em \033[0m";
+                cout << "\033[1;33m" << it_3->orig.get_code() << " " << "\033[0m";
+                cout << "\033[0;34me fim em \033[0m";
+                cout << "\033[1;31m" << it_3->dest.get_code() << " " << "\033[0m\n";
+                it_3++;
+            }
+
+
 
             cout << "\033[0;35mSao afetadas as seguintes cidades:\033[0m\n\n";
 

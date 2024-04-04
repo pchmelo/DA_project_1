@@ -1,0 +1,16 @@
+Problema:
+    Ao remover um reservatório da rede para o seu impacto na entrega de água às cidades, a solução
+    implementada neste projeto consiste na aplicação da remoção do reservatório da rede de forma individual, e
+    de seguida aplicar um algoritmo de Edmound-Karp de "raiz". Isto leva à seguinte questão, existe alguma(s)
+    condições para não termos que aplicar o algoritmo do zero.
+
+Observações Prévias:
+    Antes de apresentar uma possível solução para este problema temos que ter em conta alguns aspetos:
+        1.º - As arestas que saem de um reservatório têm como direção "outgoing" (não existe nenhuma aresta que
+              seja direcionada para o reservatorio), o reverso é aplicado para as cidades (não existe aresta que saia
+              cidade). Com isto em mente, dá para perceber que um reservatório só consegue transportar água para um
+              conjunto limitado de cidades (influência direta);
+
+        2.º - A entrega da água a uma cidade é limitada pelo valor da demanda da própria cidade, ou seja ao influenciar
+              a entrega diretamente irá levar com que outros reservatórios entreguem mais água a essa cidade influência
+

@@ -225,6 +225,34 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
     return res;
 }
 
+std::vector<stations_affected>
+Supply_Network::station_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade,
+                                              Stations stations) {
+    vector<stations_affected> res;
+    stations_affected t;
+    save_station s;
+
+    std::map<std::string, double> first_comp = functions::file_input();
+    std::map<std::string, double>  second_comp;
+
+    first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    functions::file_ouput(first_comp);
+
+    auto v = this->supply_network.findVertex(stations);
+    s.save(v);
+    t.stations = v->getInfo();
+
+    this->supply_network.removeVertex(v->getInfo());
+    second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+
+    t.cities_affect = functions::calculate_difference(first_comp, second_comp);
+    res.push_back(t);
+
+    s.restore(this->supply_network, 'S');
+
+    return res;
+}
+
 std::map<std::string, pipes_affected>
 Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     std::map<std::string, pipes_affected> res;
@@ -239,16 +267,14 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio, HashCidad
     for(auto v : this->supply_network.getVertexSet()){
         for(auto e : v->getAdj()){
             double  weight = e->getWeight();
-            t.orig = e->getOrig()->getInfo().get_code();
-            t.dest = e->getDest()->getInfo().get_code();
-
+            t.pipes = {pipe{Stations(e->getOrig()->getInfo().get_code()), Stations(e->getDest()->getInfo().get_code())}};
             e->setWeight(0);
 
             second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
             t.cities_affect = functions::calculate_difference(first_comp, second_comp);
 
             if(t.cities_affect.size() != 0){
-                res[t.orig] = t;
+                res[t.pipes.at(0).orig.get_code()] = t;
             }
 
             e->setWeight(weight);
@@ -257,6 +283,59 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio, HashCidad
 
     return res;
 }
+
+std::map<std::string, pipes_affected>
+Supply_Network::pipes_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade,
+                                      std::vector<pipe> pipes) {
+    std::map<std::string, pipes_affected> res;
+    pipes_affected t;
+    t.pipes = pipes;
+
+    std::map<std::string, double> first_comp = functions::file_input();
+    std::map<std::string, double>  second_comp;
+
+    first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    functions::file_ouput(first_comp);
+
+    for(auto &itens : pipes){
+        auto v = this->supply_network.findVertex(itens.orig);
+        for(auto e : v->getAdj()){
+            if(e->getDest()->getInfo() == itens.dest){
+                itens.weight = e->getWeight();
+                //this->supply_network.removeEdge(itens.orig, itens.dest);
+                //e->setWeight(0);
+                break;
+            }
+        }
+    }
+
+    for(auto &itens : pipes){
+        this->supply_network.removeEdge(itens.orig, itens.dest);
+    }
+
+    second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
+    t.cities_affect = functions::calculate_difference(first_comp, second_comp);
+
+    /*
+    for(auto &itens : pipes){
+        auto v = this->supply_network.findVertex(itens.orig);
+        for(auto e : v->getAdj()){
+            if(e->getDest()->getInfo() == itens.dest){
+                e->setWeight(itens.weight);
+                break;
+            }
+        }
+    }
+     */
+    for(auto &itens : pipes){
+        this->supply_network.addEdge(itens.orig, itens.dest, itens.weight);
+    }
+
+    res[t.pipes.at(0).orig.get_code()] = t;
+
+    return res;
+}
+
 
 std::vector<reservoir_affected>
 Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {

@@ -9,6 +9,8 @@
 
 using namespace std;
 
+struct pipe;
+
 class Menu {
 public:
     //Function for Basic Service Metrics

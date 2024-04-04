@@ -15,6 +15,8 @@ struct stations_affected;
 struct edge;
 struct pipes_affected;
 struct reservoir_affected;
+struct pipes_affected;
+struct pipe;
 
 struct Supply_Network {
         Graph<Stations> supply_network;
@@ -126,6 +128,7 @@ struct Supply_Network {
          */
 
         std::vector<stations_affected> station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+        std::vector<stations_affected> station_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, Stations stations);
 
         //3.3
         /** @brief Function that finds the most affected pipes after deactivating a reservoir.
@@ -136,6 +139,8 @@ struct Supply_Network {
          *  @return A map with the most affected pipes.
          */
         std::map<std::string, pipes_affected> pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade);
+
+        std::map<std::string, pipes_affected> pipes_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, std::vector<pipe> pipes);
 };
 
 struct double_3{
@@ -169,9 +174,22 @@ struct stations_affected{
  *  This struct contains the deactivated pipes, represented by their origin and destination, and the cities affected by them.
  */
 
+struct pipe{
+    Stations orig;
+    Stations dest;
+    int weight;
+
+    bool operator==(const pipe e) const{
+        return orig.get_code() == e.orig.get_code() && dest.get_code() == e.dest.get_code();
+    }
+
+    bool operator!=(const pipe e) const{
+        return !(*this == e);
+    }
+};
+
 struct pipes_affected{
-    std::string orig;
-    std::string dest;
+    std::vector<pipe> pipes;
     std::map<std::string, double_3> cities_affect;
 };
 
@@ -226,16 +244,23 @@ struct save_station{
  */
 
 struct edge{
-    Stations orig;
-    Stations dest;
-
-    double flow;
-    double diff;
-    double t;
+    std::vector<pipe> pipe_;
+    double_3 stats;
 
     bool operator ==(const edge &b) const{
-        return orig.get_code() == b.orig.get_code() && dest.get_code() == b.dest.get_code();
+        if(pipe_.size() != b.pipe_.size()){
+            return false;
+        }
+
+        for(int i = 0; i < this->pipe_.size(); i++){
+            if(this->pipe_.at(i) != b.pipe_.at(i)){
+                return false;
+            }
+        }
+        return true;
     }
+
+
 };
 
 struct cities_station{
@@ -252,9 +277,10 @@ struct cities_pipes{
     std::string city;
     std::vector<edge> pipes = {};
 
-    bool operator==(const std::string &rhs) const {
-        return city == rhs;
+    bool operator==(const std::string &city) const {
+        return this->city == city;
     }
+
 };
 
 #endif //PROJETO_1_SUPPLY_NETWORK_H
