@@ -200,8 +200,8 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
     stations_affected t;
     save_station s;
 
-    std::map<std::string, double> first_comp = functions::file_input();
-    std::map<std::string, double>  second_comp;
+    map<string, double> first_comp = functions::file_input();
+    map<string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
     functions::file_ouput(first_comp);
@@ -341,12 +341,12 @@ Supply_Network::pipes_desativation_specific(HashReservatorio &hashReservatorio, 
 
 std::vector<reservoir_affected>
 Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
-    std::vector<reservoir_affected> res;
+    vector<reservoir_affected> res;
     reservoir_affected t;
     save_station save;
 
-    std::map<std::string, double> first_comp = functions::file_input();
-    std::map<std::string, double>  second_comp;
+    map<string, double> first_comp = functions::file_input();
+    map<string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
     functions::file_ouput(first_comp);

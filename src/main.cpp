@@ -3,13 +3,15 @@
 using namespace std;
 
 int main(){
-    bool data_set = false;
+    bool data_set = true;
 
     Supply_Network supplyNetwork;
     vector<Stations> stations;
 
     HashReservatorio hashReservatorio;
     hashReservatorio.readLines(stations, data_set);
+
+
 
     HashStation hashStation;
     hashStation.readLines(stations, data_set);

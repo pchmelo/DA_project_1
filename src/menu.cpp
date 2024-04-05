@@ -558,7 +558,7 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
     cout << "\033[1;36m[ 1 ]\033[0m" << "For each water reservoir" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << "For a specific water reservoir" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -863,7 +863,7 @@ int Menu::RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &
     cout << "\033[1;36m[ 1 ]\033[0m" << "Cities affected for each pumping station" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << "Most affected cities" << endl;
     cout << "\033[1;36m[ 3 ]\033[0m" << "For a specific pumping station" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -1090,7 +1090,7 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
     cout << "\033[1;36m[ 1 ]\033[0m" << "Cities affected for each pipe" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << "Most affected cities" << endl;
     cout << "\033[1;36m[ 3 ]\033[0m" << "For a specific pipe" << endl;
-    cout << "\033[1;36m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
+    cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
@@ -1271,7 +1271,15 @@ int Menu::RemoveSpecificPipeReservoir(Supply_Network &supplyNetwork, HashReserva
 
     cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
     int i = 1;
-    for (auto reservoir: hashReservatorio.reservatorioTable) {
+
+    vector<pair<string, Reservoir>> vec_lines_vec(hashReservatorio.reservatorioTable.begin(), hashReservatorio.reservatorioTable.end());
+    sort(vec_lines_vec.begin(), vec_lines_vec.end(), [](pair<string, Reservoir>& a, pair<string, Reservoir>& b) {
+        int num_a = stoi(a.first.substr(2));
+        int num_b = stoi(b.first.substr(2));
+        return num_a < num_b;
+    });
+
+    for (auto reservoir: vec_lines_vec) {
         cout << "\033[1;36m[ " << i << " ]\033[0m" << reservoir.second.get_code() << endl;
         codes.push_back(reservoir.second.get_code());
         i++;
@@ -1290,6 +1298,9 @@ int Menu::RemoveSpecificPipeReservoir(Supply_Network &supplyNetwork, HashReserva
         cout << endl;
         cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
         int i = 1;
+
+
+
         for (auto destino: chosen->getAdj()) {
             cout << "\033[1;36m[ " << i << " ]\033[0m" << destino->getDest()->getInfo().get_code() << endl;
             codes1.push_back(destino->getDest()->getInfo().get_code());
@@ -1308,7 +1319,7 @@ int Menu::RemoveSpecificPipeReservoir(Supply_Network &supplyNetwork, HashReserva
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
         cout << "\033[1;36m[ 1 ]\033[0m" << " Remove more pipes" << endl;
-        cout << "\033[1;36m[ 0 ]\033[0m" << " Finish process" << endl;
+        cout << "\033[1;31m[ 0 ]\033[0m" << " Finish process" << endl;
         cout << endl;
 
         cout << "\033[1;34mDecision: \033[0m";
@@ -1373,7 +1384,15 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
 
     cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
     int i = 1;
-    for (auto station: hashStation.stationTable) {
+
+    vector<pair<string, Reservoir>> vec_lines_vec(hashReservatorio.reservatorioTable.begin(), hashReservatorio.reservatorioTable.end());
+    sort(vec_lines_vec.begin(), vec_lines_vec.end(), [](pair<string, Reservoir>& a, pair<string, Reservoir>& b) {
+        int num_a = stoi(a.first.substr(2));
+        int num_b = stoi(b.first.substr(2));
+        return num_a < num_b;
+    });
+
+    for (auto station: vec_lines_vec) {
         cout << "\033[1;36m[ " << i << " ]\033[0m" << station.second.get_code() << endl;
         codes.push_back(station.second.get_code());
         i++;
