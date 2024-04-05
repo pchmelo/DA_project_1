@@ -11,6 +11,7 @@
 #include "map"
 #include "math.h"
 
+
 struct stations_affected;
 struct edge;
 struct pipes_affected;
@@ -208,33 +209,59 @@ struct trio{
 
 struct save_station{
     Stations stations;
-    std::vector<trio> edges;
+    std::map<std::pair<std::string, std::string>,double> edges;
 
-
-    void save(Vertex<Stations>* v){
-        trio trio_t;
+    void save_1(Vertex<Stations>* v){
         this->stations = v->getInfo();
-
+        std::pair<std::string, std::string> p;
         for(Edge<Stations>* e: v->getAdj()){
-            trio_t.first = e->getOrig()->getInfo().get_code();
-            trio_t.second = e->getDest()->getInfo().get_code();
-            trio_t.third = e->getWeight();
+            p.first = e->getOrig()->getInfo().get_code();
+            p.second = e->getDest()->getInfo().get_code();
 
-            this->edges.push_back(trio_t);
+            this->edges[p] = e->getWeight();
         }
         for(Edge<Stations>* e: v->getIncoming()){
-            trio_t.first = e->getOrig()->getInfo().get_code();
-            trio_t.second = e->getDest()->getInfo().get_code();
-            trio_t.third = e->getWeight();
+            p.first = e->getOrig()->getInfo().get_code();
+            p.second = e->getDest()->getInfo().get_code();
 
-            this->edges.push_back(trio_t);
+            this->edges[p] = e->getWeight();
         }
     }
 
-    void restore(Graph<Stations> &g, char type){
+    void save_2(Vertex<Stations>* v){
+        this->stations = v->getInfo();
+        std::pair<std::string, std::string> p;
+        for(Edge<Stations>* e: v->getAdj()){
+            p.first = e->getOrig()->getInfo().get_code();
+            p.second = e->getDest()->getInfo().get_code();
+
+            this->edges[p] = e->getWeight();
+            e->setWeight(0);
+        }
+        for(Edge<Stations>* e: v->getIncoming()){
+            p.first = e->getOrig()->getInfo().get_code();
+            p.second = e->getDest()->getInfo().get_code();
+
+            this->edges[p] = e->getWeight();
+            e->setWeight(0);
+        }
+    }
+
+    void restore_1(Graph<Stations> &g, char type){
         g.addVertex(stations);
         for(auto e: this->edges){
-            g.addEdge(Stations(e.first), Stations(e.second), e.third);
+            g.addEdge(Stations(e.first.first), Stations(e.first.second), e.second);
+        }
+        this->edges.clear();
+    }
+
+    void restore_2(Vertex<Stations>* v){
+        for(Edge<Stations>* e: v->getAdj()){
+            e->setWeight(this->edges[std::make_pair(e->getOrig()->getInfo().get_code(), e->getDest()->getInfo().get_code())]);
+        }
+        for(Edge<Stations>* e: v->getIncoming()){
+            e->setWeight(this->edges[std::make_pair(e->getOrig()->getInfo().get_code(), e->getDest()->getInfo().get_code())]);
+
         }
         this->edges.clear();
     }

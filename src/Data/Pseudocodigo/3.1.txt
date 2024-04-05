@@ -42,7 +42,7 @@ Passo a Passo:
         3.º - Selecionar uma cidade encontrada e identificar todos os reservatórios que influenciam-na diretamente;
         4.º - Aplicar o passo 3 recursivamente até ter identificado todas as cidades da "zona de influência";
         5.º - Adicionar a "zona de influência" ao array de "zonas de influência";
-        6.º - Repetir o processo até ter identificado todas as "zonas de influência";
+        6.º - Repetir o 1º passo para todos os reservatórios que ainda não foram atribuídos a nenhuma "zona de influência";
 
 Pseudocodigo da Solução:
 

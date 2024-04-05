@@ -208,16 +208,19 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
 
     for(auto v : this->supply_network.getVertexSet()){
         if(v->getInfo().get_type() == 'S'){
-            s.save(v);
+            //s.save_1(v);
+            s.save_2(v);
+
             t.stations = v->getInfo();
 
-            this->supply_network.removeVertex(v->getInfo());
+            //this->supply_network.removeVertex(v->getInfo());
             second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
             t.cities_affect = functions::calculate_difference(first_comp, second_comp);
             res.push_back(t);
 
-            s.restore(this->supply_network, 'S');
+            //s.restore_1(this->supply_network, 'S');
+            s.restore_2(v);
         }
     }
 
@@ -239,16 +242,20 @@ Supply_Network::station_desativation_specific(HashReservatorio &hashReservatorio
     functions::file_ouput(first_comp);
 
     auto v = this->supply_network.findVertex(stations);
-    s.save(v);
+
+    //s.save_1(v);
+    s.save_2(v);
+
     t.stations = v->getInfo();
 
-    this->supply_network.removeVertex(v->getInfo());
+    //this->supply_network.removeVertex(v->getInfo());
     second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
     t.cities_affect = functions::calculate_difference(first_comp, second_comp);
     res.push_back(t);
 
-    s.restore(this->supply_network, 'S');
+    //s.restore_1(this->supply_network, 'S');
+    s.restore_2(v);
 
     return res;
 }
@@ -353,15 +360,19 @@ Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashC
 
     for(auto v : this->supply_network.getVertexSet()){
         if(v->getInfo().get_type() == 'R'){
-            save.save(v);
+            //save.save_1(v);
+            save.save_2(v);
+
             t.reservoir = v->getInfo();
 
-            this->supply_network.removeVertex(v->getInfo());
+            //this->supply_network.removeVertex(v->getInfo());
             second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
             t.cities_affect = functions::calculate_difference(first_comp, second_comp);
             res.push_back(t);
-            save.restore(this->supply_network, 'R');
+
+            //save.restore_1(this->supply_network, 'R');
+            save.restore_2(v);
         }
     }
     return res;
@@ -382,13 +393,17 @@ Supply_Network::reservoir_desativation_specific(HashReservatorio &hashReservator
     auto v = this->supply_network.findVertex(code);
     t.reservoir = v->getInfo();
 
-    save.save(v);
-    this->supply_network.removeVertex(v->getInfo());
+    //save.save_1(v);
+    save.save_2(v);
+
+    //this->supply_network.removeVertex(v->getInfo());
     second_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
 
     t.cities_affect = functions::calculate_difference(first_comp, second_comp);
     res.push_back(t);
-    save.restore(this->supply_network, 'R');
+
+    //save.restore_1(this->supply_network, 'R');
+    save.restore_2(v);
 
     return res;
 
