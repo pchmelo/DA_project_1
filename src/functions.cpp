@@ -115,7 +115,7 @@ void functions::print_result_specific_city_by_code(std::map<std::string, double>
     cout << setw(10) << left <<"\033[1;31m" << city->second <<"\033[0m\n\n";
 }
 
-void functions::print_deficit(std::map<std::string, double> vec_lines, HashCidade hashCidade) {
+void functions::print_Deficit(std::map<std::string, double> vec_lines, HashCidade hashCidade) {
     vector<pair<std::string, double>> vec_lines_vec(vec_lines.begin(), vec_lines.end());
 
     sort(vec_lines_vec.begin(), vec_lines_vec.end(), [](pair<string, double>& a, pair<string, double>& b) {
@@ -191,7 +191,7 @@ vector<cities_station> functions::cities_most_affected_stations(std::vector<stat
 
     return res;
 }
-std::map<std::string, double>  functions::water_deficit(std::map<std::string, double> city_supply,
+std::map<std::string, double>  functions::water_Deficit(std::map<std::string, double> city_supply,
                                                         HashCidade hashCidade) {
     map<string, double> noWater;
 
@@ -291,7 +291,7 @@ void functions::print_stations_affected(std::vector<stations_affected> vec, Hash
             cout << setw(10) << left <<"\033[1;33m" << it_1->stations.get_code() << " " << "\033[0m\n\n";
 
             if(it_1->cities_affect.size() == 0){
-                cout << "\033[0;35mNão existe cidades afetadas\033[0m\n\n";
+                cout << "\033[0;32mNão existe cidades afetadas\033[0m\n\n";
             } else{
                 cout << "\033[0;35mAs seguintes cidades sao afetadas da seguinte forma:\033[0m\n\n";
                 cout << setw(10) <<"\033[1;34mCity Name \033[0m";
@@ -300,7 +300,7 @@ void functions::print_stations_affected(std::vector<stations_affected> vec, Hash
                 cout << setw(10) <<"\033[0;32mDemanda \033[0m";
                 cout << setw(10) <<"\033[0;36mFlow antes \033[0m";
                 cout << setw(10) <<"\033[0;37mFlow depois \033[0m";
-                cout << setw(10) <<"\033[0;38mDefict \033[0m\n";
+                cout << setw(10) <<"\033[0;38mDeficit \033[0m\n";
 
                 auto it_2 = it_1->cities_affect.begin();
 
@@ -315,8 +315,6 @@ void functions::print_stations_affected(std::vector<stations_affected> vec, Hash
                     cout << setw(10) << left << "\033[1;38m" << it_2->second.third << " " << "\033[0m\n";
                     it_2++;
                 }
-
-                cout << endl;
             }
             it_1++;
         }
@@ -355,7 +353,7 @@ void functions::print_cities_pipes(std::vector<cities_pipes> vec, HashCidade has
                 }
                 cout << setw(10) <<"\033[0;32mFlow antes \033[0m";
                 cout << setw(10) <<"\033[0;31mFlow depois \033[0m";
-                cout << setw(10) <<"\033[0;36mDefict \033[0m\n";
+                cout << setw(10) <<"\033[0;36mDeficit \033[0m\n";
                 cout << setw(10) << left <<"\033[1;32m" << it_2->stats.first << " " << "\033[0m";
                 cout << setw(10) << left <<"\033[1;31m" << it_2->stats.second << " " << "\033[0m";
                 cout << setw(10) << left <<"\033[1;36m" << it_2->stats.third << " " << "\033[0m\n";
@@ -400,7 +398,7 @@ void functions::print_pipes_affected(std::map<std::string, pipes_affected> lines
                 cout << setw(10) <<"\033[0;32mDemanda \033[0m";
                 cout << setw(10) <<"\033[0;36mFlow antes \033[0m";
                 cout << setw(10) <<"\033[0;37mFlow depois \033[0m";
-                cout << setw(10) <<"\033[0;38mDefict \033[0m\n";
+                cout << setw(10) <<"\033[0;38mDeficit \033[0m\n";
 
 
                 while (it_2 != it_1->second.cities_affect.end()){
@@ -448,7 +446,7 @@ void functions::print_cities_reservoir(std::vector<reservoir_affected> vec, Hash
                 cout << setw(10) <<"\033[0;32mDemanda \033[0m";
                 cout << setw(10) <<"\033[0;36mFlow antes \033[0m";
                 cout << setw(10) <<"\033[0;37mFlow depois \033[0m";
-                cout << setw(10) <<"\033[0;38mDefict \033[0m\n";
+                cout << setw(10) <<"\033[0;38mDeficit \033[0m\n";
                 while (it_2 != it_1->cities_affect.end()) {
 
                     auto cidade = hashCidade.cidadeTable.find(it_2->first);

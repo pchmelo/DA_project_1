@@ -41,8 +41,8 @@ class functions {
         static void print_pipes_affected(std::map<std::string, pipes_affected> lines, HashCidade hashCidade);
 
 
-        static std::map<std::string, double>  water_deficit(std::map<std::string, double> city_supply, HashCidade hashCidade);
-        static void print_deficit(std::map<std::string, double> vec_lines, HashCidade hashCidade);
+        static std::map<std::string, double>  water_Deficit(std::map<std::string, double> city_supply, HashCidade hashCidade);
+        static void print_Deficit(std::map<std::string, double> vec_lines, HashCidade hashCidade);
 
 };
 

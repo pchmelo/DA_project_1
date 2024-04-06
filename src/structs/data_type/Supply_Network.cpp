@@ -298,7 +298,7 @@ Supply_Network::pipes_desativation_specific(HashReservatorio &hashReservatorio, 
     pipes_affected t;
     t.pipes = pipes;
 
-    this->directed_pipes(pipes);
+    //this->directed_pipes(pipes);
 
     std::map<std::string, double> first_comp = functions::file_input();
     std::map<std::string, double>  second_comp;
