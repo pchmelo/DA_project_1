@@ -26,9 +26,6 @@ public:
     //Function for Water Suply
     static int WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 
-    //Function for Pipes Reduction
-    static int PipesReduction(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
-
     //Function for Reliability and Sensitivity to Failures
     static int ReliabilityAndSensitivityToFailures(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 
@@ -53,9 +50,6 @@ public:
 
     //Terminal
     static int Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
-
-    //Function To Test
-    static int AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation, HashCidade &hashCidade);
 };
 
 #endif //PROJETO_1_MENU_H

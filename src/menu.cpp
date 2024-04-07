@@ -36,7 +36,6 @@ int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservat
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
     cout << "\033[1;36m[ 1 ]\033[0m" << " Basic Service Metrics" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << " Reliability and Sensitivity to Failures" << endl;
-    cout << "\033[1;36m[ 3 ]\033[0m" << " Ambiente de Teste" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Exit" << endl;
     cout << endl;
 
@@ -71,9 +70,6 @@ int Menu::Terminal(Supply_Network &supplyNetwork, HashReservatorio &hashReservat
             case 2:
                 ReliabilityAndSensitivityToFailures(supplyNetwork, hashReservatorio, hashStation, hashCidade);
                 break;
-            case 3:
-                AmbienteTeste(supplyNetwork, hashReservatorio, hashStation, hashCidade);
-                break;
             case 0:
                 break;
             default:
@@ -97,14 +93,29 @@ int Menu::BasicServiceMetrics(Supply_Network &supplyNetwork, HashReservatorio &h
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
     cout << "\033[1;36m[ 1 ]\033[0m" << " Max-Flow" << endl;
     cout << "\033[1;36m[ 2 ]\033[0m" << " Water Suply" << endl;
-    cout << "\033[1;36m[ 3 ]\033[0m" << " Pipes capacity reduction" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "2")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }
+    }
 
     while (true) {
 
@@ -138,15 +149,31 @@ int Menu::MaxFlow(Supply_Network &supplyNetwork, HashReservatorio &hashReservato
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "For each city" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "For a specific city" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " For each city" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " For a specific city" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "2")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }
+    }
 
     while (true) {
 
@@ -163,6 +190,7 @@ int Menu::MaxFlow(Supply_Network &supplyNetwork, HashReservatorio &hashReservato
                 cout << endl;
 
                 cout << "\033[1;34mDecision: \033[0m";
+                int decision;
                 cin >> decision;
                 cout << endl;
 
@@ -208,15 +236,33 @@ int Menu::MaxFlowForSpecificCity(Supply_Network &supplyNetwork, HashReservatorio
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "Select by ID" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "Select by Name" << endl;
-    cout << "\033[1;36m[ 3 ]\033[0m" << "Select by Code" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " Select by ID" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " Select by Name" << endl;
+    cout << "\033[1;36m[ 3 ]\033[0m" << " Select by Code" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
     int decision;
-    cin >> decision;
+    string decision_1;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "3")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }if(decision_1 == "3"){
+            decision = 3;
+        }
+    }
 
     while (true) {
 
@@ -455,9 +501,23 @@ int Menu::WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReserv
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "1")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }
+    }
 
     while (true) {
 
@@ -525,9 +585,27 @@ int Menu::ReliabilityAndSensitivityToFailures(Supply_Network &supplyNetwork, Has
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "3")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }if(decision_1 == "3"){
+            decision = 3;
+        }
+    }
 
     while (true) {
 
@@ -564,15 +642,31 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "For each water reservoir" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "For a specific water reservoir" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " For each water reservoir" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " For a specific water reservoir" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "2")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }
+    }
 
     while (true) {
 
@@ -631,15 +725,33 @@ int Menu::RemoveSpecificWaterReservoir(Supply_Network &supplyNetwork, HashReserv
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "Select by ID" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "Select by Name" << endl;
-    cout << "\033[1;36m[ 3 ]\033[0m" << "Select by Code" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " Select by ID" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " Select by Name" << endl;
+    cout << "\033[1;36m[ 3 ]\033[0m" << " Select by Code" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "3")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }if(decision_1 == "3"){
+            decision = 3;
+        }
+    }
 
     while (true) {
 
@@ -876,16 +988,34 @@ int Menu::RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "Cities affected for each pumping station" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "Most affected cities" << endl;
-    cout << "\033[1;36m[ 3 ]\033[0m" << "For a specific pumping station" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " Cities affected for each pumping station" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " Most affected cities" << endl;
+    cout << "\033[1;36m[ 3 ]\033[0m" << " For a specific pumping station" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "3")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }if(decision_1 == "3"){
+            decision = 3;
+        }
+    }
 
     while (true) {
 
@@ -1111,16 +1241,34 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "Cities affected for each pipe" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "Most affected cities" << endl;
-    cout << "\033[1;36m[ 3 ]\033[0m" << "For a specific pipe" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " Cities affected for each pipe" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " Most affected cities" << endl;
+    cout << "\033[1;36m[ 3 ]\033[0m" << " For a specific pipe" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
 
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "3")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }if(decision_1 == "3"){
+            decision = 3;
+        }
+    }
 
     while (true) {
 
@@ -1210,14 +1358,30 @@ int Menu::RemoveSpecificPumpingStation(Supply_Network &supplyNetwork, HashReserv
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "Select by ID" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "Select by Code" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " Select by ID" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " Select by Code" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+
+    if((decision_1 < "0") || (decision_1 > "2")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }
+    }
 
     while (true) {
 
@@ -1251,14 +1415,29 @@ int Menu::RemoveSpecificPipe(Supply_Network &supplyNetwork, HashReservatorio &ha
     cout << "\033[1;34m/_/  |__|  |_____/    |__|\033[0m\n\n";
 
     cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
-    cout << "\033[1;36m[ 1 ]\033[0m" << "Select from Reservoir" << endl;
-    cout << "\033[1;36m[ 2 ]\033[0m" << "Select from Station" << endl;
+    cout << "\033[1;36m[ 1 ]\033[0m" << " Select from Reservoir" << endl;
+    cout << "\033[1;36m[ 2 ]\033[0m" << " Select from Station" << endl;
     cout << "\033[1;31m[ 0 ]\033[0m" << " Back to Main Menu" << endl;
     cout << endl;
     cout << "\033[1;34mDecision: \033[0m";
+    string decision_1;
     int decision;
-    cin >> decision;
+    cin >> decision_1;
     cout << endl;
+
+    if((decision_1 < "0") || (decision_1 > "2")){
+        cout << "INVALID OPTION! \n";
+        Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
+    }
+    else{
+        if(decision_1 == "0"){
+            decision = 0;
+        }if(decision_1 == "1"){
+            decision = 1;
+        }if(decision_1 == "2"){
+            decision = 2;
+        }
+    }
 
     while (true) {
 
@@ -1503,115 +1682,3 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
     }
     return 0;
 }
-
-    int Menu::AmbienteTeste(Supply_Network &supplyNetwork, HashReservatorio &hashReservatorio, HashStation &hashStation,
-                            HashCidade &hashCidade) {
-        /*
-        auto reservatorio = hashReservatorio.reservatorioTable.find("R_1");
-        reservatorio->second.print();
-
-        auto cidade = hashCidade.cidadeTable.find("C_10");
-        cidade->second.print();
-
-        auto it = supplyNetwork.supply_network.findVertex(reservatorio->first);
-
-        pair<string , int> p_1 = {"Vasco", 100};
-        pair<string , int> p_2 = {"Diogo", 2};
-
-        vector<pair<string , int>> vec;
-
-        vec.push_back(p_1);
-        vec.push_back(p_2);
-
-        new_one.supply_network = supplyNetwork.supply_network;
-
-        auto res = supplyNetwork.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-        //functions::file_ouput(res);
-
-
-
-        auto vec_2 = functions::file_input();
-
-
-        int sum = 0;
-
-        for(auto v : supplyNetwork.supply_network.getVertexSet()){
-            if(v->getInfo().get_type() == 'R'){
-                for(auto e : v->getAdj()){
-                    sum += e->getFlow();
-                }
-                cout << v->getInfo().get_code() << " " << sum << endl;
-                sum = 0;
-            }
-
-        }
-
-        //functions::print_result(res, hashCidade);
-        //supplyNetwork.station_deativation(hashStation);
-
-        double avg = supplyNetwork.average();
-        double varience = supplyNetwork.variance();
-
-        vector<edge> vec_t_1;
-        vector<edge> vec_t_2;
-
-        auto e = supplyNetwork.max_difference(vec_t_1, vec_t_2);
-
-        vector<edge> v1;
-        vector<edge> v2;
-
-        edge max = supplyNetwork.max_difference(v1, v2);
-        */
-
-
-        auto t_1 = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
-        auto t_2 = functions::cities_most_affected_stations(t_1);
-
-        functions::print_cities_station(t_2, hashCidade);
-        functions::print_stations_affected(t_1, hashCidade);
-
-
-        auto t_3 = supplyNetwork.pipes_desativation(hashReservatorio, hashCidade);
-        auto t_4 = functions::cities_most_affected_pipes(t_3, hashCidade);
-
-        functions::print_pipes_affected(t_3, hashCidade);
-        functions::print_cities_pipes(t_4, hashCidade);
-
-
-        auto t_5 = supplyNetwork.reservoir_desativation(hashReservatorio, hashCidade);
-        functions::print_cities_reservoir(t_5, hashCidade);
-
-        auto t_6 = supplyNetwork.reservoir_desativation(hashReservatorio, hashCidade);
-        functions::print_cities_reservoir(t_6, hashCidade);
-
-
-        auto t_7 = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade, "R_1");
-        functions::print_cities_reservoir(t_7, hashCidade);
-
-        auto t_8 = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade, "R_4");
-        auto t_9 = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade, "R_1");
-
-        auto t_10 = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade, "R_1");
-        functions::print_cities_reservoir(t_10, hashCidade);
-
-        //PS_9 - PS_10
-        //PS_4 - PS_5
-
-        pipe p_1 = {Stations("PS_9"), Stations("PS_10")};
-        pipe p_2 = {Stations("PS_4"), Stations("PS_5")};
-
-        vector<pipe> pipes = {p_1, p_2};
-        auto t_11 = supplyNetwork.pipes_desativation_specific(hashReservatorio, hashCidade, pipes);
-        auto t_12 = functions::cities_most_affected_pipes(t_11, hashCidade);
-
-        functions::print_pipes_affected(t_11, hashCidade);
-        functions::print_cities_pipes(t_12, hashCidade);
-
-        auto t_13 = supplyNetwork.station_desativation_specific(hashReservatorio, hashCidade, Stations("PS_78"));
-        auto t_14 = functions::cities_most_affected_stations(t_13);
-
-        functions::print_stations_affected(t_13, hashCidade);
-        functions::print_cities_station(t_14, hashCidade);
-
-        abort();
-    }
