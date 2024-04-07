@@ -301,7 +301,14 @@ int Menu::MaxFlowForSpecificCityByID(Supply_Network &supplyNetwork, HashReservat
 
     int i = 1;
     cout << "\033[1;34mPlease choose the ID of your city:\033[0m\n";
-    for(auto city: hashCidade.cidadeTable){
+
+
+    vector<pair<string, City>> vec_lines_vec(hashCidade.cidadeTable.begin(), hashCidade.cidadeTable.end());
+    sort(vec_lines_vec.begin(), vec_lines_vec.end(), [](pair<string, City>& a, pair<string, City>& b) {
+        return a.second.get_id() < b.second.get_id();
+    });
+
+    for(auto city: vec_lines_vec){
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_id() << endl;
         codes.push_back(city.second.get_code());
         i++;
@@ -435,7 +442,7 @@ int Menu::MaxFlowForSpecificCityByCode(Supply_Network &supplyNetwork, HashReserv
         return num_a < num_b;
     });
 
-    for(auto city: hashCidade.cidadeTable){
+    for(auto city: vec_lines_vec){
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_code() << endl;
         codes.push_back(city.second.get_code());
         i++;
@@ -1108,7 +1115,14 @@ int Menu::RemoveSpecificPumpingStationByID(Supply_Network &supplyNetwork, HashRe
 
     cout << "\033[1;34mPlease choose the Water Reservoir you desire to remove:\033[0m\n";
     int i = 1;
-    for(auto station: hashStation.stationTable) {
+
+    vector<pair<string, Stations>> vec_lines_vec(hashStation.stationTable.begin(), hashStation.stationTable.end());
+    sort(vec_lines_vec.begin(), vec_lines_vec.end(), [](pair<string, Stations>& a, pair<string, Stations>& b) {
+        return a.second.get_id() < b.second.get_id();
+    });
+
+
+    for(auto station: vec_lines_vec) {
         cout << "\033[1;36m[ " <<  i << " ]\033[0m" << station.second.get_id() << endl;
         codes.push_back(station.second.get_code());
         i++;

@@ -1,70 +1,70 @@
 Objetivo: Tentar equilibrar o flow que passa em cada pipe
 
 Problema:
-    Ao aplicar o algoritmo de Edmounds-Karp, é possível observar que existem pipes (edges) que encontram mais "cheias"
+    Ao aplicar o algoritmo de Edmonds-Karp, é possível observar que existem pipes (edges) que se encontram mais "cheias"
     (quantidade de flow que passa em cada pipe em relação à sua capacidade). Tem-se como objetivo desenvolver um algoritmo
-    que tente equilibar a supply-network, ou seja fazer com que a ocupação de cada edge esteja mais próxima
+    que tente equilibrar a supply-network, ou seja, fazer com que a ocupação de cada edge esteja mais próxima.
 
-Possível Solução:
-    Para resolver este problema será necessário desenvolver um algoritmo que consiga priorizar a escolha de pipes com menor
-    taxa de ocupação em relação a pipes com maior ocupação. Assim sendo, uma possível solução seria atribuir custos a cada pipe
+Possível solução:
+    Para resolver este problema, é necessário desenvolver um algoritmo que consiga priorizar a escolha de pipes com menor
+    taxa de ocupação em relação a pipes com maior ocupação. Assim sendo, uma possível solução seria atribuir custos a cada pipe,
     tendo em conta a sua ocupação. O algoritmo de "Minimum Cost Flow" é um algoritmo muito parecido com o algoritmo de "Maximum
-    Flow" diferenciando-se apenas na prioritização de pipes com menor custo em relação a pipes com maior custo. Desta forma, ao
-    aplicar este algoritmo após a escolha de custos relacionando a taxa de ocupação das pipes, permitirá equilibrar a rede.
+    Flow", diferenciando-se apenas na prioritização de pipes com menor custo em relação a pipes com maior custo. Desta forma, ao
+    aplicar este algoritmo, após a escolha de custos relacionando a taxa de ocupação das pipes, é possível equilibrar a rede.
 
-Observaçẽs:
-    1.ª- Como a capacidade de cada pipe não é transversal ao longo do grafo, a unidade de utilizada para avaliar se uma pipe tem
+Observações:
+    1.ª- Como a capacidade de cada pipe não é transversal ao longo do grafo, a unidade utilizada para avaliar se uma pipe tem
          maior ocupação que outra não será (pipe_capacity - flow), mas sim (flow / pipe_capacity).
 
     2.ª- Uma possível forma para atribuir os custos seria atribuir um custo base para o valor da ocupação média de todas as pipes
-         da rede. De seguida, os valores que estariam acima da média (maior ocupação) teriam um acrescimo do seu custo tendo em
-         conta o quão acima ele estão da média. O reverso seria aplicado para os valores que estão abaixo da média.
+         da rede. De seguida, os valores que estariam acima da média (maior ocupação) teriam um acréscimo do seu custo, tendo em
+         conta o quão acima eles estão da média. O reverso seria aplicado para os valores que estão abaixo da média.
 
-    3.ª- Para provar que o algoritmo foi bem sucedido, será necessário calcular métricas para o grafo antes de aplicar o algoritmo
-         de equilibar as arestas da rede e após a aplicação do mesmo. As métricas mais indicadas seriam a média da ocupação das
-         arestas da rede (também será utilizada para atribuir os custos de cada pipe) e a variancia, que por defenição significa
-         quão os valores estão dispersos da média. Desta forma, se no final do algoritmo a nova variancia obtiva for inferior a variancia
-         obtida antes de aplicar o algoritmo, significa que o grafo ficou mais equilibrado.
+    3.ª- Para provar que o algoritmo foi bem sucedido, será necessário calcular métricas para o grafo antes e depois de aplicar o algoritmo
+         de equilibrar as arestas da rede. As métricas mais indicadas seriam a média da ocupação das arestas da rede (também será utilizada
+         para atribuir os custos de cada pipe) e a variância, que, por definição, significa o quanto os valores estão dispersos da média.
+         Desta forma, se, no final do algoritmo, a nova variância obtida for inferior à variância obtida antes de aplicar o algoritmo,
+         significa que o grafo ficou mais equilibrado.
 
-    4.ª- Como o objetivo deste algoritmo é prioritizar pipes com menor custo (pipes com menor ocupação) um algoritmo de shortest path não
-         estará correto porque ele não irá prioritizar pipes com menor custo, mas sim as pipes que chegam mais rapidamente ao seu destino.
-         Tendo isto em mente, uma forma de o custo da pipe influenciar na escolha do caminho seria uma adpatação do algoritmo de Bellman Ford
-         adaptado, onde utilizr o custo da aresta como critério de relaxamento em vez da distância. Desta forma, será apresentado o shortest
+    4.ª- Como o objetivo deste algoritmo é priorizar pipes com menor custo (pipes com menor ocupação), um algoritmo de shortest path não
+         estará correto, porque não vai priorizar as pipes com menor custo, mas sim as pipes que chegam mais rapidamente ao seu destino.
+         Tendo isto em mente, uma forma de o custo da pipe influenciar a escolha do caminho seria uma adaptação do algoritmo de Bellman-Ford,
+         onde utilizaríamos o custo da aresta como critério de relaxamento em vez da distância. Desta forma, será apresentado o shortest
          path do grafo tendo em conta os custos das arestas.
 
 Como Fazer (passo a passo):
-    1.º- Fazer o Edmounds-Karp com a configuração atual
-    2.º- Calcular as métricas (média e variancia) para a configuração atual
-    3.º- Colocar numa array cada pipe por ordem crescente a começar pelos valores mais abaixos da media e terminar
+    1.º- Fazer o Edmonds-Karp com a configuração atual
+    2.º- Calcular as métricas (média e variância) para a configuração atual
+    3.º- Colocar numa array cada pipe por ordem crescente a começar pelos valores mais abaixos da média e terminar
          nos valores mais altos da média
-    4.º- Aplicar um algoritmo de atribuição de custos a cada pipe pela ordem do vetor ficando os pipes com menos flow
+    4.º- Aplicar um algoritmo de atribuição de custos a cada pipe pela ordem do vetor, ficando os pipes com menos flow
          com menor custo e as pipes com maior flow com mais custo
-    5.º- Aplicar um algoritmo de "Minimum Cost Flow", é um algoritmo muito parecido ao Edmounds-Karp que tem conta o
-         custo, ou seja ele acaba por priorizar pipes que eram menos usadas para entregar a mesma quantidade de água
-    6.º- Voltar a calcular as métricas, se a variancia (calculada com a nova media) der menos
-         (os valores estão mais próximos da média) significa que o grafo agora encontra-se mais equilibrado.
+    5.º- Aplicar um algoritmo de "Minimum Cost Flow", é um algoritmo muito parecido com o Edmonds-Karp que tem conta o
+         custo, ou seja prioriza pipes que seriam menos usadas para entregar a mesma quantidade de água
+    6.º- Voltar a calcular as métricas. Se a variância (calculada com a nova média) for menor (os valores estão mais próximos da média)
+         significa que o grafo encontra-se agora mais equilibrado.
 
 Minimum Cost Flow
-    1.º - Receber como parametro o Grafo
-    2.º - Enquanto existe um caminho da source para uma sink na residual network:
-        1. Encontrar o minimum cost path da source para a sink usando um algoritmo de Bellman Ford adaptado para custos das arestas;
-        2. Encontrar a minimum residual capacity das edges no path, ou seja o flow que é possível enviar neste mesmo path;
-        3. Atualizar as capacidade das edges da network na ordem reversa das edges
+    1.º - Receber o Grafo como parâmetro
+    2.º - Enquanto existir um caminho da source para uma sink na residual network:
+        1. Encontrar o minimum cost path da source para a sink, usando um algoritmo de Bellman-Ford adaptado para custos das arestas;
+        2. Encontrar a minimum residual capacity das edges no path, ou seja, o flow que é possível enviar neste mesmo path;
+        3. Atualizar as capacidade das edges da network na ordem reversa das edges.
     3.º - O maximum flow será a soma dos flows que chega ao target por cada caminho.
 
 pseudocode:
     def equilibrar_pipes(supply_network)
         Edmonds_Karp(supply_network);    //aplicar o algoritmo de Edmonds-Karp ao grafo
 
-        var media_1 = calculate_media();    //calcular a media da diferença entre a capacidade da pipe o flow que passa em cada pipe
-        var variancia_1 = calculate_variancia(media_1);     //calcular a variancia dos valores para a mesma média
+        var media_1 = calculate_media();    //calcular a média da diferença entre a capacidade da pipe o flow que passa em cada pipe
+        var variancia_1 = calculate_variancia(media_1);     //calcular a variância dos valores para a mesma média
 
         Array pipes[] = sort_pipes(supply_network);     //criar uma array sorted pela valor (capacidade/flow) de cada pipe
         Update_Cost(supply_network);       //atribuir um custo a cada edge
         Minimum_Cost_Flow(supply_network);      //aplicar o algoritmo de Min
 
         var media_2 = calculate_media();      //calcular novamente a média
-        var variancia_2 = calculate_variancia(media_2);     //calcular novamente a variancia
+        var variancia_2 = calculate_variancia(media_2);     //calcular novamente a variância
 
         if variancia_2 < variancia_1
             print("O Grafo encontra-se mais equilibrado");
@@ -79,7 +79,7 @@ pseudocode:
         While there exists a minimum cost path:
             Find a minimum cost path using Bellman Ford algorithm adption to costs;     //encontrar a minimum cost path possivel (ver a 4.ª observação
                                                   para ver mais detalhes sobre o algoritmo utilizado)
-            If there is no minimum cost path:   //caso nao encontre
+            If there is no minimum cost path:   //caso não encontre
                Stop;
 
             Update the flow along the minimum cost path;    //atualizar o flow da rede do minimum cost path encontrado
