@@ -381,6 +381,14 @@ int Menu::MaxFlowForSpecificCityByCode(Supply_Network &supplyNetwork, HashReserv
 
     int i = 1;
     cout << "\033[1;34mPlease choose the code of your city:\033[0m\n";
+
+    vector<pair<string, City>> vec_lines_vec(hashCidade.cidadeTable.begin(), hashCidade.cidadeTable.end());
+    sort(vec_lines_vec.begin(), vec_lines_vec.end(), [](pair<string, City>& a, pair<string, City>& b) {
+        int num_a = stoi(a.first.substr(2));
+        int num_b = stoi(b.first.substr(2));
+        return num_a < num_b;
+    });
+
     for(auto city: hashCidade.cidadeTable){
         cout << "\033[1;36m[ " << i << " ]\033[0m" << city.second.get_code() << endl;
         codes.push_back(city.second.get_code());

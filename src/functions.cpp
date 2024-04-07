@@ -236,6 +236,10 @@ std::vector<cities_pipes> functions::cities_most_affected_pipes(std::map<std::st
         it_1++;
     }
 
+    std::sort(res.begin(), res.end(), [](const cities_pipes& a, const cities_pipes& b) {
+        return a.pipes.size() > b.pipes.size();
+    });
+
     return res;
 }
 
@@ -340,26 +344,25 @@ void functions::print_cities_pipes(std::vector<cities_pipes> vec, HashCidade has
 
             auto it_2 = it_1->pipes.begin();
 
-            while(it_2 != it_1->pipes.end()){
-                cout << "\033[0;35mCom a remoção das seguintes pipe(s):\033[0m\n";
-                cout << setw(10) <<"\033[1;34mDest \033[0m";
-                cout << setw(10) <<"\033[0;33mOrig \033[0m\n";
-                auto it_3 = it_2->pipe_.begin();
+            cout << "\033[0;35mCom a remoção das seguintes pipe(s):\033[0m\n";
+            cout << setw(10) <<"\033[1;34mDest \033[0m";
+            cout << setw(10) <<"\033[0;33mOrig \033[0m";
+            cout << setw(10) <<"\033[0;32mFlow antes \033[0m";
+            cout << setw(10) <<"\033[0;31mFlow depois \033[0m";
+            cout << setw(10) <<"\033[0;36mDeficit \033[0m\n";
 
-                while(it_3 != it_2->pipe_.end()){
-                    cout << setw(10) << left << "\033[1;34m" << it_3->orig.get_code() << " " << "\033[0m";
-                    cout << setw(10) << left <<"\033[1;33m" << it_3->dest.get_code() << " " << "\033[0m\n";
-                    it_3++;
-                }
-                cout << setw(10) <<"\033[0;32mFlow antes \033[0m";
-                cout << setw(10) <<"\033[0;31mFlow depois \033[0m";
-                cout << setw(10) <<"\033[0;36mDeficit \033[0m\n";
+            while(it_2 != it_1->pipes.end()){
+
+
+                auto it_3 = it_2->pipe_.at(0);
+
+                cout << setw(10) << left << "\033[1;34m" << it_3.orig.get_code() << " " << "\033[0m";
+                cout << setw(10) << left <<"\033[1;33m" << it_3.dest.get_code() << " " << "\033[0m";
                 cout << setw(10) << left <<"\033[1;32m" << it_2->stats.first << " " << "\033[0m";
                 cout << setw(10) << left <<"\033[1;31m" << it_2->stats.second << " " << "\033[0m";
                 cout << setw(10) << left <<"\033[1;36m" << it_2->stats.third << " " << "\033[0m\n";
 
                 it_2++;
-                cout << endl;
             }
 
             cout << endl;
