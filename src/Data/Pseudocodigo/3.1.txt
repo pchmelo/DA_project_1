@@ -1,50 +1,49 @@
 Problema:
-    Ao remover um reservatório da rede para o seu impacto na entrega de água às cidades, a solução
-    implementada neste projeto consiste na aplicação da remoção do reservatório da rede de forma individual, e
-    de seguida aplicar um algoritmo de Edmound-Karp de "raiz". Isto leva à seguinte questão, existe alguma(s)
-    condições para não termos que aplicar o algoritmo do zero.
+    Ao remover um reservatório da rede para o seu impacto na entrega de água às cidades, a solução implementada neste projeto
+    consiste na aplicação da remoção do reservatório da rede, de forma individual, e, de seguida, aplicar um algoritmo de Edmonds-Karp
+    de "raíz". Isto leva à seguinte questão, existe alguma(s) condição(ões) para não termos que aplicar o algoritmo do zero?
 
-Observações Prévias:
-    Antes de apresentar uma possível solução para este problema temos que ter em conta alguns aspetos:
+Observações prévias:
+    Antes de apresentar uma possível solução para este problema, temos que ter em conta alguns aspetos:
         1.º - As arestas que saem de um reservatório têm como direção "outgoing" (não existe nenhuma aresta que
-              seja direcionada para o reservatorio), o reverso é aplicado para as cidades (não existe aresta que saia
-              cidade). Com isto em mente, dá para perceber que um reservatório só consegue transportar água para um
-              conjunto limitado de cidades (influência direta);
+              seja direcionada para o reservatório), o reverso é aplicado para as cidades (não existe aresta que
+              saia de uma cidade). Com isto em mente, conclui-se que um reservatório só consegue transportar água
+              para um conjunto limitado de cidades (influência direta);
 
-        2.º - A entrega da água a uma cidade é limitada pelo valor da demanda da própria cidade, ou seja ao influenciar
-              a entrega diretamente irá levar com que outros reservatórios entreguem mais água a essa cidade para supremir
-              a sua demanda. Isto pode levar a um efeito em cadeia onde, ao impactar na entrega de uma cidade pode acabar
+        2.º - A entrega da água a uma cidade é limitada pelo valor da demanda da própria cidade, ou seja, ao influenciar
+              a entrega diretamente, fará com que outros reservatórios entreguem mais água a essa cidade para suprimir
+              a sua demanda. Isto pode levar a um efeito em cadeia onde, ao impactar na entrega de uma cidade, pode acabar
               por influenciar na entrega de muitas cidades (influência indireta);
 
-    Tendo em conta as observações apontadas previamente, para podermos identificar as diferentes "zonas de influência" (representa
-    o conjunto de cidades que serão afetadas pela remoção de um reservatório) da rede temos ter em conta não só a influência direta (1.ª
-    observação), mas como também a influência indireta (2.ª observação).
+    Tendo em conta as observações apontadas previamente, para podermos identificar as diferentes "zonas de influência" da rede
+    (representa o conjunto de cidades que serão afetadas pela remoção de um reservatório), temos de ter em conta não só a influência direta
+    (1.ª observação), como também a influência indireta (2.ª observação).
 
-Possível Solução:
+Possível solução:
     Uma possível solução seria aplicar um algoritmo de BFS adaptado para a identificação das "zonas de influência". Este algoritmo iria
-    selecionar um reservatório aleatório, de seguida iria procurar pelas cidades que ele consegue chegar com uma BFS. Após encontrar todas
-    cidades, ele irá utilizar uma das cidades encontradas e tentar descobrir os reservatórios que impactam-na diretamente (para fazer isto
-    era necessário deixar o grafo undirected). Com a identificação dos resevatórios que influenciam diretamente a cidade, o resto do algoritmo
+    selecionar um reservatório aleatório e procurar as cidades que ele consegue alcançar com uma BFS. Após encontrar todas as cidades,
+    utiliza uma das cidades encontradas e tenta descobrir os reservatórios que a impactam diretamente (para fazer isto, seria necessário
+    deixar o grafo undirected). Com a identificação dos resevatórios que influenciam diretamente a cidade, o resto do algoritmo
     iria comportar-se recursivamente até ter identificado todas as cidades dessa zona de influência.
-    Após a identicação dessa "zona de influência", percorria-se a lista de reservatórios e se identificasse um reservatorio que não fosse
-    atribuído ainda a nenhuma "zona de influência", voltaria-se a aplicar esse algoritmo para identificar a sua "zona de influência" do mesmo.
-    Após terem sido encontradas todas "zonas de influência", sempre que removessemos um reservatório, teríamos que aplicar apenas o algoritmo de
-    Edmound-Karp com super source ligada aos reservatórios dessa "zona de influência" e super-target nas cidades da mesma.
+    Após a identicação dessa "zona de influência", percorrer-se-ia a lista de reservatórios e, caso se identificasse um reservatório que não
+    tivesse sido atribuído a nenhuma "zona de influência", voltar-se-ia a aplicar esse algoritmo para identificar a sua "zona de influência".
+    Depois, sempre que removêssemos um reservatório, teríamos que aplicar apenas o algoritmo de Edmonds-Karp com super source ligada aos
+    reservatórios dessa "zona de influência" e super-target nas cidades da mesma.
 
 Passo a Passo:
     1.º - Identificar todas as "zonas de influência" da rede;
     2.º - Remover um reservatório da rede;
-    3.º - Aplicar o algoritmo de Edmound-Karp com super source ligada aos reservatórios dessa "zona de influência" e super-target nas cidades da mesma;
+    3.º - Aplicar o algoritmo de Edmonds-Karp com super source ligada aos reservatórios dessa "zona de influência" e super-target nas cidades da mesma;
 
     Identificar todas as "zonas de influência":
         1.º - Selecionar um reservatório aleatório;
-        2.º - Aplicar um algoritmo de BFS adaptado para identificar todas as cidades que o reservatório consegue chegar;
-        3.º - Selecionar uma cidade encontrada e identificar todos os reservatórios que influenciam-na diretamente;
+        2.º - Aplicar um algoritmo de BFS adaptado para identificar todas as cidades que o reservatório consegue alcançar;
+        3.º - Selecionar uma cidade encontrada e identificar todos os reservatórios que a influenciam diretamente;
         4.º - Aplicar o passo 3 recursivamente até ter identificado todas as cidades da "zona de influência";
         5.º - Adicionar a "zona de influência" ao array de "zonas de influência";
         6.º - Repetir o 1º passo para todos os reservatórios que ainda não foram atribuídos a nenhuma "zona de influência";
 
-Pseudocodigo da Solução:
+Pseudocodigo da solução:
 
     struct zona de influência{
         Array reservatorio[];   //array dos reservatórios da zona de influência
@@ -52,7 +51,7 @@ Pseudocodigo da Solução:
     }
 
     def Identicar Zonas Influencia(array_reservatorios, array_cidades, supply_network)  //esta função irá identificar todas as zonas de influência e colocá-las num array
-        Array zonas_influencia[];   //variavel de returno
+        Array zonas_influencia[];   //variável de retorno
 
         for(auto rev : array_reservatorio)
             auto vertex = supply_network.get_vertex(rev);
