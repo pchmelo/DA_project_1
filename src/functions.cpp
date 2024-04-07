@@ -7,7 +7,7 @@
 
 using  namespace std;
 
-void functions::file_ouput(std::map<std::string, double> vec_lines) {
+void functions::file_output(std::map<std::string, double> vec_lines) {
     string dir_file = "../src/Project1DataSet/output.txt";
     ofstream fout(dir_file,ios::out | ios::trunc);
 

@@ -195,7 +195,7 @@ std::map<std::string, double>  Supply_Network::calculateMaxFlow(HashCidade &hash
     return res;
 }
 
-vector<stations_affected> Supply_Network::station_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade){
+vector<stations_affected> Supply_Network::station_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade){
     vector<stations_affected> res;
     stations_affected t;
     save_station s;
@@ -204,7 +204,7 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
     map<string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-    functions::file_ouput(first_comp);
+    functions::file_output(first_comp);
 
     for(auto v : this->supply_network.getVertexSet()){
         if(v->getInfo().get_type() == 'S'){
@@ -229,7 +229,7 @@ vector<stations_affected> Supply_Network::station_desativation(HashReservatorio 
 }
 
 std::vector<stations_affected>
-Supply_Network::station_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade,
+Supply_Network::station_deactivation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade,
                                               Stations stations) {
     vector<stations_affected> res;
     stations_affected t;
@@ -239,7 +239,7 @@ Supply_Network::station_desativation_specific(HashReservatorio &hashReservatorio
     std::map<std::string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-    functions::file_ouput(first_comp);
+    functions::file_output(first_comp);
 
     auto v = this->supply_network.findVertex(stations);
 
@@ -261,7 +261,7 @@ Supply_Network::station_desativation_specific(HashReservatorio &hashReservatorio
 }
 
 std::map<std::string, pipes_affected>
-Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
+Supply_Network::pipes_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     std::map<std::string, pipes_affected> res;
     pipes_affected t;
 
@@ -269,7 +269,7 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio, HashCidad
     std::map<std::string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-    functions::file_ouput(first_comp);
+    functions::file_output(first_comp);
 
     for(auto v : this->supply_network.getVertexSet()){
         for(auto e : v->getAdj()){
@@ -292,8 +292,8 @@ Supply_Network::pipes_desativation(HashReservatorio &hashReservatorio, HashCidad
 }
 
 std::map<std::string, pipes_affected>
-Supply_Network::pipes_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade,
-                                      std::vector<pipe> pipes) {
+Supply_Network::pipes_deactivation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade,
+                                            std::vector<pipe> pipes) {
     std::map<std::string, pipes_affected> res;
     pipes_affected t;
     t.pipes = pipes;
@@ -304,7 +304,7 @@ Supply_Network::pipes_desativation_specific(HashReservatorio &hashReservatorio, 
     std::map<std::string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-    functions::file_ouput(first_comp);
+    functions::file_output(first_comp);
 
     for(auto &itens : pipes){
         auto v = this->supply_network.findVertex(itens.orig);
@@ -347,7 +347,7 @@ Supply_Network::pipes_desativation_specific(HashReservatorio &hashReservatorio, 
 
 
 std::vector<reservoir_affected>
-Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
+Supply_Network::reservoir_deactivation(HashReservatorio &hashReservatorio, HashCidade &hashCidade) {
     vector<reservoir_affected> res;
     reservoir_affected t;
     save_station save;
@@ -356,7 +356,7 @@ Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashC
     map<string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-    functions::file_ouput(first_comp);
+    functions::file_output(first_comp);
 
     for(auto v : this->supply_network.getVertexSet()){
         if(v->getInfo().get_type() == 'R'){
@@ -379,7 +379,7 @@ Supply_Network::reservoir_desativation(HashReservatorio &hashReservatorio, HashC
 }
 
 std::vector<reservoir_affected>
-Supply_Network::reservoir_desativation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code) {
+Supply_Network::reservoir_deactivation_specific(HashReservatorio &hashReservatorio, HashCidade &hashCidade, string code) {
     std::vector<reservoir_affected> res;
     reservoir_affected t;
     save_station save;
@@ -388,7 +388,7 @@ Supply_Network::reservoir_desativation_specific(HashReservatorio &hashReservator
     std::map<std::string, double>  second_comp;
 
     first_comp = this->processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-    functions::file_ouput(first_comp);
+    functions::file_output(first_comp);
 
     auto v = this->supply_network.findVertex(code);
     t.reservoir = v->getInfo();
@@ -407,20 +407,4 @@ Supply_Network::reservoir_desativation_specific(HashReservatorio &hashReservator
 
     return res;
 
-}
-
-void Supply_Network::directed_pipes(std::vector<pipe> &pipes){
-    std::vector<pipe> res;
-    int size = pipes.size();
-
-    for(int i = 0; i < size; i++){
-        res.push_back(pipes.at(i));
-        auto v = this->supply_network.findVertex(pipes.at(i).dest);
-        for(auto e : v->getAdj()){
-            if(e->getDest()->getInfo().get_code() == pipes.at(i).orig.get_code()){
-                pipes.push_back({pipes.at(i).dest, pipes.at(i).orig});
-                break;
-            }
-        }
-    }
 }

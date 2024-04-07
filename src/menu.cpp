@@ -181,7 +181,7 @@ int Menu::MaxFlow(Supply_Network &supplyNetwork, HashReservatorio &hashReservato
             case 1:
                 new_one.supply_network = supplyNetwork.supply_network;
                 max_flow = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-                functions::file_ouput(max_flow);
+                functions::file_output(max_flow);
                 functions::print_result(max_flow, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -534,7 +534,7 @@ int Menu::WaterSuply(Supply_Network &supplyNetwork, HashReservatorio &hashReserv
                 if(water_suply.size() == 0){
                     new_one.supply_network = supplyNetwork.supply_network;
                     water_suply = new_one.processAllCitiesMaxFlow(hashCidade, hashReservatorio);
-                    functions::file_ouput(water_suply);
+                    functions::file_output(water_suply);
                 }
                 deficit = functions::water_Deficit(water_suply, hashCidade);
                 functions::print_Deficit(deficit, hashCidade);
@@ -679,7 +679,7 @@ int Menu::RemoveWaterReservoir(Supply_Network &supplyNetwork, HashReservatorio &
 
         switch (decision) {
             case 1:
-                remove_reservoir = supplyNetwork.reservoir_desativation(hashReservatorio, hashCidade);
+                remove_reservoir = supplyNetwork.reservoir_deactivation(hashReservatorio, hashCidade);
                 functions::print_cities_reservoir(remove_reservoir, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -815,7 +815,7 @@ int Menu::RemoveSpecificWaterReservoirByID(Supply_Network &supplyNetwork, HashRe
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
     else{
-        remove_reservoir_by_ID = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade,
+        remove_reservoir_by_ID = supplyNetwork.reservoir_deactivation_specific(hashReservatorio, hashCidade,
                                                                                codes[decision - 1]);
         functions::print_cities_reservoir(remove_reservoir_by_ID, hashCidade);
         cout << endl;
@@ -879,7 +879,7 @@ int Menu::RemoveSpecificWaterReservoirByName(Supply_Network &supplyNetwork, Hash
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
     else{
-        remove_reservoir_by_name = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade,
+        remove_reservoir_by_name = supplyNetwork.reservoir_deactivation_specific(hashReservatorio, hashCidade,
                                                                                  codes[decision - 1]);
         functions::print_cities_reservoir(remove_reservoir_by_name, hashCidade);
         cout << endl;
@@ -951,7 +951,7 @@ int Menu::RemoveSpecificWaterReservoirByCode(Supply_Network &supplyNetwork, Hash
         Terminal(supplyNetwork, hashReservatorio, hashStation, hashCidade);
     }
     else{
-        remove_reservoir_by_code = supplyNetwork.reservoir_desativation_specific(hashReservatorio, hashCidade,
+        remove_reservoir_by_code = supplyNetwork.reservoir_deactivation_specific(hashReservatorio, hashCidade,
                                                                                  codes[decision - 1]);
         functions::print_cities_reservoir(remove_reservoir_by_code, hashCidade);
         cout << endl;
@@ -1028,7 +1028,7 @@ int Menu::RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &
 
         switch (decision) {
             case 1:
-                station_affect = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
+                station_affect = supplyNetwork.station_deactivation(hashReservatorio, hashCidade);
                 functions::print_stations_affected(station_affect, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1056,7 +1056,7 @@ int Menu::RemovePumpingStation(Supply_Network &supplyNetwork, HashReservatorio &
 
                 }
             case 2:
-                station_affect = supplyNetwork.station_desativation(hashReservatorio, hashCidade);
+                station_affect = supplyNetwork.station_deactivation(hashReservatorio, hashCidade);
                 cities_most_affected_by_stations = functions::cities_most_affected_stations(station_affect);
 
                 functions::print_cities_station(cities_most_affected_by_stations, hashCidade);
@@ -1140,7 +1140,7 @@ int Menu::RemoveSpecificPumpingStationByID(Supply_Network &supplyNetwork, HashRe
     }
     else{
         auto station_chosen = hashStation.stationTable.at(codes[decision - 1]);
-        station_affect = supplyNetwork.station_desativation_specific(hashReservatorio, hashCidade, station_chosen);
+        station_affect = supplyNetwork.station_deactivation_specific(hashReservatorio, hashCidade, station_chosen);
         functions::print_stations_affected(station_affect, hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1212,7 +1212,7 @@ int Menu::RemoveSpecificPumpingStationByCode(Supply_Network &supplyNetwork, Hash
     }
     else{
         auto station_chosen = hashStation.stationTable.at(codes[decision - 1]);
-        station_affect = supplyNetwork.station_desativation_specific(hashReservatorio, hashCidade, station_chosen);
+        station_affect = supplyNetwork.station_deactivation_specific(hashReservatorio, hashCidade, station_chosen);
         functions::print_stations_affected(station_affect, hashCidade);
         cout << endl;
         cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1288,7 +1288,7 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
 
         switch (decision) {
             case 1:
-                pipe_affect = supplyNetwork.pipes_desativation(hashReservatorio, hashCidade);
+                pipe_affect = supplyNetwork.pipes_deactivation(hashReservatorio, hashCidade);
                 functions::print_pipes_affected(pipe_affect, hashCidade);
                 cout << endl;
                 cout << "\033[1;34mPlease choose your desired functionality:\033[0m\n";
@@ -1316,7 +1316,7 @@ int Menu::RemovePipes(Supply_Network &supplyNetwork, HashReservatorio &hashReser
 
                 }
             case 2:
-                pipe_affect = supplyNetwork.pipes_desativation(hashReservatorio, hashCidade);
+                pipe_affect = supplyNetwork.pipes_deactivation(hashReservatorio, hashCidade);
                 cities_most_affected_by_pipes = functions::cities_most_affected_pipes(pipe_affect, hashCidade);
 
                 functions::print_cities_pipes(cities_most_affected_by_pipes, hashCidade);
@@ -1551,7 +1551,7 @@ int Menu::RemoveSpecificPipeReservoir(Supply_Network &supplyNetwork, HashReserva
                     Menu::RemoveSpecificPipe(supplyNetwork, hashReservatorio, hashStation, hashCidade);
                     break;
                 case 0:
-                    auto pipe_chosen = supplyNetwork.pipes_desativation_specific(hashReservatorio, hashCidade, Pipes);
+                    auto pipe_chosen = supplyNetwork.pipes_deactivation_specific(hashReservatorio, hashCidade, Pipes);
                     functions::print_pipes_affected(pipe_chosen, hashCidade);
                     Pipes.clear();
 
@@ -1661,7 +1661,7 @@ int Menu::RemoveSpecificPipeStation(Supply_Network &supplyNetwork, HashReservato
                     Menu::RemoveSpecificPipe(supplyNetwork, hashReservatorio, hashStation, hashCidade);
                     break;
                 case 0:
-                    auto pipe_chosen = supplyNetwork.pipes_desativation_specific(hashReservatorio, hashCidade, Pipes);
+                    auto pipe_chosen = supplyNetwork.pipes_deactivation_specific(hashReservatorio, hashCidade, Pipes);
                     functions::print_pipes_affected(pipe_chosen, hashCidade);
                     Pipes.clear();
 

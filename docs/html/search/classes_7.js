@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['pipes_5faffected_0',['pipes_affected',['../structpipes__affected.html',1,'']]]
+  ['pipe_0',['pipe',['../structpipe.html',1,'']]],
+  ['pipes_5faffected_1',['pipes_affected',['../structpipes__affected.html',1,'']]]
 ];
