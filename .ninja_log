@@ -1,0 +1,9 @@
+# ninja log v6
+5	1120	1719393492349409140	CMakeFiles/project_2.dir/src/structs/data_type/Stations.cpp.o	129fa9677401e2f8
+3	1143	1719393492349409140	CMakeFiles/project_2.dir/src/structs/data_type/City.cpp.o	1510891fd85fa743
+3	1294	1719393492349409140	CMakeFiles/project_2.dir/src/structs/data_type/Reservoir.cpp.o	54ddcc261b298c7f
+2	1350	1719393492349409140	CMakeFiles/project_2.dir/src/main.cpp.o	e5199b8b3df59fe2
+6	2621	1719393492349409140	CMakeFiles/project_2.dir/src/structs/data_type/Supply_Network.cpp.o	993129145b4ae95c
+6	2928	1719393492349409140	CMakeFiles/project_2.dir/src/menu.cpp.o	fabf4e2a9791d50b
+1121	3514	1719393493469420929	CMakeFiles/project_2.dir/src/functions.cpp.o	dbfb5f3e88ab2133
+3514	3846	1719393495865446150	project_2	33b666a9034d952a
