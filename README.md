@@ -17,3 +17,5 @@ failures to anticipate service disruption or at least to mitigate its nefarious 
 1. Diogo Ferreira - E-mail: up202205295@edu.fe.up.pt
 2. Carlota Leite - E-mail: up202005428@edu.fe.up.pt
 3. Vasco Melo - E-mail: up202207564@edu.fe.up.pt
+
+### Project Grade: 18.90/20
