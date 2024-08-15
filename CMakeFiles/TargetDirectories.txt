@@ -1,3 +1,0 @@
-/home/pchmelo/Desktop/Desenho de Algoritmos/projeto_1/cmake-build-debug/CMakeFiles/project_2.dir
-/home/pchmelo/Desktop/Desenho de Algoritmos/projeto_1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/pchmelo/Desktop/Desenho de Algoritmos/projeto_1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
